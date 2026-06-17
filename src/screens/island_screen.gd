@@ -4,8 +4,9 @@ extends Control
 ## Travel lines accumulate per island entered; budget is spent per node resolved (§13). (§5, §9)
 
 const NODE_SCENES := {
+	&"spirit_encounter": preload("res://scenes/nodes/SpiritEncounterNode.tscn"),
 	&"shop": preload("res://scenes/nodes/ShopNode.tscn"),
-	&"butchery": preload("res://scenes/nodes/ShopNode.tscn"), # same scene, different stock_id param
+	&"butchery": preload("res://scenes/nodes/ShopNode.tscn"),
 	&"npc": preload("res://scenes/nodes/NpcNode.tscn"),
 	&"event": preload("res://scenes/nodes/EventNode.tscn"),
 }
@@ -17,6 +18,8 @@ var _chain: Array[NodeDefinition] = []
 var _index := 0
 var _pending_warn := false # current resolution: Exit means skipping remaining nodes → warn
 var _pending_to_ship := false # current resolution: a direct Exit goes to the Ship (out of time)
+var _last_outcome := "" # node-specific resolution text (e.g. "You befriended the Tomato Spirit!")
+
 
 func _ready() -> void:
 	var island: Island = GameManager.current_island
@@ -41,7 +44,8 @@ func _start_node(i: int) -> void:
 	SignalBus.node_started.emit(def)
 	node.start(def)
 
-func _on_node_completed(rewards: Dictionary) -> void:
+func _on_node_completed(rewards: Dictionary, outcome_text: String) -> void:
+	_last_outcome = outcome_text
 	var def := _chain[_index]
 	for item_id in rewards: # 1) rewards into inventory (via the one mutator)
 		GameState.add_item(item_id, int(rewards[item_id]))
@@ -57,17 +61,22 @@ func _present_resolution(rewards: Dictionary) -> void:
 	_pending_warn = show_next
 	_pending_to_ship = out_of_time
 
-	var message := ""
+	var nav := ""
 	var exit_label := "Leave Early"
 	if out_of_time and not is_last:
-		message = "Out of time — best head back before dark."
+		nav = "Out of time — best head back before dark."
 		exit_label = "Return to Ship"
 	elif out_of_time and is_last:
-		message = "You've explored the whole island, and the light is fading."
+		nav = "You've explored the whole island, and the light is fading."
 		exit_label = "Return to Ship"
 	elif is_last:
-		message = "That's the whole island explored."
+		nav = "That's the whole island explored."
 		exit_label = "Back to Map"
+
+	# Node outcome first, then navigation context.
+	var message := _last_outcome
+	if nav != "":
+		message = (message + "\n" + nav) if message != "" else nav
 
 	UIManager.show_resolution_panel(rewards, show_next, message, exit_label,
 		_on_resolution_next, _on_resolution_exit)

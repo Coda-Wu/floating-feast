@@ -24,6 +24,16 @@ const _PHASE_SCREENS := {
 	DayPhase.SHIP: "res://scenes/screens/ShipScreen.tscn",
 }
 
+func _ready() -> void:
+	_seed_new_game()
+
+func _seed_new_game() -> void:
+	# MVP starting fridge (Appendix A). No save system yet, so this seeds each boot; a real
+	# new-game / load flow replaces it later via the serialization seam. Direct set (no signal):
+	# this is initial model state, not a gameplay event.
+	GameState.inventory = {&"flour": 3, &"sugar": 2, &"olive_oil": 2, &"rice": 2}
+
+
 func start_day() -> void:
 	GameState.day_seed = _roll_day_seed()
 	GameState.weather_id = _roll_weather(GameState.day_seed)

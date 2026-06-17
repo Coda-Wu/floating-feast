@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://b28shu8iqm5ef"]
+
+[ext_resource type="Script" uid="uid://doipqtaq8umi7" path="res://src/nodes/spirit_encounter_node.gd" id="1_ypko8"]
+
+[node name="SpiritEncounterNode" type="Control" unique_id=836231493]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ypko8")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1664550522]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Column" type="VBoxContainer" parent="Center" unique_id=1600396886]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WellFedBar" type="ProgressBar" parent="Center/Column" unique_id=584674446]
+custom_minimum_size = Vector2(220, 18)
+layout_mode = 2
+show_percentage = false
+
+[node name="TurnDots" type="HBoxContainer" parent="Center/Column" unique_id=396076924]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="CueBubble" type="PanelContainer" parent="Center/Column" unique_id=256204328]
+layout_mode = 2
+
+[node name="CueMargin" type="MarginContainer" parent="Center/Column/CueBubble" unique_id=1542657104]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CueLabel" type="Label" parent="Center/Column/CueBubble/CueMargin" unique_id=126476211]
+layout_mode = 2
+text = "..."
+
+[node name="SpiritView" type="Control" parent="Center/Column" unique_id=585220026]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+
+[node name="Placeholder" type="ColorRect" parent="Center/Column/SpiritView" unique_id=1108472936]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.55, 0.62, 0.4, 1)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Center/Column/SpiritView" unique_id=628966832]
+visible = false
+position = Vector2(48, 48)
+
+[node name="NameLabel" type="Label" parent="Center/Column/SpiritView" unique_id=741029381]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Spirit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FeedTitle" type="Label" parent="Center/Column" unique_id=812739485]
+layout_mode = 2
+text = "Feed:"
+
+[node name="FeedScroll" type="ScrollContainer" parent="Center/Column" unique_id=918273645]
+custom_minimum_size = Vector2(320, 110)
+layout_mode = 2
+
+[node name="FeedList" type="VBoxContainer" parent="Center/Column/FeedScroll" unique_id=102938475]
+layout_mode = 2
+
+[node name="GiveUpButton" type="Button" parent="Center/Column" unique_id=2099267423]
+layout_mode = 2
+text = "Give Up"

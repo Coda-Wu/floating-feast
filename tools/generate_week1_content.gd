@@ -65,11 +65,11 @@ func _gen_spirits() -> int:
 	sprout.id = &"spirit_sprout"
 	sprout.display_name = "Sprout Spirit"
 	sprout.temperament = &"calm"
-	sprout.preferred_food = &"vegetable"
+	sprout.preferred_food = &"grain" # CHANGED: starting staples (flour/rice) work — Appendix A
 	sprout.required_tier = 0
-	sprout.well_fed_max = 100
+	sprout.well_fed_max = 40 # CHANGED: forgiving tutorial
 	sprout.turns_before_flee = 6
-	sprout.tameable = false # tutorial: gives a gift, never caught
+	sprout.tameable = false
 	sprout.drop_table = {&"flour": 2, &"sugar": 1}
 	_save(sprout, "spirits", sprout.id)
 
@@ -79,7 +79,7 @@ func _gen_spirits() -> int:
 	tomato.temperament = &"shy"
 	tomato.preferred_food = &"vegetable"
 	tomato.required_tier = 0
-	tomato.well_fed_max = 100
+	tomato.well_fed_max = 60 # CHANGED (was 100)
 	tomato.turns_before_flee = 5
 	tomato.tameable = true
 	tomato.drop_table = {&"tomato": 2}
@@ -89,9 +89,9 @@ func _gen_spirits() -> int:
 	chicken.id = &"spirit_chicken"
 	chicken.display_name = "Chicken Spirit"
 	chicken.temperament = &"greedy"
-	chicken.preferred_food = &"grain" # cooking doc: chicken spirits like rice
+	chicken.preferred_food = &"grain"
 	chicken.required_tier = 0
-	chicken.well_fed_max = 120
+	chicken.well_fed_max = 60 # CHANGED (was 120)
 	chicken.turns_before_flee = 5
 	chicken.tameable = true
 	chicken.drop_table = {&"egg": 1}

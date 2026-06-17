@@ -14,7 +14,7 @@ signal exit_pressed
 func setup(rewards: Dictionary, show_next: bool, message: String, exit_label: String) -> void:
 	for child in _reward_list.get_children():
 		child.queue_free()
-	_empty_hint.visible = rewards.is_empty()
+	_empty_hint.visible = rewards.is_empty() and message.is_empty()
 	for item_id in rewards:
 		var ing := Database.get_ingredient(item_id)
 		var disp := ing.display_name if ing else String(item_id)
