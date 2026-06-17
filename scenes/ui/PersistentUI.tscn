@@ -1,3 +1,16 @@
 [gd_scene format=3 uid="uid://cyfiw7n2vtdf6"]
 
-[node name="PersistentUi" type="CanvasLayer" unique_id=1406522944]
+[ext_resource type="Script" uid="uid://cfoepwxfg3qmf" path="res://src/ui/persistent_ui.gd" id="1_pkojn"]
+
+[node name="PersistentUI" type="CanvasLayer" unique_id=1406522944]
+layer = 128
+script = ExtResource("1_pkojn")
+
+[node name="TransitionOverlay" type="ColorRect" parent="." unique_id=613394348]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

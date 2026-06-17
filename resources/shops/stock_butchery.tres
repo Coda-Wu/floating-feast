@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ShopStock" format=3 uid="uid://dg0sy3qm6xqfw"]
+
+[ext_resource type="Script" uid="uid://bl0crpx8a7afc" path="res://src/data/shop_stock.gd" id="1_t6tj0"]
+
+[resource]
+script = ExtResource("1_t6tj0")
+id = &"stock_butchery"
+entries = Array[Dictionary]([{
+"ingredient_id": &"fish",
+"price": 25
+}])

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://dfqafoo8gn80m"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_gn4ws"]
+
+[resource]
+script = ExtResource("1_gn4ws")
+id = &"fish"
+display_name = "Fish"
+base_fullness = 7
+base_quality = 2
+source_category = &"butchery"

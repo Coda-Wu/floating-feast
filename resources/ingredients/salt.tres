@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://do1o653j7hb7a"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_1v3r1"]
+
+[resource]
+script = ExtResource("1_1v3r1")
+id = &"salt"
+display_name = "Salt"
+tags = Array[StringName]([&"spice"])
+base_fullness = 1
+source_category = &"shop"

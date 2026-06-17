@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="IslandTemplate" format=3 uid="uid://clhsmfqxvlfri"]
+
+[ext_resource type="Script" uid="uid://gjf22cg25i3i" path="res://src/data/island_template.gd" id="1_6xs48"]
+
+[resource]
+script = ExtResource("1_6xs48")
+id = &"island_grove"
+max_nodes = 4
+spawn_rules = Array[Dictionary]([{
+"params": {
+"spirit_pool": [&"spirit_tomato", &"spirit_chicken", &"spirit_sprout"]
+},
+"type": &"spirit_encounter",
+"weight": 3.0
+}, {
+"params": {
+"biome": &"orchard"
+},
+"type": &"gathering",
+"weight": 2.0
+}, {
+"params": {},
+"type": &"npc",
+"weight": 1.0
+}])

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://cpa385712ppnw"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_c6ibr"]
+
+[resource]
+script = ExtResource("1_c6ibr")
+id = &"island_exit"
+text = "Heading back early? Any nodes you haven't visited on this island are lost — but your remaining Time can still be spent elsewhere."

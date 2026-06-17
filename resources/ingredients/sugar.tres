@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://b4qjlpxhs03ly"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_wdt1j"]
+
+[resource]
+script = ExtResource("1_wdt1j")
+id = &"sugar"
+display_name = "Sugar"
+tags = Array[StringName]([&"spice"])
+base_fullness = 4
+source_category = &"spirit_drop"

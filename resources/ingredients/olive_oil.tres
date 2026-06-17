@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://cjl6gby46atib"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_mfpg4"]
+
+[resource]
+script = ExtResource("1_mfpg4")
+id = &"olive_oil"
+display_name = "Olive Oil"
+tags = Array[StringName]([&"staple"])
+base_fullness = 3
+base_quality = 2
+source_category = &"shop"

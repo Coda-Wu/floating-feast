@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://cg5yffulix6hs"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_wb3jt"]
+
+[resource]
+script = ExtResource("1_wb3jt")
+id = &"orchard"
+text = "Catch the falling fruit! Dodge durians, bombs, and beehives — getting hit costs you time."

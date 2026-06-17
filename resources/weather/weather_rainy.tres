@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WeatherData" format=3 uid="uid://slwtb71kmhvg"]
+
+[ext_resource type="Script" uid="uid://dl5dvcnjjj5ki" path="res://src/data/weather_data.gd" id="1_wpqn0"]
+
+[resource]
+script = ExtResource("1_wpqn0")
+id = &"weather_rainy"
+display_name = "Rainy"

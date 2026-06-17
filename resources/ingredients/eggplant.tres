@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://0k4wsu4af31j"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_fpu7h"]
+
+[resource]
+script = ExtResource("1_fpu7h")
+id = &"eggplant"
+display_name = "Eggplant"
+tags = Array[StringName]([&"vegetable"])
+base_fullness = 9
+base_quality = 2
+source_category = &"spirit_drop"

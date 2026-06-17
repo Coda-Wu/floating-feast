@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://ddtfh0yc6nakg"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_6ji3y"]
+
+[resource]
+script = ExtResource("1_6ji3y")
+id = &"rice"
+display_name = "Rice"
+tags = Array[StringName]([&"grain", &"staple"])
+base_fullness = 6
+source_category = &"shop"

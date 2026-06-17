@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://btqxw81xoj2yc"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_4ni1f"]
+
+[resource]
+script = ExtResource("1_4ni1f")
+id = &"tomato"
+display_name = "Tomato"
+tags = Array[StringName]([&"vegetable"])
+base_fullness = 8
+base_quality = 2
+source_category = &"spirit_drop"

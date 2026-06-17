@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://b12qm2hih8jbp"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_ob7yl"]
+
+[resource]
+script = ExtResource("1_ob7yl")
+id = &"onion"
+display_name = "Onion"
+tags = Array[StringName]([&"vegetable", &"spice"])
+base_fullness = 6
+base_quality = 2
+source_category = &"spirit_drop"

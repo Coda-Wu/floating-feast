@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="IslandTemplate" format=3 uid="uid://dwnh5ytdrb5tt"]
+
+[ext_resource type="Script" uid="uid://gjf22cg25i3i" path="res://src/data/island_template.gd" id="1_j0qk8"]
+
+[resource]
+script = ExtResource("1_j0qk8")
+id = &"island_mission_whale"
+is_mission = true
+fixed_nodes = Array[Dictionary]([{
+"params": {
+"text": "The whole bay's gone quiet... everyone's hiding from something out past the reef."
+},
+"type": &"npc"
+}, {
+"params": {
+"flag": &"whale_quest_started"
+},
+"type": &"event"
+}])

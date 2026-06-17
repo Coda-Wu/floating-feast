@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ShopStock" format=3 uid="uid://b6g1k88yk1qti"]
+
+[ext_resource type="Script" uid="uid://bl0crpx8a7afc" path="res://src/data/shop_stock.gd" id="1_fsc1p"]
+
+[resource]
+script = ExtResource("1_fsc1p")
+id = &"stock_island_shop"
+entries = Array[Dictionary]([{
+"ingredient_id": &"flour",
+"price": 12
+}, {
+"ingredient_id": &"rice",
+"price": 10
+}, {
+"ingredient_id": &"olive_oil",
+"price": 18
+}, {
+"ingredient_id": &"salt",
+"price": 5
+}])

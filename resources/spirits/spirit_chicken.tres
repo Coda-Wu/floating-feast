@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SpiritData" format=3 uid="uid://kgn1xqv3sxjv"]
+
+[ext_resource type="Script" uid="uid://dnwx4lfo1gqjg" path="res://src/data/spirit_data.gd" id="1_0egr6"]
+
+[resource]
+script = ExtResource("1_0egr6")
+id = &"spirit_chicken"
+display_name = "Chicken Spirit"
+temperament = &"greedy"
+preferred_food = &"grain"
+well_fed_max = 120
+drop_table = {
+&"egg": 1
+}

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://cb7tns26rwy4d"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_tgajp"]
+
+[resource]
+script = ExtResource("1_tgajp")
+id = &"chickpeas"
+display_name = "Chickpeas"
+tags = Array[StringName]([&"vegetable"])
+base_fullness = 9
+base_quality = 2
+source_category = &"spirit_drop"

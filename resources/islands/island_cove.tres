@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="IslandTemplate" format=3 uid="uid://dosy32dyrqa57"]
+
+[ext_resource type="Script" uid="uid://gjf22cg25i3i" path="res://src/data/island_template.gd" id="1_uftok"]
+
+[resource]
+script = ExtResource("1_uftok")
+id = &"island_cove"
+spawn_rules = Array[Dictionary]([{
+"params": {
+"biome": &"orchard"
+},
+"type": &"gathering",
+"weight": 3.0
+}, {
+"params": {
+"spirit_pool": [&"spirit_sprout", &"spirit_tomato", &"spirit_chicken"]
+},
+"type": &"spirit_encounter",
+"weight": 2.0
+}, {
+"params": {
+"stock_id": &"stock_island_shop"
+},
+"type": &"shop",
+"weight": 1.0
+}])

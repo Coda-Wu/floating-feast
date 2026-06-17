@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://bu4jx5jtsm37q"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_4i6hr"]
+
+[resource]
+script = ExtResource("1_4i6hr")
+id = &"spirit_encounter"
+text = "Feed the spirit to fill its Well-Fed meter before its turns run out. Fill it to befriend it — or it'll slip away, leaving a little gift behind."

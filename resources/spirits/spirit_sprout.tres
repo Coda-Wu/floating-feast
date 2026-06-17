@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpiritData" format=3 uid="uid://cvmukl75rk46t"]
+
+[ext_resource type="Script" uid="uid://dnwx4lfo1gqjg" path="res://src/data/spirit_data.gd" id="1_qwhy5"]
+
+[resource]
+script = ExtResource("1_qwhy5")
+id = &"spirit_sprout"
+display_name = "Sprout Spirit"
+temperament = &"calm"
+preferred_food = &"vegetable"
+turns_before_flee = 6
+tameable = false
+drop_table = {
+&"flour": 2,
+&"sugar": 1
+}

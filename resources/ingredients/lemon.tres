@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://5nt8t85qi6gi"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_pwpif"]
+
+[resource]
+script = ExtResource("1_pwpif")
+id = &"lemon"
+display_name = "Lemon"
+tags = Array[StringName]([&"fruit", &"spice"])
+base_fullness = 5
+base_quality = 3
+source_category = &"orchard"

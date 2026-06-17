@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SpiritData" format=3 uid="uid://quufkm42sccr"]
+
+[ext_resource type="Script" uid="uid://dnwx4lfo1gqjg" path="res://src/data/spirit_data.gd" id="1_ow02v"]
+
+[resource]
+script = ExtResource("1_ow02v")
+id = &"spirit_tomato"
+display_name = "Tomato Spirit"
+temperament = &"shy"
+preferred_food = &"vegetable"
+drop_table = {
+&"tomato": 2
+}
