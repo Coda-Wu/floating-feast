@@ -63,6 +63,12 @@ func _print_summary() -> void:
 func get_ingredient(id: StringName) -> IngredientData: return _ingredients.get(id)
 func get_spirit(id: StringName) -> SpiritData: return _spirits.get(id)
 func get_island_template(id: StringName) -> IslandTemplate: return _island_templates.get(id)
+func get_random_island_templates() -> Array[IslandTemplate]:
+	var out: Array[IslandTemplate] = []
+	for t: IslandTemplate in _island_templates.values():
+		if not t.is_mission:
+			out.append(t)
+	return out
 func get_shop_stock(id: StringName) -> ShopStock: return _shop_stocks.get(id)
 func get_weather(id: StringName) -> WeatherData: return _weather.get(id)
 func get_tutorial(id: StringName) -> TutorialData: return _tutorials.get(id)

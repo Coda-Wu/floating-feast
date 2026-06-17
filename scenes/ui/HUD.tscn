@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://dbhpsvfa5cmuf"]
+
+[ext_resource type="Script" uid="uid://b6wlud0nwl5am" path="res://src/ui/hud.gd" id="1_kw0id"]
+
+[node name="HUD" type="Control" unique_id=1249215660]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_kw0id")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1108472937]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_bottom = 80.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="PMargin" type="MarginContainer" parent="Panel" unique_id=1664550523]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="Panel/PMargin" unique_id=2099267424]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="TopRow" type="HBoxContainer" parent="Panel/PMargin/VBox" unique_id=628966833]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="DayLabel" type="Label" parent="Panel/PMargin/VBox/TopRow" unique_id=1600396887]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Day 1"
+
+[node name="WeatherLabel" type="Label" parent="Panel/PMargin/VBox/TopRow" unique_id=584674447]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "—"
+
+[node name="BudgetLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=396076925]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Time: 4/4"
+horizontal_alignment = 2
+
+[node name="QuestLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=256204329]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "..."
+autowrap_mode = 2

@@ -1,0 +1,21 @@
+extends Control
+## Persistent corner HUD: day, weather, node budget, current quest. A passive view —
+## it exposes setters and holds no logic. UIManager listens to SignalBus and pushes
+## updates in (canonical flow: System -> SignalBus -> UIManager -> UI scene). (§2.6, §6)
+
+@onready var _day_label: Label = $Panel/PMargin/VBox/TopRow/DayLabel
+@onready var _weather_label: Label = $Panel/PMargin/VBox/TopRow/WeatherLabel
+@onready var _budget_label: Label = $Panel/PMargin/VBox/BudgetLabel
+@onready var _quest_label: Label = $Panel/PMargin/VBox/QuestLabel
+
+func set_day(day: int) -> void:
+	_day_label.text = "Day %d" % day
+
+func set_weather(weather_name: String) -> void:
+	_weather_label.text = weather_name
+
+func set_budget(current: int, maximum: int) -> void:
+	_budget_label.text = "Time: %d/%d" % [current, maximum]
+
+func set_quest(text: String) -> void:
+	_quest_label.text = text
