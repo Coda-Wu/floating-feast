@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cd22jmsclnq71"]
+
+[ext_resource type="Script" uid="uid://gf55r0mici4b" path="res://src/core/main.gd" id="1_u1xfj"]
+
+[node name="Main" type="Node2D" unique_id=2064599438]
+script = ExtResource("1_u1xfj")
+
+[node name="ScreenHost" type="Control" parent="." unique_id=1527901999]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+size = Vector2(640, 360)

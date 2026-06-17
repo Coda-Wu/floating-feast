@@ -10,15 +10,25 @@ func create_persistent_ui(parent: Node) -> void:
 	var scene: PackedScene = load("res://scenes/ui/PersistentUI.tscn")
 	_persistent_ui = scene.instantiate()
 	parent.add_child(_persistent_ui)
-	# Hand the transition overlay to SceneRouter, which owns the fade logic.
 	SceneRouter.register_overlay(_persistent_ui.get_transition_overlay())
 
 func get_persistent_ui() -> CanvasLayer:
 	return _persistent_ui
 
-# --- Filled in Step 3 (HUD + panels live inside PersistentUI) ---
+# --- Day-end resolution overlay ---
+func show_day_end_panel(yields: Array, on_confirm: Callable) -> void:
+	var panel = load("res://scenes/ui/DayEndPanel.tscn").instantiate() # untyped: setup/confirmed not on Control
+	_persistent_ui.add_child(panel) # _ready runs here -> @onready vars resolve
+	panel.setup(yields)
+	panel.confirmed.connect(func() -> void:
+		panel.queue_free()
+		on_confirm.call()
+	)
+
+# --- Filled in 3b ---
 func show_hud() -> void: pass
 func hide_hud() -> void: pass
+
+# --- Filled in Step 5 ---
 func show_resolution_panel(rewards) -> void: pass
-func show_day_end_panel(yields) -> void: pass
 func show_warning_popup(message: String, on_confirm: Callable) -> void: pass
