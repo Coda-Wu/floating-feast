@@ -16,6 +16,7 @@ func create_persistent_ui(parent: Node) -> void:
 	_hud = _persistent_ui.get_hud()
 	_connect_hud_signals()
 	_sync_hud_now()
+	SignalBus.tutorial_triggered.connect(_on_tutorial_triggered)
 
 func get_persistent_ui() -> CanvasLayer:
 	return _persistent_ui
@@ -47,6 +48,18 @@ func show_hud() -> void:
 
 func hide_hud() -> void:
 	if _hud: _hud.visible = false
+
+# --- Tutorials (System -> SignalBus -> UIManager -> UI, §2.6) ---
+func _on_tutorial_triggered(mechanic_id: String) -> void:
+	var data := Database.get_tutorial(StringName(mechanic_id))
+	if data == null:
+		push_warning("UIManager: no TutorialData for '%s'" % mechanic_id)
+		return # seen-flag is already set by TutorialManager; just no popup to show
+	var popup = load("res://scenes/ui/TutorialPopup.tscn").instantiate()
+	_persistent_ui.add_child(popup)
+	popup.setup(data)
+	popup.dismissed.connect(func() -> void: popup.queue_free())
+
 
 # --- Day-end resolution overlay ---
 func show_day_end_panel(yields: Array, on_confirm: Callable) -> void:
