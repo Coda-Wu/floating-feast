@@ -49,6 +49,15 @@ func try_spend_coins(amount: int) -> bool:
 	coins -= amount
 	return true
 
+func spend_budget(amount: int = 1) -> void:
+	if amount <= 0:
+		return
+	budget_current = maxi(0, budget_current - amount)
+	SignalBus.budget_changed.emit(budget_current, budget_max)
+	if budget_current == 0:
+		SignalBus.budget_depleted.emit()
+
+
 # --- Serialization seam (disk save drops in later with no refactor) ---
 func serialize() -> Dictionary:
 	return {

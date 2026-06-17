@@ -20,7 +20,16 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.74, 0.68, 0.52, 1)
 
+[node name="NodeSlot" type="Control" parent="." unique_id=1633459125]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Center" type="CenterContainer" parent="." unique_id=1485920394]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

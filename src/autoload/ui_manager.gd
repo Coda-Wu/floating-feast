@@ -1,10 +1,10 @@
 extends Node
-## Owns PersistentUI (a CanvasLayer that survives screen swaps) and is the ONLY
-## bridge between systems and UI scenes. Listens to SignalBus and pushes updates
-## into UI scenes (canonical flow §2.6). (§6)
+## Owns PersistentUI (a CanvasLayer that survives screen swaps) and is the ONLY bridge
+## between systems and UI scenes. Listens to SignalBus and pushes updates into UI (§2.6). (§6)
 
 var _persistent_ui: CanvasLayer = null
 var _hud: Control = null
+var _resolution_panel: Control = null # IslandScreen controls its lifecycle via hide_resolution_panel()
 
 func create_persistent_ui(parent: Node) -> void:
 	if _persistent_ui != null:
@@ -15,12 +15,12 @@ func create_persistent_ui(parent: Node) -> void:
 	SceneRouter.register_overlay(_persistent_ui.get_transition_overlay())
 	_hud = _persistent_ui.get_hud()
 	_connect_hud_signals()
-	_sync_hud_now() # initial pull — keeps the HUD correct even if created mid-day
+	_sync_hud_now()
 
 func get_persistent_ui() -> CanvasLayer:
 	return _persistent_ui
 
-# --- HUD: subscribe to the bus, push into the passive view ---
+# --- HUD ---
 func _connect_hud_signals() -> void:
 	SignalBus.day_started.connect(_on_day_started)
 	SignalBus.budget_changed.connect(_on_budget_changed)
@@ -43,23 +43,43 @@ func _on_quest_phase_changed(_phase: int) -> void:
 	_hud.set_quest(QuestManager.get_current_quest_text())
 
 func show_hud() -> void:
-	if _hud:
-		_hud.visible = true
+	if _hud: _hud.visible = true
 
 func hide_hud() -> void:
-	if _hud:
-		_hud.visible = false
+	if _hud: _hud.visible = false
 
 # --- Day-end resolution overlay ---
 func show_day_end_panel(yields: Array, on_confirm: Callable) -> void:
-	var panel = load("res://scenes/ui/DayEndPanel.tscn").instantiate() # untyped: setup/confirmed not on Control
-	_persistent_ui.add_child(panel) # _ready runs here -> @onready vars resolve
+	var panel = load("res://scenes/ui/DayEndPanel.tscn").instantiate()
+	_persistent_ui.add_child(panel)
 	panel.setup(yields)
 	panel.confirmed.connect(func() -> void:
 		panel.queue_free()
-		on_confirm.call()
-	)
+		on_confirm.call())
 
-# --- Filled in Step 5 ---
-func show_resolution_panel(rewards) -> void: pass
-func show_warning_popup(message: String, on_confirm: Callable) -> void: pass
+# --- Node resolution panel (NOT auto-freed; IslandScreen hides it explicitly) ---
+func show_resolution_panel(rewards: Dictionary, show_next: bool, message: String,
+		exit_label: String, on_next: Callable, on_exit: Callable) -> void:
+	hide_resolution_panel() # clear any stale panel
+	var panel = load("res://scenes/ui/ResolutionPanel.tscn").instantiate()
+	_persistent_ui.add_child(panel)
+	panel.setup(rewards, show_next, message, exit_label)
+	panel.next_pressed.connect(on_next)
+	panel.exit_pressed.connect(on_exit)
+	_resolution_panel = panel
+
+func hide_resolution_panel() -> void:
+	if is_instance_valid(_resolution_panel):
+		_resolution_panel.queue_free()
+	_resolution_panel = null
+
+# --- Voluntary-exit warning (layers over the resolution panel) ---
+func show_warning_popup(message: String, on_confirm: Callable) -> void:
+	var popup = load("res://scenes/ui/WarningPopup.tscn").instantiate()
+	_persistent_ui.add_child(popup)
+	popup.setup(message)
+	popup.confirmed.connect(func() -> void:
+		popup.queue_free()
+		on_confirm.call())
+	popup.cancelled.connect(func() -> void:
+		popup.queue_free()) # drop the warning only; the resolution panel remains

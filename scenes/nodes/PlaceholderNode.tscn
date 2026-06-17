@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://ddhyyhmam8q13"]
+
+[ext_resource type="Script" uid="uid://clmidf2utej2j" path="res://src/nodes/placeholder_node.gd" id="1_s03gm"]
+
+[node name="PlaceholderNode" type="Control" unique_id=662623987]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s03gm")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=741029381]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center" unique_id=812739485]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TypeLabel" type="Label" parent="Center/VBox" unique_id=918273645]
+layout_mode = 2
+text = "[ node ]"
+
+[node name="ContinueButton" type="Button" parent="Center/VBox" unique_id=102938475]
+layout_mode = 2
+text = "Continue"
