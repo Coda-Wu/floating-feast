@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bhlarll7o60p"]
+
+[ext_resource type="Script" uid="uid://eyo86q0uia6y" path="res://src/nodes/shop_node.gd" id="1_flitm"]
+
+[node name="ShopNode" type="Control" unique_id=840099583]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_flitm")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1664550522]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=2099267423]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=628966832]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=1600396886]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox" unique_id=584674446]
+layout_mode = 2
+text = "Shop"
+
+[node name="CoinsLabel" type="Label" parent="Center/Panel/Margin/VBox" unique_id=396076924]
+layout_mode = 2
+text = "Coins: 0"
+
+[node name="EntryList" type="VBoxContainer" parent="Center/Panel/Margin/VBox" unique_id=256204328]
+layout_mode = 2
+
+[node name="LeaveButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=1542657104]
+layout_mode = 2
+text = "Leave Shop"

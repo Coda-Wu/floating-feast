@@ -3,7 +3,12 @@ extends Control
 ## per resolve, presents the ResolutionPanel, and routes Next / Exit / overshoot-truncation.
 ## Travel lines accumulate per island entered; budget is spent per node resolved (§13). (§5, §9)
 
-const NODE_SCENES := {} # 5b fills this (shop / npc / event); empty now → all use the fallback
+const NODE_SCENES := {
+	&"shop": preload("res://scenes/nodes/ShopNode.tscn"),
+	&"butchery": preload("res://scenes/nodes/ShopNode.tscn"), # same scene, different stock_id param
+	&"npc": preload("res://scenes/nodes/NpcNode.tscn"),
+	&"event": preload("res://scenes/nodes/EventNode.tscn"),
+}
 const FALLBACK_NODE := preload("res://scenes/nodes/PlaceholderNode.tscn")
 
 @onready var _node_slot: Control = $NodeSlot
