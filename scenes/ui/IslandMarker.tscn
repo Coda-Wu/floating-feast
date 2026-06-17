@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://d2us3ewjo2l31"]
+
+[ext_resource type="Script" uid="uid://dqpsykow6af24" path="res://src/ui/island_marker.gd" id="1_jc4qr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p0i0e"]
+radius = 25.0
+
+[node name="IslandMarker" type="Area2D" unique_id=1394147971]
+script = ExtResource("1_jc4qr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1156031652]
+shape = SubResource("CircleShape2D_p0i0e")

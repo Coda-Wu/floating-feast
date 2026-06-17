@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://cadb1n0pgsoi7"]
+
+[ext_resource type="Script" uid="uid://cc3erhfrxd1ja" path="res://src/screens/ocean_map_screen.gd" id="1_blvjy"]
+[ext_resource type="Script" uid="uid://cxrvbbgxj46co" path="res://src/ui/travel_route.gd" id="2_q5keo"]
+
+[node name="OceanMapScreen" type="Control" unique_id=2049776949]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_blvjy")
+
+[node name="TravelRoute" type="Node2D" parent="." unique_id=1016688143]
+script = ExtResource("2_q5keo")
+
+[node name="MarkerLayer" type="Node2D" parent="." unique_id=1411867970]
+
+[node name="NodePreview" type="PanelContainer" parent="." unique_id=1664550524]
+visible = false
+layout_mode = 1
+mouse_filter = 2
+
+[node name="PMargin" type="MarginContainer" parent="NodePreview" unique_id=2099267425]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="HBoxContainer" parent="NodePreview/PMargin" unique_id=628966834]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="ReturnButton" type="Button" parent="." unique_id=1600396888]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -132.0
+offset_top = -44.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Return to Ship"
