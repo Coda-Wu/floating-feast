@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b8l2uf5f80oit"]
+
+[ext_resource type="Script" uid="uid://ovy8qfdrvxc4" path="res://src/core/top_down_actor.gd" id="1_s8mcf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qim4b"]
+
+[node name="TopDownActor" type="CharacterBody2D" unique_id=786536716]
+script = ExtResource("1_s8mcf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=454605412]
+shape = SubResource("CircleShape2D_qim4b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=372064503]
+visible = false

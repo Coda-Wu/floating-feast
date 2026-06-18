@@ -36,9 +36,9 @@ theme_override_constants/separation = 14
 layout_mode = 2
 text = "Aboard the Ship"
 
-[node name="KitchenSlot" type="Label" parent="Center/VBox" unique_id=952780943]
+[node name="KitchenButton" type="Button" parent="Center/VBox" unique_id=803131018]
 layout_mode = 2
-text = "[ Kitchen — arrives Week 2 ]"
+text = "[ Enter Kitchen ]"
 
 [node name="GardenSlot" type="Label" parent="Center/VBox" unique_id=774510874]
 layout_mode = 2
