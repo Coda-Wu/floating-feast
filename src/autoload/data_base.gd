@@ -61,6 +61,12 @@ func _print_summary() -> void:
 
 # --- Typed accessors (now that the data classes exist) ---
 func get_ingredient(id: StringName) -> IngredientData: return _ingredients.get(id)
+func get_ingredients_by_source(category: StringName) -> Array[IngredientData]:
+	var out: Array[IngredientData] = []
+	for ing: IngredientData in _ingredients.values():
+		if ing.source_category == category:
+			out.append(ing)
+	return out
 func get_spirit(id: StringName) -> SpiritData: return _spirits.get(id)
 func get_island_template(id: StringName) -> IslandTemplate: return _island_templates.get(id)
 func get_random_island_templates() -> Array[IslandTemplate]:

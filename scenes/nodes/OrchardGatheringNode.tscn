@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://cfu0xdiao22h6"]
+
+[ext_resource type="Script" uid="uid://mq2ehu55ydjt" path="res://src/nodes/orchard_gathering_node.gd" id="1_6ophs"]
+
+[node name="OrchardGatheringNode" type="Control" unique_id=420280428]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ophs")
+
+[node name="TopLeft" type="VBoxContainer" parent="." unique_id=231405011]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 128.0
+offset_bottom = 56.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="TimerLabel" type="Label" parent="TopLeft" unique_id=120485901]
+layout_mode = 2
+text = "Time: 25.0"
+
+[node name="BasketLabel" type="Label" parent="TopLeft" unique_id=874029471]
+layout_mode = 2
+text = "Basket: 0"
+
+[node name="Legend" type="HBoxContainer" parent="TopLeft" unique_id=395029481]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Ready" type="CenterContainer" parent="." unique_id=104857201]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ReadyVBox" type="VBoxContainer" parent="Ready" unique_id=928374012]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ReadyTitle" type="Label" parent="Ready/ReadyVBox" unique_id=758493012]
+layout_mode = 2
+text = "Orchard"
+
+[node name="ReadyHint" type="Label" parent="Ready/ReadyVBox" unique_id=483920192]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+text = "Move the basket with your mouse. Catch falling fruit — dodge durians, bombs, and beehives, they cost you time!"
+autowrap_mode = 2
+
+[node name="StartButton" type="Button" parent="Ready/ReadyVBox" unique_id=192830491]
+layout_mode = 2
+text = "Start Catching!"

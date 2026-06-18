@@ -8,7 +8,7 @@ id = &"spirit_chicken"
 display_name = "Chicken Spirit"
 temperament = &"greedy"
 preferred_food = &"grain"
-well_fed_max = 120
+well_fed_max = 60
 drop_table = {
 &"egg": 1
 }

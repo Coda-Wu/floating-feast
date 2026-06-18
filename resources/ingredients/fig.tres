@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://bqype4joy63sf"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_jy185"]
+
+[resource]
+script = ExtResource("1_jy185")
+id = &"fig"
+display_name = "Fig"
+tags = Array[StringName]([&"fruit"])
+base_fullness = 6
+base_quality = 2
+source_category = &"orchard"

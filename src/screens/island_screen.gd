@@ -4,6 +4,7 @@ extends Control
 ## Travel lines accumulate per island entered; budget is spent per node resolved (§13). (§5, §9)
 
 const NODE_SCENES := {
+	&"gathering": preload("res://scenes/nodes/OrchardGatheringNode.tscn"),
 	&"spirit_encounter": preload("res://scenes/nodes/SpiritEncounterNode.tscn"),
 	&"shop": preload("res://scenes/nodes/ShopNode.tscn"),
 	&"butchery": preload("res://scenes/nodes/ShopNode.tscn"),

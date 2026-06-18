@@ -8,6 +8,7 @@ id = &"spirit_tomato"
 display_name = "Tomato Spirit"
 temperament = &"shy"
 preferred_food = &"vegetable"
+well_fed_max = 60
 drop_table = {
 &"tomato": 2
 }
