@@ -14,6 +14,7 @@ const SLOT_COUNT := 4
 @onready var _confirm_button: Button = $Margin/VBox/ButtonRow/ConfirmButton
 @onready var _close_button: Button = $Margin/VBox/ButtonRow/CloseButton
 @onready var _inventory_list: VBoxContainer = $Margin/VBox/InvScroll/InventoryList
+@onready var _feedback: Label = $Margin/VBox/FeedbackLabel
 
 var _station_id: StringName
 var _slots: Array[StringName] = []
@@ -63,18 +64,45 @@ func _reserved(item_id: StringName) -> int:
 			n += 1
 	return n
 
-# --- confirm (Day-9 stub) ---
+# --- confirm (consume reserved inputs → produce, via the matcher) ---
 func _on_confirm_pressed() -> void:
-	var inputs := {}
+	var slotted: Array[StringName] = []
 	for s in _slots:
 		if s != &"":
-			inputs[s] = int(inputs.get(s, 0)) + 1
-	# Day-9 stub: report intended inputs, release reservations (nothing consumed). Day 10 replaces
-	# this body with the cooking simulation (consume reserved inputs → output / dubious food).
-	print("[StationUI] Confirm at %s — inputs: %s" % [_station_id, inputs])
+			slotted.append(s)
+	if slotted.is_empty():
+		_set_feedback("Add some ingredients first.")
+		return
+
+	var result := Cooking.find_match(_station_id, slotted)
+	if result.is_empty():
+		_consume(slotted) # mismatch still costs the ingredients
+		GameState.add_item(&"dubious_food", 1)
+		AudioManager.play_sfx(&"cook_fail")
+		_set_feedback("That didn't come together... Dubious Food.")
+	else:
+		var recipe: StationRecipe = result["recipe"]
+		_consume(slotted) # match leaves only enhancers → consume all slotted
+		if recipe.is_terminal:
+			# Day 11 writes this to the tiered dish_inventory + pops discovery; today it's announced.
+			AudioManager.play_sfx(&"cook_success")
+			_set_feedback("You cooked %s!" % Database.get_display_name(recipe.output_item_id))
+			print("[StationUI] cooked dish: %s (enhancers=%s)" % [recipe.output_item_id, result["enhancers"]])
+		else:
+			GameState.add_item(recipe.output_item_id, 1) # working item → inventory; chain advances
+			AudioManager.play_sfx(&"cook_step")
+			_set_feedback("Made %s." % Database.get_display_name(recipe.output_item_id))
+
 	_slots.fill(&"")
 	_refresh_slots()
-	_refresh_inventory()
+	_refresh_inventory() # the new output now shows up here
+
+func _consume(items: Array[StringName]) -> void:
+	for item_id in items:
+		GameState.remove_item(item_id, 1)
+
+func _set_feedback(text: String) -> void:
+	_feedback.text = text
 
 # --- refresh ---
 func _refresh_slots() -> void:
