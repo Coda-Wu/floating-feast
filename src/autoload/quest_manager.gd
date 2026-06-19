@@ -38,3 +38,18 @@ func trigger_event(flag: StringName) -> bool:
 
 func get_current_quest_text() -> String:
 	return _QUEST_TEXT.get(GameState.quest_phase, "Explore the seas.")
+
+## Forward-unlock: grant a recipe via a scripted beat (wired into an Event/NPC node in Day 13).
+## New → record + announce. Already known → conflict guard: a small substitute reward instead.
+## The bespoke "you already learned this!" praise dialogue is M2. (§C.5)
+func grant_recipe(recipe_id: StringName, substitute_coins: int = 25) -> void:
+	var rec := Database.get_recipe(recipe_id)
+	var dish_name := rec.display_name if rec else String(recipe_id).capitalize()
+	if GameState.mark_recipe_known(recipe_id):
+		SignalBus.recipe_discovered.emit(String(recipe_id))
+		AudioManager.play_sfx(&"recipe_new")
+		UIManager.show_notice("✦ New Recipe! ✦", "%s\n%s" % [dish_name, (rec.codex_path if rec else "")])
+	else:
+		GameState.add_coins(substitute_coins)
+		AudioManager.play_sfx(&"cook_success")
+		UIManager.show_notice("Already Known", "You already know how to make %s!\nHere are %d coins instead." % [dish_name, substitute_coins])

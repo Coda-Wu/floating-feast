@@ -112,3 +112,12 @@ func show_warning_popup(message: String, on_confirm: Callable) -> void:
 		on_confirm.call())
 	popup.cancelled.connect(func() -> void:
 		popup.queue_free()) # drop the warning only; the resolution panel remains
+
+# --- Generic notice (recipe gift / substitute reward / later: commission + Fair results) ---
+func show_notice(title: String, message: String, on_dismiss: Callable = func(): pass ) -> void:
+	var panel = load("res://scenes/ui/NoticePanel.tscn").instantiate()
+	_persistent_ui.add_child(panel)
+	panel.setup(title, message)
+	panel.dismissed.connect(func() -> void:
+		panel.queue_free()
+		on_dismiss.call())

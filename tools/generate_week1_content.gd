@@ -194,6 +194,8 @@ func _gen_tutorials() -> int:
 		{"id": &"island_exit", "text": "Heading back early? Any nodes you haven't visited on this island are lost — but your remaining Time can still be spent elsewhere."},
 		{"id": &"spirit_encounter", "text": "Feed the spirit to fill its Well-Fed meter before its turns run out. Fill it to befriend it — or it'll slip away, leaving a little gift behind."},
 		{"id": &"orchard", "text": "Catch the falling fruit! Dodge durians, bombs, and beehives — getting hit costs you time."},
+		{"id": &"cooking_station", "text": "Click ingredients to fill the slots, then Confirm. The Prep table chops, the Mixing Bowl combines, and the Oven bakes — chain them to build a dish. Add spices to a finished dish for extra stars!"},
+		{"id": &"recipe_book", "text": "Your recipe codex. Every dish you cook for the first time is recorded here, along with the ingredients and stations it takes to make it."},
 	]
 	for d in defs:
 		var t := TutorialData.new()

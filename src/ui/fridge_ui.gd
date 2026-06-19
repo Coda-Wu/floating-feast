@@ -30,8 +30,14 @@ func _populate_ingredients() -> void:
 func _populate_dishes() -> void:
 	for c in _dish_list.get_children():
 		c.queue_free()
-	# Day 11: list GameState.dish_inventory (keyed "recipe_id|tier"). Empty until then.
-	_dish_list.add_child(_row("No dishes yet — cook something! (Day 11)"))
+	var entries := GameState.get_dish_entries() # [{recipe_id, tier, count}], sorted
+	if entries.is_empty():
+		_dish_list.add_child(_row("(no dishes yet — cook something!)"))
+		return
+	for e in entries:
+		var disp := Database.get_display_name(e["recipe_id"])
+		var stars := "★".repeat(int(e["tier"]))
+		_dish_list.add_child(_row("%s  %s  ×%d" % [disp, stars, int(e["count"])]))
 
 func _row(text: String) -> Label:
 	var lbl := Label.new()

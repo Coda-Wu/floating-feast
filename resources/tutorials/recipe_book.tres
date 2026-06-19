@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://b77sfqsydcg8r"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_het20"]
+
+[resource]
+script = ExtResource("1_het20")
+id = &"recipe_book"
+text = "Your recipe codex. Every dish you cook for the first time is recorded here, along with the ingredients and stations it takes to make it."

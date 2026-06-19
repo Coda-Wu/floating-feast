@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://bakaxt0fnn71c"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_m15yo"]
+
+[resource]
+script = ExtResource("1_m15yo")
+id = &"cooking_station"
+text = "Click ingredients to fill the slots, then Confirm. The Prep table chops, the Mixing Bowl combines, and the Oven bakes — chain them to build a dish. Add spices to a finished dish for extra stars!"

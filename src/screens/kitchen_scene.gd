@@ -46,6 +46,7 @@ func _open_ui_for(interactable: Interactable) -> void:
 			ui = FRIDGE_UI.instantiate()
 			_ui_layer.add_child(ui)
 			ui.setup()
+			TutorialManager.try_show("recipe_book") # ADD
 		&"recipe_book":
 			ui = RECIPE_BOOK_UI.instantiate()
 			_ui_layer.add_child(ui)
@@ -56,6 +57,7 @@ func _open_ui_for(interactable: Interactable) -> void:
 			_ui_layer.add_child(ui)
 			ui.setup(interactable.station_id, interactable.display_name)
 			_position_above(ui, interactable)
+			TutorialManager.try_show("cooking_station") # ADD
 	if ui.has_signal("close_requested"):
 		ui.close_requested.connect(_close_open_ui)
 	_open_ui = ui
