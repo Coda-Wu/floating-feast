@@ -80,15 +80,34 @@ func enter_island(island: Island) -> void:
 # --- Day end ---
 func request_end_day() -> void:
 	current_phase = DayPhase.DAY_END # overlay phase: no screen swap
-	var overnight_yields: Array = [] # empty stub in Week 1
-	UIManager.show_day_end_panel(overnight_yields, _on_day_end_confirmed)
+	var overnight_yields := _resolve_overnight_yields() # real garden yields (Week-1 stub realized)
+	UIManager.show_day_end_panel(overnight_yields, _on_day_end_confirmed.bind(overnight_yields))
 
-func _on_day_end_confirmed() -> void:
+func _on_day_end_confirmed(overnight_yields: Array) -> void:
+	for y in overnight_yields:
+		GameState.add_item(y["item_id"], int(y["count"])) # crops land in inventory
 	SignalBus.day_ended.emit()
 	_save_in_memory()
 	GameState.day += 1
 	start_day()
 
+
+func _resolve_overnight_yields() -> Array:
+	# Sum each potted spirit's overnight produce → [{ item_id, count }] for the DayEndPanel + inventory.
+	var totals := {}
+	for spirit_id in GameState.garden_slots:
+		if spirit_id == null:
+			continue
+		var spirit := Database.get_spirit(StringName(spirit_id))
+		if spirit == null or spirit.produces == &"" or spirit.yield_per_night <= 0:
+			continue
+		totals[spirit.produces] = int(totals.get(spirit.produces, 0)) + spirit.yield_per_night
+	var out: Array = []
+	for item_id in totals:
+		out.append({"item_id": item_id, "count": int(totals[item_id])})
+	return out
+
+	
 func _save_in_memory() -> void:
 	_last_save = GameState.serialize()
 	print("[GameManager] saved (in-memory) at end of day ", _last_save.get("day"))

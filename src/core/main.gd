@@ -9,12 +9,12 @@ func _ready() -> void:
 	SceneRouter.register_host(_screen_host)
 	UIManager.create_persistent_ui(self )
 	GameManager.start_day()
-	_verify_step11c() # TEMP — delete after confirming
+	_verify_step12() # TEMP — delete after confirming
 
 
-# ==== TEMP — delete after Step 11c verify ====
-func _verify_step11c() -> void:
-	print("[verify 11c] hummus known before: ", GameState.is_recipe_known(&"hummus"), " | coins: ", GameState.coins)
-	QuestManager.grant_recipe(&"hummus") # not known → New Recipe notice + codex entry
-	QuestManager.grant_recipe(&"hummus") # now known → conflict guard → +25 coins notice
-	print("[verify 11c] hummus known after: ", GameState.is_recipe_known(&"hummus"), " | known: ", GameState.known_recipes, " | coins: ", GameState.coins)
+# ==== TEMP — delete after Step 12 verify ====
+func _verify_step12() -> void:
+	for sid in ["spirit_tomato", "spirit_chicken"]:
+		if not GameState.captured_spirits.has(sid):
+			GameState.captured_spirits.append(sid)
+	print("[verify 12] captured (seeded): ", GameState.captured_spirits)

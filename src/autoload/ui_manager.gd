@@ -103,15 +103,15 @@ func hide_resolution_panel() -> void:
 	_resolution_panel = null
 
 # --- Voluntary-exit warning (layers over the resolution panel) ---
-func show_warning_popup(message: String, on_confirm: Callable) -> void:
+func show_warning_popup(message: String, on_confirm: Callable, confirm_label: String = "", cancel_label: String = "") -> void:
 	var popup = load("res://scenes/ui/WarningPopup.tscn").instantiate()
 	_persistent_ui.add_child(popup)
-	popup.setup(message)
+	popup.setup(message, confirm_label, cancel_label)
 	popup.confirmed.connect(func() -> void:
 		popup.queue_free()
 		on_confirm.call())
 	popup.cancelled.connect(func() -> void:
-		popup.queue_free()) # drop the warning only; the resolution panel remains
+		popup.queue_free())
 
 # --- Generic notice (recipe gift / substitute reward / later: commission + Fair results) ---
 func show_notice(title: String, message: String, on_dismiss: Callable = func(): pass ) -> void:
@@ -121,3 +121,10 @@ func show_notice(title: String, message: String, on_dismiss: Callable = func(): 
 	panel.dismissed.connect(func() -> void:
 		panel.queue_free()
 		on_dismiss.call())
+
+# --- Garden panel (opened from the ship hub) ---
+func show_garden_panel() -> void:
+	var panel = load("res://scenes/ui/GardenPanel.tscn").instantiate()
+	_persistent_ui.add_child(panel)
+	panel.setup()
+	panel.close_requested.connect(func() -> void: panel.queue_free())

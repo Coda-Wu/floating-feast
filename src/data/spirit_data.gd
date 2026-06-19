@@ -10,3 +10,5 @@ class_name SpiritData extends Resource
 @export var turns_before_flee: int = 5 ## turn-dot count
 @export var tameable: bool = true ## false = untameable tutorial spirit
 @export var drop_table: Dictionary = {} ## { item_id(StringName): count(int) } on flee
+@export var produces: StringName = &"" # garden: ingredient id this spirit yields overnight
+@export var yield_per_night: int = 0

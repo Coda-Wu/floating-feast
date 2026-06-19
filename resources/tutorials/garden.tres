@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://cm3ajehthmtdx"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_arkte"]
+
+[resource]
+script = ExtResource("1_arkte")
+id = &"garden"
+text = "Assign a tamed spirit to a pot and it'll grow crops while you sleep, collected each morning. Careful: removing a spirit from a pot sends it away for good."

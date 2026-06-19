@@ -40,7 +40,7 @@ text = "Aboard the Ship"
 layout_mode = 2
 text = "[ Enter Kitchen ]"
 
-[node name="GardenSlot" type="Label" parent="Center/VBox" unique_id=774510874]
+[node name="GardenButton" type="Button" parent="Center/VBox" unique_id=346637904]
 layout_mode = 2
 text = "[ Garden — arrives Week 2 ]"
 

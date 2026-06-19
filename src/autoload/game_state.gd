@@ -11,6 +11,7 @@ var inventory: Dictionary = {} # ingredient item_id -> count (UNTOUCHED by Week 
 var dish_inventory: Dictionary = {} # "recipe_id|tier" -> count (the one Week-2 model extension, §H-1)
 var known_recipes: Array[StringName] = [] # recipe ids the player has learned (codex)
 var captured_spirits: Array[String] = []
+var garden_slots: Array = [null, null, null] # per-slot: spirit id (String) or null; small pot count for M1
 var seen_tutorials: Dictionary = {}
 var weather_id: String = ""
 var day_seed: int = 0
@@ -146,6 +147,7 @@ func serialize() -> Dictionary:
 		"weather_id": weather_id,
 		"day_seed": day_seed,
 		"quest_phase": quest_phase,
+		"garden_slots": garden_slots.duplicate(),
 	}
 
 func deserialize(d: Dictionary) -> void:
@@ -161,3 +163,24 @@ func deserialize(d: Dictionary) -> void:
 	weather_id = d.get("weather_id", "")
 	day_seed = d.get("day_seed", 0)
 	quest_phase = d.get("quest_phase", 0)
+	garden_slots = (d.get("garden_slots", [null, null, null]) as Array).duplicate()
+
+# --- Garden (assign captured spirits to pots; remove permanently consumes) ---
+func assign_spirit_to_garden(spirit_id: String, slot: int) -> bool:
+	if slot < 0 or slot >= garden_slots.size():
+		return false
+	if garden_slots[slot] != null or garden_slots.has(spirit_id):
+		return false # slot taken, or this spirit already potted
+	if not captured_spirits.has(spirit_id):
+		return false
+	garden_slots[slot] = spirit_id
+	return true
+
+func remove_spirit_from_garden(slot: int) -> void:
+	# Removing PERMANENTLY consumes the spirit — gone from the roster, not returned.
+	if slot < 0 or slot >= garden_slots.size():
+		return
+	var spirit_id = garden_slots[slot]
+	garden_slots[slot] = null
+	if spirit_id != null:
+		captured_spirits.erase(spirit_id)

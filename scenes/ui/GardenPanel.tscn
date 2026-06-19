@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bjrsv8gvghi4h"]
+
+[ext_resource type="Script" uid="uid://c10uf7i2u64ru" path="res://src/ui/garden_panel.gd" id="1_q2jp7"]
+
+[node name="GardenPanel" type="Control" unique_id=1968074436]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q2jp7")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=93727901]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=93727902]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=93727903]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=93727904]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=93727905]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727906]
+layout_mode = 2
+text = "Garden"
+
+[node name="Body" type="VBoxContainer" parent="Center/Panel/Margin/VBox" unique_id=93727907]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="CloseButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=93727908]
+layout_mode = 2
+text = "Close"

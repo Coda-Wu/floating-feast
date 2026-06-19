@@ -87,6 +87,8 @@ func _gen_spirits() -> int:
 	tomato.well_fed_max = 60 # CHANGED (was 100)
 	tomato.turns_before_flee = 5
 	tomato.tameable = true
+	tomato.produces = &"tomato"
+	tomato.yield_per_night = 2
 	tomato.drop_table = {&"tomato": 2}
 	_save(tomato, "spirits", tomato.id)
 
@@ -99,6 +101,8 @@ func _gen_spirits() -> int:
 	chicken.well_fed_max = 60 # CHANGED (was 120)
 	chicken.turns_before_flee = 5
 	chicken.tameable = true
+	chicken.produces = &"egg"
+	chicken.yield_per_night = 1
 	chicken.drop_table = {&"egg": 1}
 	_save(chicken, "spirits", chicken.id)
 	return 3
@@ -196,6 +200,7 @@ func _gen_tutorials() -> int:
 		{"id": &"orchard", "text": "Catch the falling fruit! Dodge durians, bombs, and beehives — getting hit costs you time."},
 		{"id": &"cooking_station", "text": "Click ingredients to fill the slots, then Confirm. The Prep table chops, the Mixing Bowl combines, and the Oven bakes — chain them to build a dish. Add spices to a finished dish for extra stars!"},
 		{"id": &"recipe_book", "text": "Your recipe codex. Every dish you cook for the first time is recorded here, along with the ingredients and stations it takes to make it."},
+		{"id": &"garden", "text": "Assign a tamed spirit to a pot and it'll grow crops while you sleep, collected each morning. Careful: removing a spirit from a pot sends it away for good."},
 	]
 	for d in defs:
 		var t := TutorialData.new()

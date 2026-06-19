@@ -9,7 +9,11 @@ signal cancelled
 @onready var _confirm_button: Button = $Center/Panel/Margin/VBox/Buttons/ConfirmButton
 @onready var _cancel_button: Button = $Center/Panel/Margin/VBox/Buttons/CancelButton
 
-func setup(message: String) -> void:
+func setup(message: String, confirm_label: String = "", cancel_label: String = "") -> void:
 	_message.text = message
+	if confirm_label != "":
+		_confirm_button.text = confirm_label
+	if cancel_label != "":
+		_cancel_button.text = cancel_label
 	_confirm_button.pressed.connect(func() -> void: confirmed.emit())
 	_cancel_button.pressed.connect(func() -> void: cancelled.emit())

@@ -12,3 +12,5 @@ well_fed_max = 60
 drop_table = {
 &"egg": 1
 }
+produces = &"egg"
+yield_per_night = 1
