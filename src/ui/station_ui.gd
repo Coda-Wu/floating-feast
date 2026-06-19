@@ -74,6 +74,10 @@ func _on_confirm_pressed() -> void:
 		_set_feedback("Add some ingredients first.")
 		return
 
+	if _station_id == &"prep": # Prep = 1:1 batch transform, not recipe-matching
+		_confirm_prep(slotted)
+		return
+
 	var result := Cooking.find_match(_station_id, slotted)
 	if result.is_empty():
 		_consume(slotted) # mismatch still costs the ingredients
@@ -84,10 +88,20 @@ func _on_confirm_pressed() -> void:
 		var recipe: StationRecipe = result["recipe"]
 		_consume(slotted) # match leaves only enhancers → consume all slotted
 		if recipe.is_terminal:
-			# Day 11 writes this to the tiered dish_inventory + pops discovery; today it's announced.
-			AudioManager.play_sfx(&"cook_success")
-			_set_feedback("You cooked %s!" % Database.get_display_name(recipe.output_item_id))
-			print("[StationUI] cooked dish: %s (enhancers=%s)" % [recipe.output_item_id, result["enhancers"]])
+			var breakdown := Cooking.compute_tier(result["enhancers"].size())
+			var tier := int(breakdown["tier"])
+			var recipe_id := _terminal_recipe_id(recipe) # dish id == output_item_id
+			GameState.add_dish(recipe_id, tier, 1) # → the tiered dish store
+			var is_new := GameState.mark_recipe_known(recipe_id) # reverse-unlock (guarded: false if known)
+			SignalBus.dish_cooked.emit(String(recipe_id), tier)
+			if is_new:
+				SignalBus.recipe_discovered.emit(String(recipe_id))
+			AudioManager.play_sfx(&"recipe_new" if is_new else &"cook_success")
+			_set_feedback("You cooked %s!" % Database.get_display_name(recipe_id))
+			var info := breakdown.duplicate()
+			info["recipe_id"] = recipe_id
+			info["is_new"] = is_new
+			UIManager.show_cook_result(info)
 		else:
 			GameState.add_item(recipe.output_item_id, 1) # working item → inventory; chain advances
 			AudioManager.play_sfx(&"cook_step")
@@ -97,9 +111,40 @@ func _on_confirm_pressed() -> void:
 	_refresh_slots()
 	_refresh_inventory() # the new output now shows up here
 
+func _terminal_recipe_id(recipe: StationRecipe) -> StringName:
+	return recipe.output_item_id
+
 func _consume(items: Array[StringName]) -> void:
 	for item_id in items:
 		GameState.remove_item(item_id, 1)
+
+func _confirm_prep(slotted: Array[StringName]) -> void:
+	# Each item that has a prep transform is consumed → its mid-stage product (1:1). Items with no
+	# prep transform are left untouched. Never produces Dubious Food.
+	var produced := {} # output_id -> count
+	var skipped := 0
+	for item_id in slotted:
+		var out := Cooking.get_prep_output(item_id)
+		if out == &"":
+			skipped += 1
+			continue
+		GameState.remove_item(item_id, 1)
+		GameState.add_item(out, 1)
+		produced[out] = int(produced.get(out, 0)) + 1
+	if produced.is_empty():
+		_set_feedback("Nothing here can be prepped.")
+	else:
+		AudioManager.play_sfx(&"cook_step")
+		var parts: Array = []
+		for out_id in produced:
+			parts.append("%d ×%s" % [produced[out_id], Database.get_display_name(out_id)])
+		var msg := "Prepped " + ", ".join(parts)
+		if skipped > 0:
+			msg += "  (%d couldn't be prepped)" % skipped
+		_set_feedback(msg)
+	_slots.fill(&"")
+	_refresh_slots()
+	_refresh_inventory()
 
 func _set_feedback(text: String) -> void:
 	_feedback.text = text

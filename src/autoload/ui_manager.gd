@@ -75,6 +75,17 @@ func show_day_end_panel(yields: Array, on_confirm: Callable) -> void:
 		panel.queue_free()
 		on_confirm.call())
 
+
+# --- Cook result (terminal-cook breakdown + discovery banner; over the kitchen station bar) ---
+func show_cook_result(info: Dictionary, on_dismiss: Callable = func(): pass ) -> void:
+	var panel = load("res://scenes/ui/CookResultPanel.tscn").instantiate()
+	_persistent_ui.add_child(panel)
+	panel.setup(info)
+	panel.dismissed.connect(func() -> void:
+		panel.queue_free()
+		on_dismiss.call())
+
+
 # --- Node resolution panel (NOT auto-freed; IslandScreen hides it explicitly) ---
 func show_resolution_panel(rewards: Dictionary, show_next: bool, message: String,
 		exit_label: String, on_next: Callable, on_exit: Callable) -> void:

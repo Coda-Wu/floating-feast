@@ -3,6 +3,8 @@ class_name Cooking extends RefCounted
 ## no UI. Greedy assignment is sufficient for the M1 recipe set (few inputs, mostly distinct
 ## categories); a full bipartite match is a later upgrade if recipes get hairy. (§C.3, §C.4)
 
+
+const PREP_STATION := &"prep"
 const ENHANCER_TAGS := [&"spice", &"flavor"]
 # --- Quality Tier (terminal cooks only) ---
 const BASE_TIER := 2 # a correctly-cooked dish, base ingredients, no added enhancers = ★★ "Plain"
@@ -75,3 +77,14 @@ static func compute_tier(enhancer_count: int) -> Dictionary:
 	var bonus := clampi(enhancer_count, 0, MAX_ENHANCER_BONUS)
 	var tier := clampi(BASE_TIER + bonus, MIN_TIER, MAX_TIER)
 	return {"tier": tier, "base_stars": BASE_TIER, "bonus_stars": bonus, "enhancer_count": enhancer_count}
+
+## Prep is a 1:1 batch transform, not a combinatorial recipe: each raw ingredient maps to its
+## mid-stage product independently. Returns the output for one item, or &"" if it can't be prepped.
+## Sourced from single-input Prep StationRecipes (e.g. sr_chop_vegetable), so new prep transforms
+## are just more single-input recipes — no special-casing here. (user logic adj.)
+static func get_prep_output(item_id: StringName) -> StringName:
+	for recipe: StationRecipe in Database.get_station_recipes_for(PREP_STATION):
+		if recipe.inputs.size() == 1 and int(recipe.inputs[0].get("count", 1)) == 1:
+			if _item_matches(item_id, recipe.inputs[0]["match"]):
+				return recipe.output_item_id
+	return &""

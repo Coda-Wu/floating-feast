@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://c4uk3mt5c5mqf"]
+
+[ext_resource type="Script" uid="uid://t82gbmxmupky" path="res://src/ui/cook_result_panel.gd" id="1_lsm5w"]
+
+[node name="CookResultPanel" type="Control" unique_id=1368072674]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lsm5w")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=93727701]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=93727702]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=93727703]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=93727704]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=93727705]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="NewBanner" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727706]
+visible = false
+layout_mode = 2
+text = "✦ New Recipe! ✦"
+horizontal_alignment = 1
+
+[node name="DishName" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727707]
+layout_mode = 2
+text = "Dish"
+horizontal_alignment = 1
+
+[node name="StarLabel" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727708]
+layout_mode = 2
+text = "★★★"
+horizontal_alignment = 1
+
+[node name="HSep" type="HSeparator" parent="Center/Panel/Margin/VBox" unique_id=93727709]
+layout_mode = 2
+
+[node name="BreakdownBase" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727710]
+layout_mode = 2
+text = "Base & execution: ★★"
+
+[node name="BreakdownEnh" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727711]
+layout_mode = 2
+text = "Added spices: —"
+
+[node name="BreakdownTotal" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727712]
+layout_mode = 2
+text = "= ★★★"
+
+[node name="OkButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=93727713]
+layout_mode = 2
+text = "OK"
