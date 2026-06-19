@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://p7b38wkj6k2v"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_2jqio"]
+
+[resource]
+script = ExtResource("1_2jqio")
+id = &"sr_oil_vegetables"
+station_id = &"mix_bowl"
+inputs = Array[Dictionary]([{
+"count": 2,
+"match": &"chopped_vegetable"
+}, {
+"count": 1,
+"match": &"olive_oil"
+}])
+output_item_id = &"oiled_vegetable"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://6cjgp2o3sow6"]
+
+[ext_resource type="Script" uid="uid://ivouxb3vn7vw" path="res://src/data/recipe_data.gd" id="1_4hyop"]
+
+[resource]
+script = ExtResource("1_4hyop")
+id = &"roasted_eggplant"
+display_name = "Roasted Eggplant"
+family_tags = Array[StringName]([&"roasted", &"vegetable"])
+station_id = &"oven"
+codex_path = "Eggplant → [Oven]"
+terminal_recipe_id = &"sr_roasted_eggplant"

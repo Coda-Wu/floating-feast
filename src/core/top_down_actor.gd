@@ -41,3 +41,11 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, RADIUS, Color(0.90, 0.78, 0.55)) # body
 	draw_arc(Vector2.ZERO, RADIUS, 0.0, TAU, 20, Color(0.45, 0.33, 0.18), 1.5, true)
 	draw_circle(_facing * (RADIUS - 2.0), 2.5, Color(0.30, 0.20, 0.10)) # facing nub (previews 8-dir)
+
+func get_detector() -> InteractionDetector:
+	return $InteractionDetector
+
+func set_movement_enabled(enabled: bool) -> void:
+	set_physics_process(enabled) # detector is a separate node, so it keeps running
+	if not enabled:
+		velocity = Vector2.ZERO

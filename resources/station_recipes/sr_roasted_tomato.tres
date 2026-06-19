@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://bl4t2po4b6fx5"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_uny7m"]
+
+[resource]
+script = ExtResource("1_uny7m")
+id = &"sr_roasted_tomato"
+station_id = &"oven"
+inputs = Array[Dictionary]([{
+"count": 1,
+"match": &"tomato"
+}])
+output_item_id = &"roasted_tomato"
+is_terminal = true

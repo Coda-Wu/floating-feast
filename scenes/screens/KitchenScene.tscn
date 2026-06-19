@@ -2,11 +2,42 @@
 
 [ext_resource type="Script" uid="uid://up0x21vtvpii" path="res://src/screens/kitchen_scene.gd" id="1_8e5uj"]
 [ext_resource type="PackedScene" uid="uid://b8l2uf5f80oit" path="res://scenes/components/TopDownActor.tscn" id="2_nktu4"]
+[ext_resource type="PackedScene" uid="uid://b663qm8xo3y2c" path="res://scenes/components/Interactable.tscn" id="3_interactable"]
 
 [node name="KitchenScene" type="Node2D" unique_id=928850046]
 script = ExtResource("1_8e5uj")
 
 [node name="TopDownActor" parent="." unique_id=786536716 instance=ExtResource("2_nktu4")]
+
+[node name="Fridge" parent="." unique_id=83727505 instance=ExtResource("3_interactable")]
+position = Vector2(110, 95)
+station_id = &"fridge"
+display_name = "Fridge"
+block_color = Color(0.55, 0.7, 0.8, 1)
+
+[node name="PrepTable" parent="." unique_id=83727506 instance=ExtResource("3_interactable")]
+position = Vector2(320, 95)
+station_id = &"prep"
+display_name = "Prep"
+block_color = Color(0.8, 0.72, 0.55, 1)
+
+[node name="MixingBowl" parent="." unique_id=83727507 instance=ExtResource("3_interactable")]
+position = Vector2(530, 95)
+station_id = &"mix_bowl"
+display_name = "Mixing Bowl"
+block_color = Color(0.62, 0.78, 0.6, 1)
+
+[node name="Oven" parent="." unique_id=83727508 instance=ExtResource("3_interactable")]
+position = Vector2(430, 285)
+station_id = &"oven"
+display_name = "Oven"
+block_color = Color(0.78, 0.45, 0.35, 1)
+
+[node name="RecipeBook" parent="." unique_id=83727509 instance=ExtResource("3_interactable")]
+position = Vector2(140, 285)
+station_id = &"recipe_book"
+display_name = "Recipe Book"
+block_color = Color(0.62, 0.55, 0.75, 1)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1398949671]
 

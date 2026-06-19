@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://cnm7b5o33w4mq"]
+
+[ext_resource type="Script" uid="uid://ivouxb3vn7vw" path="res://src/data/recipe_data.gd" id="1_bqrdj"]
+
+[resource]
+script = ExtResource("1_bqrdj")
+id = &"hummus"
+display_name = "Hummus"
+family_tags = Array[StringName]([&"dip"])
+station_id = &"mix_bowl"
+codex_path = "Chickpeas + Lemon + Olive Oil → [Mixing Bowl]"
+terminal_recipe_id = &"sr_hummus"

@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://bqk753o1kk0l6"]
+
+[ext_resource type="Script" uid="uid://l6chmijalkvf" path="res://src/ui/fridge_ui.gd" id="1_3b0wg"]
+
+[node name="FridgeUI" type="Control" unique_id=313729691]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3b0wg")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=93727501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=93727502]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=93727503]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=93727504]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=93727505]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727506]
+layout_mode = 2
+text = "Fridge"
+
+[node name="IngHeader" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727507]
+layout_mode = 2
+text = "Ingredients"
+
+[node name="IngScroll" type="ScrollContainer" parent="Center/Panel/Margin/VBox" unique_id=93727508]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+
+[node name="IngList" type="VBoxContainer" parent="Center/Panel/Margin/VBox/IngScroll" unique_id=93727509]
+layout_mode = 2
+
+[node name="DishHeader" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727510]
+layout_mode = 2
+text = "Dishes"
+
+[node name="DishScroll" type="ScrollContainer" parent="Center/Panel/Margin/VBox" unique_id=93727511]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[node name="DishList" type="VBoxContainer" parent="Center/Panel/Margin/VBox/DishScroll" unique_id=93727512]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=93727513]
+layout_mode = 2
+text = "Close"

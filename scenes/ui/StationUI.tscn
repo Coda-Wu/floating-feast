@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://ds8xphrekksli"]
+
+[ext_resource type="Script" uid="uid://c1d27d6u23t8y" path="res://src/ui/station_ui.gd" id="1_gdfa2"]
+
+[node name="StationUI" type="PanelContainer" unique_id=73727500]
+script = ExtResource("1_gdfa2")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=83727501]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Margin" unique_id=83727502]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox" unique_id=83727503]
+layout_mode = 2
+text = "Station"
+
+[node name="SlotRow" type="HBoxContainer" parent="Margin/VBox" unique_id=83727510]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Slot0" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727511]
+custom_minimum_size = Vector2(50, 40)
+layout_mode = 2
+text = "+"
+
+[node name="Slot1" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727512]
+custom_minimum_size = Vector2(50, 40)
+layout_mode = 2
+text = "+"
+
+[node name="Slot2" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727513]
+custom_minimum_size = Vector2(50, 40)
+layout_mode = 2
+text = "+"
+
+[node name="Slot3" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727514]
+custom_minimum_size = Vector2(50, 40)
+layout_mode = 2
+text = "+"
+
+[node name="ButtonRow" type="HBoxContainer" parent="Margin/VBox" unique_id=83727520]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ConfirmButton" type="Button" parent="Margin/VBox/ButtonRow" unique_id=83727521]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Confirm"
+
+[node name="CloseButton" type="Button" parent="Margin/VBox/ButtonRow" unique_id=83727522]
+layout_mode = 2
+text = "Close"
+
+[node name="HSep" type="HSeparator" parent="Margin/VBox" unique_id=83727530]
+layout_mode = 2
+
+[node name="InvLabel" type="Label" parent="Margin/VBox" unique_id=83727531]
+layout_mode = 2
+text = "Ingredients:"
+
+[node name="InvScroll" type="ScrollContainer" parent="Margin/VBox" unique_id=83727532]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+
+[node name="InventoryList" type="VBoxContainer" parent="Margin/VBox/InvScroll" unique_id=83727533]
+layout_mode = 2
+size_flags_horizontal = 1

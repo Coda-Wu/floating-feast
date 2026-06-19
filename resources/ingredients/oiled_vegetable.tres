@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://tlawnnratmp2"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_lf88l"]
+
+[resource]
+script = ExtResource("1_lf88l")
+id = &"oiled_vegetable"
+display_name = "Oiled Vegetable"
+tags = Array[StringName]([&"intermediate"])
+base_quality = 2
+source_category = &"cooking"

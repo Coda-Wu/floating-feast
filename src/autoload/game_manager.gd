@@ -66,7 +66,6 @@ func request_return_to_ship() -> void: # Ocean Map "Return to Ship": end explora
 func request_enter_kitchen() -> void:
 	change_phase(DayPhase.KITCHEN)
 
-
 func request_return_to_map() -> void: # Island "Back to Map": pick another island
 	change_phase(DayPhase.OCEAN_MAP)
 

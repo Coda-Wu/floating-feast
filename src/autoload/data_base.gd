@@ -14,6 +14,7 @@ var _weather: Dictionary = {} # id -> WeatherData
 var _tutorials: Dictionary = {} # id -> TutorialData
 var _audio_cues: Dictionary = {} # id -> AudioCue
 var _recipes: Dictionary = {} # id -> RecipeData
+var _station_recipes: Dictionary = {} # id -> StationRecipe
 
 func _ready() -> void:
 	# folder name -> the index it fills. Dictionaries are references, so writing
@@ -25,8 +26,9 @@ func _ready() -> void:
 		"shops": _shop_stocks,
 		"weather": _weather,
 		"tutorials": _tutorials,
-		"recipes": _recipes, # empty until Week 2
-		"audio": _audio_cues, # empty until Week 3
+		"recipes": _recipes,
+		"station_recipes": _station_recipes,
+		"audio": _audio_cues,
 	}
 	for folder in index_map:
 		_scan_folder(folder, index_map[folder])
@@ -55,9 +57,9 @@ func _scan_folder(folder: String, into: Dictionary) -> void:
 		into[id] = res
 
 func _print_summary() -> void:
-	print("[Database] indexed: %d ingredients, %d spirits, %d islands, %d shops, %d weather, %d tutorials, %d recipes, %d audio" % [
+	print("[Database] indexed: %d ingredients, %d spirits, %d islands, %d shops, %d weather, %d tutorials, %d recipes, %d station_recipes, %d audio" % [
 		_ingredients.size(), _spirits.size(), _island_templates.size(), _shop_stocks.size(),
-		_weather.size(), _tutorials.size(), _recipes.size(), _audio_cues.size()])
+		_weather.size(), _tutorials.size(), _recipes.size(), _station_recipes.size(), _audio_cues.size()])
 
 # --- Typed accessors (now that the data classes exist) ---
 func get_ingredient(id: StringName) -> IngredientData: return _ingredients.get(id)
@@ -80,3 +82,22 @@ func get_weather(id: StringName) -> WeatherData: return _weather.get(id)
 func get_tutorial(id: StringName) -> TutorialData: return _tutorials.get(id)
 func get_audio_cue(id: StringName) -> AudioCue: return _audio_cues.get(id)
 func get_recipe(id: StringName) -> RecipeData: return _recipes.get(id)
+func get_station_recipe(id: StringName) -> StationRecipe:
+	return _station_recipes.get(id)
+
+func get_station_recipes_for(station_id: StringName) -> Array[StationRecipe]:
+	var out: Array[StationRecipe] = []
+	for sr: StationRecipe in _station_recipes.values():
+		if sr.station_id == station_id:
+			out.append(sr)
+	return out
+
+## Resolve a display name for any item id — ingredient/intermediate, dish, or unknown fallback.
+func get_display_name(id: StringName) -> String:
+	var ing := get_ingredient(id)
+	if ing != null:
+		return ing.display_name
+	var rec := get_recipe(id)
+	if rec != null:
+		return rec.display_name
+	return String(id).capitalize()

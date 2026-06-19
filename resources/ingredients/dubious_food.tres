@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="IngredientData" format=3 uid="uid://bf1sktnyal6vn"]
+
+[ext_resource type="Script" uid="uid://bmjph07llq5bg" path="res://src/data/ingredient_data.gd" id="1_pkmdm"]
+
+[resource]
+script = ExtResource("1_pkmdm")
+id = &"dubious_food"
+display_name = "Dubious Food"
+tags = Array[StringName]([&"dubious"])
+base_fullness = 3
+source_category = &"cooking"

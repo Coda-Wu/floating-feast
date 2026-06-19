@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://cexvhts0khhse"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_w3ogb"]
+
+[resource]
+script = ExtResource("1_w3ogb")
+id = &"sr_hummus"
+station_id = &"mix_bowl"
+inputs = Array[Dictionary]([{
+"count": 1,
+"match": &"chickpeas"
+}, {
+"count": 1,
+"match": &"lemon"
+}, {
+"count": 1,
+"match": &"olive_oil"
+}])
+output_item_id = &"hummus"
+is_terminal = true

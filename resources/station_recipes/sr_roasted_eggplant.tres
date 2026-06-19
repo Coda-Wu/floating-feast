@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://bjcikgur2064c"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_0iwjt"]
+
+[resource]
+script = ExtResource("1_0iwjt")
+id = &"sr_roasted_eggplant"
+station_id = &"oven"
+inputs = Array[Dictionary]([{
+"count": 1,
+"match": &"eggplant"
+}])
+output_item_id = &"roasted_eggplant"
+is_terminal = true

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://c1ojqk44eoli7"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_234c8"]
+
+[resource]
+script = ExtResource("1_234c8")
+id = &"sr_med_roasted_vegetables"
+station_id = &"oven"
+inputs = Array[Dictionary]([{
+"count": 1,
+"match": &"oiled_vegetable"
+}])
+output_item_id = &"med_roasted_vegetables"
+is_terminal = true

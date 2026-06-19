@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://dcveoj3wn0ki5"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_h1j7e"]
+
+[resource]
+script = ExtResource("1_h1j7e")
+id = &"sr_chop_vegetable"
+station_id = &"prep"
+inputs = Array[Dictionary]([{
+"count": 1,
+"match": &"vegetable"
+}])
+output_item_id = &"chopped_vegetable"

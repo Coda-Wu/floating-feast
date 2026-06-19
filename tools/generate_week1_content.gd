@@ -7,7 +7,7 @@ extends EditorScript
 const BASE := "res://resources/"
 
 func _run() -> void:
-	_ensure_dirs(["ingredients", "spirits", "islands", "shops", "weather", "tutorials"])
+	_ensure_dirs(["ingredients", "spirits", "islands", "shops", "weather", "tutorials", "recipes", "station_recipes"])
 	var n := 0
 	n += _gen_ingredients()
 	n += _gen_spirits()
@@ -15,6 +15,9 @@ func _run() -> void:
 	n += _gen_shops()
 	n += _gen_weather()
 	n += _gen_tutorials()
+	n += _gen_cooking_items()
+	n += _gen_recipes()
+	n += _gen_station_recipes()
 	print("[Week-1 content] wrote %d resources into %s" % [n, BASE])
 	EditorInterface.get_resource_filesystem().scan() # refresh the FileSystem dock
 
@@ -198,3 +201,69 @@ func _gen_tutorials() -> int:
 		t.text = d["text"]
 		_save(t, "tutorials", t.id)
 	return defs.size()
+
+# ---------- Cooking items (intermediates + dubious food; IngredientData) ----------
+func _gen_cooking_items() -> int:
+	var rows := [
+		{"id": &"chopped_vegetable", "name": "Chopped Vegetable", "tags": [&"intermediate"], "full": 0, "qual": 1, "src": &"cooking"},
+		{"id": &"oiled_vegetable", "name": "Oiled Vegetable", "tags": [&"intermediate"], "full": 0, "qual": 2, "src": &"cooking"},
+		{"id": &"dubious_food", "name": "Dubious Food", "tags": [&"dubious"], "full": 3, "qual": 1, "src": &"cooking"},
+	]
+	for r in rows:
+		var ing := IngredientData.new()
+		ing.id = r["id"]
+		ing.display_name = r["name"]
+		ing.tags.assign(r["tags"])
+		ing.base_fullness = r["full"]
+		ing.base_quality = r["qual"]
+		ing.source_category = r["src"]
+		_save(ing, "ingredients", ing.id)
+	return rows.size()
+
+# ---------- Dishes (RecipeData — codex/display/family; tiered instances live in dish_inventory) ----------
+func _gen_recipes() -> int:
+	var rows := [
+		{"id": &"roasted_tomato", "name": "Roasted Tomato", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Tomato → [Oven]", "sr": &"sr_roasted_tomato"},
+		{"id": &"roasted_potato", "name": "Roasted Potato", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Potato → [Oven]", "sr": &"sr_roasted_potato"},
+		{"id": &"roasted_eggplant", "name": "Roasted Eggplant", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Eggplant → [Oven]", "sr": &"sr_roasted_eggplant"},
+		{"id": &"med_roasted_vegetables", "name": "Mediterranean Roasted Vegetables", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Veg → [Prep] ·2 → [Mixing Bowl] +Olive Oil → [Oven]", "sr": &"sr_med_roasted_vegetables"},
+		{"id": &"classic_rustic_salad", "name": "Classic Rustic Salad", "fam": [&"salad", &"vegetable"], "st": &"mix_bowl", "codex": "Veg → [Prep] → [Mixing Bowl] +Olive Oil", "sr": &"sr_classic_rustic_salad"},
+		{"id": &"hummus", "name": "Hummus", "fam": [&"dip"], "st": &"mix_bowl", "codex": "Chickpeas + Lemon + Olive Oil → [Mixing Bowl]", "sr": &"sr_hummus"},
+	]
+	for r in rows:
+		var rec := RecipeData.new()
+		rec.id = r["id"]
+		rec.display_name = r["name"]
+		rec.family_tags.assign(r["fam"])
+		rec.station_id = r["st"]
+		rec.codex_path = r["codex"]
+		rec.terminal_recipe_id = r["sr"]
+		_save(rec, "recipes", rec.id)
+	return rows.size()
+
+# ---------- StationRecipes (drive the simulation) ----------
+func _gen_station_recipes() -> int:
+	var defs := [
+		# intermediates (non-terminal)
+		_sr(&"sr_chop_vegetable", &"prep", [ {"match": &"vegetable", "count": 1}], &"chopped_vegetable", false),
+		_sr(&"sr_oil_vegetables", &"mix_bowl", [ {"match": &"chopped_vegetable", "count": 2}, {"match": &"olive_oil", "count": 1}], &"oiled_vegetable", false),
+		# terminals (produce dishes)
+		_sr(&"sr_roasted_tomato", &"oven", [ {"match": &"tomato", "count": 1}], &"roasted_tomato", true),
+		_sr(&"sr_roasted_potato", &"oven", [ {"match": &"potato", "count": 1}], &"roasted_potato", true),
+		_sr(&"sr_roasted_eggplant", &"oven", [ {"match": &"eggplant", "count": 1}], &"roasted_eggplant", true),
+		_sr(&"sr_med_roasted_vegetables", &"oven", [ {"match": &"oiled_vegetable", "count": 1}], &"med_roasted_vegetables", true),
+		_sr(&"sr_classic_rustic_salad", &"mix_bowl", [ {"match": &"chopped_vegetable", "count": 1}, {"match": &"olive_oil", "count": 1}], &"classic_rustic_salad", true),
+		_sr(&"sr_hummus", &"mix_bowl", [ {"match": &"chickpeas", "count": 1}, {"match": &"lemon", "count": 1}, {"match": &"olive_oil", "count": 1}], &"hummus", true),
+	]
+	for sr in defs:
+		_save(sr, "station_recipes", sr.id)
+	return defs.size()
+
+func _sr(id: StringName, station: StringName, inputs: Array, output: StringName, terminal: bool) -> StationRecipe:
+	var sr := StationRecipe.new()
+	sr.id = id
+	sr.station_id = station
+	sr.inputs.assign(inputs)
+	sr.output_item_id = output
+	sr.is_terminal = terminal
+	return sr

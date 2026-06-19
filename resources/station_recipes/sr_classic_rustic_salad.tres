@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://bmrvgsankdcdd"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_34qu7"]
+
+[resource]
+script = ExtResource("1_34qu7")
+id = &"sr_classic_rustic_salad"
+station_id = &"mix_bowl"
+inputs = Array[Dictionary]([{
+"count": 1,
+"match": &"chopped_vegetable"
+}, {
+"count": 1,
+"match": &"olive_oil"
+}])
+output_item_id = &"classic_rustic_salad"
+is_terminal = true

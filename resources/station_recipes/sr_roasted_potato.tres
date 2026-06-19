@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StationRecipe" format=3 uid="uid://brxsop2j8fmo7"]
+
+[ext_resource type="Script" uid="uid://cki5xvptk6ofx" path="res://src/data/station_recipe.gd" id="1_rm6ke"]
+
+[resource]
+script = ExtResource("1_rm6ke")
+id = &"sr_roasted_potato"
+station_id = &"oven"
+inputs = Array[Dictionary]([{
+"count": 1,
+"match": &"potato"
+}])
+output_item_id = &"roasted_potato"
+is_terminal = true
