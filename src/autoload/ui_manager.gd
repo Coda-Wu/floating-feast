@@ -26,11 +26,13 @@ func _connect_hud_signals() -> void:
 	SignalBus.day_started.connect(_on_day_started)
 	SignalBus.budget_changed.connect(_on_budget_changed)
 	SignalBus.quest_phase_changed.connect(_on_quest_phase_changed)
+	SignalBus.coins_changed.connect(_on_coins_changed)
 
 func _sync_hud_now() -> void:
 	_on_day_started(GameState.day)
 	_on_budget_changed(GameState.budget_current, GameState.budget_max)
 	_on_quest_phase_changed(GameState.quest_phase)
+	_hud.set_coins(GameState.coins)
 
 func _on_day_started(day: int) -> void:
 	_hud.set_day(day)
@@ -39,6 +41,9 @@ func _on_day_started(day: int) -> void:
 
 func _on_budget_changed(current: int, maximum: int) -> void:
 	_hud.set_budget(current, maximum)
+
+func _on_coins_changed(amount: int) -> void:
+	_hud.set_coins(amount)
 
 func _on_quest_phase_changed(_phase: int) -> void:
 	_hud.set_quest(QuestManager.get_current_quest_text())

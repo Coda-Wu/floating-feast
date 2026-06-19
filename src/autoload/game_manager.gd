@@ -33,7 +33,8 @@ func _seed_new_game() -> void:
 	# new-game / load flow replaces it later via the serialization seam. Direct set (no signal):
 	# this is initial model state, not a gameplay event.
 	GameState.inventory = {&"flour": 3, &"sugar": 2, &"olive_oil": 2, &"rice": 2}
-
+	GameState.known_recipes.assign([&"roasted_tomato"]) # tutorial's guaranteed recipe; rest are discoverable
+	
 
 func start_day() -> void:
 	GameState.day_seed = _roll_day_seed()

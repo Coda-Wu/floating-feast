@@ -7,6 +7,7 @@ extends Control
 @onready var _weather_label: Label = $Panel/PMargin/VBox/TopRow/WeatherLabel
 @onready var _budget_label: Label = $Panel/PMargin/VBox/BudgetLabel
 @onready var _quest_label: Label = $Panel/PMargin/VBox/QuestLabel
+@onready var _coins_label: Label = $Panel/PMargin/VBox/CoinsLabel
 
 func set_day(day: int) -> void:
 	_day_label.text = "Day %d" % day
@@ -19,3 +20,6 @@ func set_budget(current: int, maximum: int) -> void:
 
 func set_quest(text: String) -> void:
 	_quest_label.text = text
+
+func set_coins(amount: int) -> void:
+	_coins_label.text = "Coins: %d" % amount

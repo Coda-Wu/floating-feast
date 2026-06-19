@@ -4,6 +4,12 @@ class_name Cooking extends RefCounted
 ## categories); a full bipartite match is a later upgrade if recipes get hairy. (§C.3, §C.4)
 
 const ENHANCER_TAGS := [&"spice", &"flavor"]
+# --- Quality Tier (terminal cooks only) ---
+const BASE_TIER := 2 # a correctly-cooked dish, base ingredients, no added enhancers = ★★ "Plain"
+const MAX_ENHANCER_BONUS := 3 # +1 per added spice/flavor enhancer, up to 3 → ★★★★★ via spices alone
+const MIN_TIER := 1
+const MAX_TIER := 5
+
 
 ## Returns { recipe: StationRecipe, enhancers: Array } or {} if nothing matches.
 static func find_match(station_id: StringName, slot_items: Array) -> Dictionary:
@@ -63,3 +69,9 @@ static func _required_total(recipe: StationRecipe) -> int:
 	for req in recipe.inputs:
 		total += int(req.get("count", 1))
 	return total
+
+## enhancer_count = leftover enhancers a terminal match carried (the `enhancers` array from find_match).
+static func compute_tier(enhancer_count: int) -> Dictionary:
+	var bonus := clampi(enhancer_count, 0, MAX_ENHANCER_BONUS)
+	var tier := clampi(BASE_TIER + bonus, MIN_TIER, MAX_TIER)
+	return {"tier": tier, "base_stars": BASE_TIER, "bonus_stars": bonus, "enhancer_count": enhancer_count}
