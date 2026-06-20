@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b15tnsftgmrwx"]
+
+[ext_resource type="Script" uid="uid://bhi7dg7lk76a8" path="res://src/ui/item_grid.gd" id="1_item_grid"]
+
+[node name="ItemGrid" type="PanelContainer" unique_id=1577180268]
+script = ExtResource("1_item_grid")

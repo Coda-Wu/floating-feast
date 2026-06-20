@@ -13,6 +13,7 @@ signal inventory_changed(item_id: String, new_count: int)
 signal coins_changed(amount: int)
 signal phase_changed(phase: int)
 signal hotbar_item_selected(item_id: String)
+signal fridge_changed()
 
 # --- Ocean Map / islands ---
 signal island_entered(island_instance) ## runtime island object

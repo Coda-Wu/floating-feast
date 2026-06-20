@@ -14,5 +14,6 @@ func _ready() -> void:
 	for pair in [[&"tomato", 3], [&"potato", 2], [&"eggplant", 2], [&"onion", 1], [&"rosemary", 1], [&"salt", 2], [&"lemon", 1], [&"chickpeas", 2]]:
 		GameState.add_item(pair[0], pair[1])
 	GameState.add_dish(&"roasted_tomato", 2, 1)
+	GameState.fridge_storage = {&"rosemary": 2, &"chickpeas": 4}
 	GameState.add_item(&"tomato", 5)
 	GameState.add_dish(&"roasted_eggplant", 3, 1) # both are family "roasted", tier ≥2

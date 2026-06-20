@@ -8,6 +8,7 @@ var budget_max: int = 4
 var budget_current: int = 4
 var coins: int = 50
 var inventory: Dictionary = {} # ingredient item_id -> count (UNTOUCHED by Week 2)
+var fridge_storage: Dictionary = {} # ingredient item_id -> count (home storage; parallel to carried inventory)
 var dish_inventory: Dictionary = {} # "recipe_id|tier" -> count (the one Week-2 model extension, §H-1)
 var known_recipes: Array[StringName] = [] # recipe ids the player has learned (codex)
 var captured_spirits: Array[String] = []
@@ -111,6 +112,31 @@ func remove_dishes(recipe_id: StringName, min_tier: int, n: int) -> bool:
 	SignalBus.dish_inventory_changed.emit()
 	return true
 
+
+# --- Fridge storage (ingredients only; transfer one unit at a time carried <-> fridge) ---
+func get_fridge_count(item_id: StringName) -> int:
+	return int(fridge_storage.get(item_id, 0))
+
+func deposit_to_fridge(item_id: StringName, count: int = 1) -> bool:
+	if count <= 0 or get_item_count(item_id) < count:
+		return false
+	remove_item(item_id, count) # emits inventory_changed
+	fridge_storage[item_id] = get_fridge_count(item_id) + count
+	SignalBus.fridge_changed.emit()
+	return true
+
+func withdraw_from_fridge(item_id: StringName, count: int = 1) -> bool:
+	if count <= 0 or get_fridge_count(item_id) < count:
+		return false
+	var left := get_fridge_count(item_id) - count
+	if left <= 0:
+		fridge_storage.erase(item_id)
+	else:
+		fridge_storage[item_id] = left
+	add_item(item_id, count) # emits inventory_changed
+	SignalBus.fridge_changed.emit()
+	return true
+
 # --- Family-aware dish queries (for commissions / Fair: match by RecipeData.family_tags) ---
 func count_dishes_by_family(family: StringName, min_tier: int = 1) -> int:
 	var total := 0
@@ -196,6 +222,7 @@ func serialize() -> Dictionary:
 		"garden_slots": garden_slots.duplicate(),
 		"active_commissions": active_commissions.duplicate(),
 		"rank": rank,
+		"fridge_storage": fridge_storage.duplicate(true),
 	}
 
 func deserialize(d: Dictionary) -> void:
@@ -214,6 +241,7 @@ func deserialize(d: Dictionary) -> void:
 	garden_slots = (d.get("garden_slots", [null, null, null]) as Array).duplicate()
 	active_commissions = (d.get("active_commissions", []) as Array).duplicate()
 	rank = d.get("rank", 0)
+	fridge_storage = (d.get("fridge_storage", {}) as Dictionary).duplicate(true)
 
 # --- Garden (assign captured spirits to pots; remove permanently consumes) ---
 func assign_spirit_to_garden(spirit_id: String, slot: int) -> bool:

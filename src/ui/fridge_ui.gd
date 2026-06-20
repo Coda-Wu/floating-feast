@@ -1,45 +1,69 @@
 extends Control
-## Fridge: browse the pantry (ingredients) and stored dishes. One shared inventory in M1, so this
-## is a browse surface (no withdraw needed). The Dishes section is populated once the dish store
-## exists (Day 11). Dumb view; emits close_requested. (§C.2)
+## Fridge: storage for carried ingredients + a view of stored dishes. Two tabs (Ingredients / Dishes).
+## Ingredients tab shows fridge ⇄ backpack as two grids; tapping a cell transfers one unit (the
+## GameState mutators emit, so both grids + the hotbar refresh). Dishes tab displays dish_inventory
+## read-only (dishes don't transfer in M1). Dumb view; emits close_requested. (Inventory-UX UX-2)
 
 signal close_requested
 
-@onready var _ing_list: VBoxContainer = $Center/Panel/Margin/VBox/IngScroll/IngList
-@onready var _dish_list: VBoxContainer = $Center/Panel/Margin/VBox/DishScroll/DishList
-@onready var _close_button: Button = $Center/Panel/Margin/VBox/CloseButton
+@onready var _ing_tab: Button = $Center/Frame/Margin/VBox/Tabs/IngTab
+@onready var _dish_tab: Button = $Center/Frame/Margin/VBox/Tabs/DishTab
+@onready var _ing_page: HBoxContainer = $Center/Frame/Margin/VBox/IngPage
+@onready var _dish_page: VBoxContainer = $Center/Frame/Margin/VBox/DishPage
+@onready var _fridge_grid: ItemGrid = $Center/Frame/Margin/VBox/IngPage/FridgeSide/FridgeGrid
+@onready var _carried_grid: ItemGrid = $Center/Frame/Margin/VBox/IngPage/CarriedSide/CarriedGrid
+@onready var _dish_grid: ItemGrid = $Center/Frame/Margin/VBox/DishPage/DishGrid
+@onready var _close_button: Button = $Center/Frame/Margin/VBox/CloseButton
 
 func setup() -> void:
 	_close_button.pressed.connect(func() -> void: close_requested.emit())
-	_populate_ingredients()
-	_populate_dishes()
+	_ing_tab.pressed.connect(_show_ingredients)
+	_dish_tab.pressed.connect(_show_dishes)
+	_fridge_grid.cell_clicked.connect(_on_fridge_cell) # fridge → backpack (withdraw)
+	_carried_grid.cell_clicked.connect(_on_carried_cell) # backpack → fridge (deposit)
+	SignalBus.fridge_changed.connect(_refresh_ingredients)
+	SignalBus.inventory_changed.connect(func(_a, _b): _refresh_ingredients())
+	_show_ingredients()
 
-func _populate_ingredients() -> void:
-	for c in _ing_list.get_children():
-		c.queue_free()
-	var ids := GameState.inventory.keys()
+func _show_ingredients() -> void:
+	_ing_page.visible = true
+	_dish_page.visible = false
+	_ing_tab.button_pressed = true
+	_dish_tab.button_pressed = false
+	_refresh_ingredients()
+
+func _show_dishes() -> void:
+	_ing_page.visible = false
+	_dish_page.visible = true
+	_ing_tab.button_pressed = false
+	_dish_tab.button_pressed = true
+	_refresh_dishes()
+
+func _refresh_ingredients() -> void:
+	_fridge_grid.set_items(_ingredient_rows(GameState.fridge_storage), true)
+	_carried_grid.set_items(_ingredient_rows(GameState.inventory), true)
+
+func _refresh_dishes() -> void:
+	var rows: Array = []
+	for e in GameState.get_dish_entries():
+		var rec := Database.get_recipe(e["recipe_id"])
+		var disp := rec.display_name if rec else String(e["recipe_id"])
+		rows.append({"id": e["recipe_id"], "count": int(e["count"]),
+			"label": "%s %s" % [disp, "★".repeat(int(e["tier"]))]})
+	_dish_grid.set_items(rows, false) # display-only
+
+func _ingredient_rows(store: Dictionary) -> Array:
+	var ids := store.keys()
 	ids.sort()
-	if ids.is_empty():
-		_ing_list.add_child(_row("(empty)"))
-		return
+	var rows: Array = []
 	for item_id in ids:
-		var ing := Database.get_ingredient(item_id)
-		var disp := ing.display_name if ing else String(item_id)
-		_ing_list.add_child(_row("%s  ×%d" % [disp, GameState.get_item_count(item_id)]))
+		if int(store[item_id]) <= 0:
+			continue
+		rows.append({"id": item_id, "count": int(store[item_id]), "label": Database.get_display_name(item_id)})
+	return rows
 
-func _populate_dishes() -> void:
-	for c in _dish_list.get_children():
-		c.queue_free()
-	var entries := GameState.get_dish_entries() # [{recipe_id, tier, count}], sorted
-	if entries.is_empty():
-		_dish_list.add_child(_row("(no dishes yet — cook something!)"))
-		return
-	for e in entries:
-		var disp := Database.get_display_name(e["recipe_id"])
-		var stars := "★".repeat(int(e["tier"]))
-		_dish_list.add_child(_row("%s  %s  ×%d" % [disp, stars, int(e["count"])]))
+func _on_fridge_cell(item_id: String) -> void:
+	GameState.withdraw_from_fridge(StringName(item_id), 1)
 
-func _row(text: String) -> Label:
-	var lbl := Label.new()
-	lbl.text = text
-	return lbl
+func _on_carried_cell(item_id: String) -> void:
+	GameState.deposit_to_fridge(StringName(item_id), 1)

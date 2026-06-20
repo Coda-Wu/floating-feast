@@ -5,6 +5,7 @@ extends Node
 var _persistent_ui: CanvasLayer = null
 var _hud: Control = null
 var _hotbar: Control = null
+var _item_tooltip: Control = null
 var _resolution_panel: Control = null # IslandScreen controls its lifecycle via hide_resolution_panel()
 
 func create_persistent_ui(parent: Node) -> void:
@@ -18,6 +19,7 @@ func create_persistent_ui(parent: Node) -> void:
 	_connect_hud_signals()
 	_sync_hud_now()
 	_hotbar = _persistent_ui.get_hotbar()
+	_item_tooltip = _persistent_ui.get_item_tooltip()
 	SignalBus.phase_changed.connect(_on_phase_changed)
 	SignalBus.inventory_changed.connect(_on_inventory_changed)
 	_hotbar.set_active(_is_hotbar_phase(GameManager.current_phase)) # initial sync
@@ -81,6 +83,15 @@ func _on_phase_changed(phase: int) -> void:
 func _on_inventory_changed(_item_id: String, _count: int) -> void:
 	_hotbar.refresh()
 
+
+# --- Item-name tooltip (driven by ItemSlot hover; one shared bubble) ---
+func show_item_tooltip(text: String) -> void:
+	if _item_tooltip:
+		_item_tooltip.show_text(text)
+
+func hide_item_tooltip() -> void:
+	if _item_tooltip:
+		_item_tooltip.hide_tip()
 
 # --- Tutorials (System -> SignalBus -> UIManager -> UI, §2.6) ---
 func _on_tutorial_triggered(mechanic_id: String) -> void:

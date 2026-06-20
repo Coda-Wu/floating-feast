@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ddii0rbyk7sly"]
+
+[ext_resource type="Script" uid="uid://dxpsup0phoe7m" path="res://src/ui/item_tooltip.gd" id="1_5xe6p"]
+
+[node name="ItemTooltip" type="PanelContainer" unique_id=1491248052]
+script = ExtResource("1_5xe6p")
+
+[node name="Label" type="Label" parent="." unique_id=1435119846]
+layout_mode = 2
