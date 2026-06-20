@@ -9,3 +9,6 @@ func _ready() -> void:
 	SceneRouter.register_host(_screen_host)
 	UIManager.create_persistent_ui(self )
 	GameManager.start_day()
+	GameState.add_dish(&"roasted_tomato", 2, 1)
+	GameState.add_item(&"tomato", 5)
+	GameState.add_dish(&"roasted_eggplant", 3, 1) # both are family "roasted", tier ≥2
