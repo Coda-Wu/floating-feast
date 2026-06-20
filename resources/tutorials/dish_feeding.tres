@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://de173acpbmyta"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_akt1g"]
+
+[resource]
+script = ExtResource("1_akt1g")
+id = &"dish_feeding"
+text = "This spirit has refined taste — it only accepts a cooked dish of the right kind and quality (its craving is shown above). Cook one and feed it here to win it over."

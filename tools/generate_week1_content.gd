@@ -105,7 +105,22 @@ func _gen_spirits() -> int:
 	chicken.yield_per_night = 1
 	chicken.drop_table = {&"egg": 1}
 	_save(chicken, "spirits", chicken.id)
-	return 3
+
+	var gourmand := SpiritData.new()
+	gourmand.id = &"spirit_gourmand"
+	gourmand.display_name = "Gourmand Spirit"
+	gourmand.temperament = &"refined"
+	gourmand.preferred_food = &"roasted" # a DISH FAMILY (not a raw tag) — gates dish-feeding
+	gourmand.required_tier = 3 # only a Roasted dish at Tier 3+ will do
+	gourmand.well_fed_max = 80
+	gourmand.turns_before_flee = 5
+	gourmand.tameable = true
+	gourmand.produces = &"rosemary" # garden: yields a premium enhancer (loop feeds itself)
+	gourmand.yield_per_night = 1
+	gourmand.drop_table = {&"rosemary": 1}
+	_save(gourmand, "spirits", gourmand.id)
+
+	return 4
 
 # ---------- Island templates ----------
 func _gen_islands() -> int:
@@ -118,6 +133,7 @@ func _gen_islands() -> int:
 		{"type": &"gathering", "weight": 3.0, "params": {"biome": &"orchard"}},
 		{"type": &"spirit_encounter", "weight": 2.0, "params": {"spirit_pool": [&"spirit_sprout", &"spirit_tomato", &"spirit_chicken"]}},
 		{"type": &"shop", "weight": 1.0, "params": {"stock_id": &"stock_island_shop"}},
+		{"type": &"spirit_encounter", "weight": 3.0, "params": {"spirit_pool": [&"spirit_tomato", &"spirit_chicken", &"spirit_sprout", &"spirit_gourmand"]}},
 	])
 	_save(cove, "islands", cove.id)
 
@@ -201,6 +217,7 @@ func _gen_tutorials() -> int:
 		{"id": &"cooking_station", "text": "Click ingredients to fill the slots, then Confirm. The Prep table chops, the Mixing Bowl combines, and the Oven bakes — chain them to build a dish. Add spices to a finished dish for extra stars!"},
 		{"id": &"recipe_book", "text": "Your recipe codex. Every dish you cook for the first time is recorded here, along with the ingredients and stations it takes to make it."},
 		{"id": &"garden", "text": "Assign a tamed spirit to a pot and it'll grow crops while you sleep, collected each morning. Careful: removing a spirit from a pot sends it away for good."},
+		{"id": &"dish_feeding", "text": "This spirit has refined taste — it only accepts a cooked dish of the right kind and quality (its craving is shown above). Cook one and feed it here to win it over."},
 	]
 	for d in defs:
 		var t := TutorialData.new()

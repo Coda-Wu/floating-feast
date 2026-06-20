@@ -23,4 +23,10 @@ spawn_rules = Array[Dictionary]([{
 },
 "type": &"shop",
 "weight": 1.0
+}, {
+"params": {
+"spirit_pool": [&"spirit_tomato", &"spirit_chicken", &"spirit_sprout", &"spirit_gourmand"]
+},
+"type": &"spirit_encounter",
+"weight": 3.0
 }])

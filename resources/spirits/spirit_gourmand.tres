@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="SpiritData" format=3 uid="uid://durk8xaioimxx"]
+
+[ext_resource type="Script" uid="uid://dnwx4lfo1gqjg" path="res://src/data/spirit_data.gd" id="1_ownv3"]
+
+[resource]
+script = ExtResource("1_ownv3")
+id = &"spirit_gourmand"
+display_name = "Gourmand Spirit"
+temperament = &"refined"
+preferred_food = &"roasted"
+required_tier = 3
+well_fed_max = 80
+drop_table = {
+&"rosemary": 1
+}
+produces = &"rosemary"
+yield_per_night = 1
