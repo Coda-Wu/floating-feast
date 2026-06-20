@@ -6,13 +6,21 @@ extends Node
 const _QUEST_TEXT := {
 	0: "Sail out and gather ingredients from the islands.",
 	1: "Something's stirring past the reef — go and take a look.",
+	2: "Word of your cooking is spreading. Keep the orders coming.",
 }
 
 # Scripted event flag -> the phase it advances the player to. Idempotent: an event never
 # regresses the phase or fires twice. M2 replaces this with a real quest graph.
 const _EVENT_PHASE := {
 	&"whale_quest_started": 1,
+	&"commission_1_done": 2,
 }
+
+const FAIR_PHASE := 2 # the Fair unlocks once the commission delivery advances here
+
+func is_fair_unlocked() -> bool:
+	return GameState.quest_phase >= FAIR_PHASE
+
 
 func get_phase() -> int:
 	return GameState.quest_phase

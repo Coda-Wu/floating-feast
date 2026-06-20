@@ -7,7 +7,7 @@ extends EditorScript
 const BASE := "res://resources/"
 
 func _run() -> void:
-	_ensure_dirs(["ingredients", "spirits", "islands", "shops", "weather", "tutorials", "recipes", "station_recipes"])
+	_ensure_dirs(["ingredients", "spirits", "islands", "shops", "weather", "tutorials", "recipes", "station_recipes", "commissions", "fair"])
 	var n := 0
 	n += _gen_ingredients()
 	n += _gen_spirits()
@@ -18,6 +18,8 @@ func _run() -> void:
 	n += _gen_cooking_items()
 	n += _gen_recipes()
 	n += _gen_station_recipes()
+	n += _gen_commissions()
+	n += _gen_fair()
 	print("[Week-1 content] wrote %d resources into %s" % [n, BASE])
 	EditorInterface.get_resource_filesystem().scan() # refresh the FileSystem dock
 
@@ -167,8 +169,8 @@ func _gen_islands() -> int:
 	mission.biome = &"mediterranean"
 	mission.is_mission = true
 	mission.fixed_nodes.assign([
-		{"type": &"npc", "params": {"text": "The whole bay's gone quiet... everyone's hiding from something out past the reef."}},
-		{"type": &"event", "params": {"flag": &"whale_quest_started"}},
+		{"type": &"npc", "params": {"giver_id": &"npc_harbor_cook", "text": "The whole bay's gone quiet... everyone's hiding from something out past the reef. Oh — and if you can cook, I've got an order for you."}},
+		{"type": &"event", "params": {"flag": &"whale_quest_started", "activate_commission": &"commission_1"}},
 	])
 	_save(mission, "islands", mission.id)
 	return 4
@@ -218,6 +220,8 @@ func _gen_tutorials() -> int:
 		{"id": &"recipe_book", "text": "Your recipe codex. Every dish you cook for the first time is recorded here, along with the ingredients and stations it takes to make it."},
 		{"id": &"garden", "text": "Assign a tamed spirit to a pot and it'll grow crops while you sleep, collected each morning. Careful: removing a spirit from a pot sends it away for good."},
 		{"id": &"dish_feeding", "text": "This spirit has refined taste — it only accepts a cooked dish of the right kind and quality (its craving is shown above). Cook one and feed it here to win it over."},
+		{"id": &"commission", "text": "Commissions ask for dishes of a certain kind and quality. There's no deadline — deliver whenever you're ready (a little sooner earns a bonus). Bring the dishes to the NPC who asked."},
+		{"id": &"fair", "text": "At the Trade Fair, submit your dishes to the judges — better dishes earn more coins, and you'll climb the Explorer League ranks. No pressure: bring what you've got."},
 	]
 	for d in defs:
 		var t := TutorialData.new()
@@ -291,3 +295,35 @@ func _sr(id: StringName, station: StringName, inputs: Array, output: StringName,
 	sr.output_item_id = output
 	sr.is_terminal = terminal
 	return sr
+
+
+# ---------- Commissions ----------
+
+func _gen_commissions() -> int:
+	var c := CommissionData.new()
+	c.id = &"commission_1"
+	c.title = "Harbor Cook's Request"
+	c.detail = "Bring me 2 roasted dishes, Tier 2 or better — the festival crowd is hungry!"
+	c.giver_npc_id = &"npc_harbor_cook"
+	c.req_family = &"roasted"
+	c.req_min_tier = 2
+	c.req_quantity = 2
+	c.reward_coins = 60
+	c.reward_story_flag = &"commission_1_done"
+	c.on_time_day = 5
+	c.on_time_bonus = 25
+	_save(c, "commissions", c.id)
+	return 1
+
+
+# ---------- Fairs ----------
+func _gen_fair() -> int:
+	var fc := FairConfig.new()
+	fc.id = &"fair_default"
+	fc.intro_line = "Welcome to the Trade Fair! Present your finest dishes for the judges."
+	fc.coins_per_tier = {1: 5, 2: 15, 3: 30, 4: 50, 5: 80}
+	fc.rank_granted = 1
+	fc.result_line = "The judges are delighted!"
+	fc.empty_line = "No dishes this time? No worries — come back when your kitchen's been busy!"
+	_save(fc, "fair", fc.id)
+	return 1

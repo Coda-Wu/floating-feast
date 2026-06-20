@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="FairConfig" format=3 uid="uid://bqfxm7srrlrnc"]
+
+[ext_resource type="Script" uid="uid://cjjrind5kpguf" path="res://src/data/fair_config.gd" id="1_08ngs"]
+
+[resource]
+script = ExtResource("1_08ngs")
+id = &"fair_default"
+intro_line = "Welcome to the Trade Fair! Present your finest dishes for the judges."
+coins_per_tier = {
+1: 5,
+2: 15,
+3: 30,
+4: 50,
+5: 80
+}
+result_line = "The judges are delighted!"
+empty_line = "No dishes this time? No worries — come back when your kitchen's been busy!"

@@ -8,11 +8,13 @@ id = &"island_mission_whale"
 is_mission = true
 fixed_nodes = Array[Dictionary]([{
 "params": {
-"text": "The whole bay's gone quiet... everyone's hiding from something out past the reef."
+"giver_id": &"npc_harbor_cook",
+"text": "The whole bay's gone quiet... everyone's hiding from something out past the reef. Oh — and if you can cook, I've got an order for you."
 },
 "type": &"npc"
 }, {
 "params": {
+"activate_commission": &"commission_1",
 "flag": &"whale_quest_started"
 },
 "type": &"event"

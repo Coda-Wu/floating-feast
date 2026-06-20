@@ -44,6 +44,11 @@ text = "[ Enter Kitchen ]"
 layout_mode = 2
 text = "[ Garden — arrives Week 2 ]"
 
+[node name="FairButton" type="Button" parent="Center/VBox" unique_id=1593784525]
+visible = false
+layout_mode = 2
+text = "Trade Fair"
+
 [node name="EndDayButton" type="Button" parent="Center/VBox" unique_id=1429419816]
 layout_mode = 2
 text = "End Day  (Sleep)"

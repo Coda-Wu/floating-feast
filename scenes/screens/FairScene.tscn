@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://ydenv0rkkyh8"]
+
+[ext_resource type="Script" uid="uid://c8iuiv5fshb40" path="res://src/screens/fair_scene.gd" id="1_fair_scr"]
+
+[node name="FairScene" type="Control" unique_id=726252422]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fair_scr")
+
+[node name="Background" type="ColorRect" parent="." unique_id=191787683]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.65, 0.4, 1)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=656510708]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=350803669]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=1325454392]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=403869521]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox" unique_id=145087948]
+layout_mode = 2
+text = "Trade Fair"
+
+[node name="Intro" type="Label" parent="Center/Panel/Margin/VBox" unique_id=1335389419]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+text = "..."
+autowrap_mode = 2
+
+[node name="DishHeader" type="Label" parent="Center/Panel/Margin/VBox" unique_id=114920537]
+layout_mode = 2
+text = "Your dishes — tap to submit:"
+
+[node name="DishScroll" type="ScrollContainer" parent="Center/Panel/Margin/VBox" unique_id=2063968594]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+
+[node name="DishList" type="VBoxContainer" parent="Center/Panel/Margin/VBox/DishScroll" unique_id=401813983]
+layout_mode = 2
+
+[node name="TrayHeader" type="Label" parent="Center/Panel/Margin/VBox" unique_id=1560528909]
+layout_mode = 2
+text = "Submitted:"
+
+[node name="TrayList" type="VBoxContainer" parent="Center/Panel/Margin/VBox" unique_id=698735110]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TallyLabel" type="Label" parent="Center/Panel/Margin/VBox" unique_id=2031485043]
+layout_mode = 2
+text = "Estimated reward: 0 coins"
+
+[node name="ButtonRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox" unique_id=1858067902]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PresentButton" type="Button" parent="Center/Panel/Margin/VBox/ButtonRow" unique_id=1098563484]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Present to Judges"
+
+[node name="LeaveButton" type="Button" parent="Center/Panel/Margin/VBox/ButtonRow" unique_id=1804027641]
+layout_mode = 2
+text = "Maybe Later"

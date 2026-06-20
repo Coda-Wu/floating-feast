@@ -16,6 +16,8 @@ var seen_tutorials: Dictionary = {}
 var weather_id: String = ""
 var day_seed: int = 0
 var quest_phase: int = 0
+var rank: int = 0 # Explorer League rank; 0 = unranked until the first Fair
+var active_commissions: Array = [] # commission ids currently active
 
 # --- Ingredient inventory mutators (the one place inventory changes + the signal fires) ---
 func add_item(item_id: StringName, count: int = 1) -> void:
@@ -72,6 +74,7 @@ func add_dish(recipe_id: StringName, tier: int, n: int = 1) -> void:
 		return
 	var key := _dish_key(recipe_id, tier)
 	dish_inventory[key] = int(dish_inventory.get(key, 0)) + n
+	SignalBus.dish_inventory_changed.emit()
 
 func count_dishes(recipe_id: StringName, min_tier: int = 1) -> int:
 	var total := 0
@@ -105,6 +108,49 @@ func remove_dishes(recipe_id: StringName, min_tier: int, n: int) -> bool:
 		else:
 			dish_inventory[key] = have - take
 		remaining -= take
+	SignalBus.dish_inventory_changed.emit()
+	return true
+
+# --- Family-aware dish queries (for commissions / Fair: match by RecipeData.family_tags) ---
+func count_dishes_by_family(family: StringName, min_tier: int = 1) -> int:
+	var total := 0
+	for key in dish_inventory:
+		var parts := String(key).split("|")
+		if parts.size() != 2 or int(parts[1]) < min_tier:
+			continue
+		var rec := Database.get_recipe(StringName(parts[0]))
+		if rec != null and rec.family_tags.has(family):
+			total += int(dish_inventory[key])
+	return total
+
+func remove_dishes_by_family(family: StringName, min_tier: int, n: int) -> bool:
+	if n <= 0:
+		return true
+	if count_dishes_by_family(family, min_tier) < n:
+		return false
+	# Lowest qualifying tier first (keep the player's best dishes).
+	var keys: Array = []
+	for key in dish_inventory:
+		var parts := String(key).split("|")
+		if parts.size() != 2 or int(parts[1]) < min_tier:
+			continue
+		var rec := Database.get_recipe(StringName(parts[0]))
+		if rec != null and rec.family_tags.has(family):
+			keys.append({"key": key, "tier": int(parts[1])})
+	keys.sort_custom(func(a, b): return a["tier"] < b["tier"])
+	var remaining := n
+	for entry in keys:
+		if remaining <= 0:
+			break
+		var key: String = entry["key"]
+		var have := int(dish_inventory.get(key, 0))
+		var take := mini(have, remaining)
+		if have - take <= 0:
+			dish_inventory.erase(key)
+		else:
+			dish_inventory[key] = have - take
+		remaining -= take
+	SignalBus.dish_inventory_changed.emit()
 	return true
 
 func get_dish_entries() -> Array:
@@ -148,6 +194,8 @@ func serialize() -> Dictionary:
 		"day_seed": day_seed,
 		"quest_phase": quest_phase,
 		"garden_slots": garden_slots.duplicate(),
+		"active_commissions": active_commissions.duplicate(),
+		"rank": rank,
 	}
 
 func deserialize(d: Dictionary) -> void:
@@ -164,6 +212,8 @@ func deserialize(d: Dictionary) -> void:
 	day_seed = d.get("day_seed", 0)
 	quest_phase = d.get("quest_phase", 0)
 	garden_slots = (d.get("garden_slots", [null, null, null]) as Array).duplicate()
+	active_commissions = (d.get("active_commissions", []) as Array).duplicate()
+	rank = d.get("rank", 0)
 
 # --- Garden (assign captured spirits to pots; remove permanently consumes) ---
 func assign_spirit_to_garden(spirit_id: String, slot: int) -> bool:
@@ -184,3 +234,10 @@ func remove_spirit_from_garden(slot: int) -> void:
 	garden_slots[slot] = null
 	if spirit_id != null:
 		captured_spirits.erase(spirit_id)
+
+
+# --- Explorer League rank (increases at Fair completion) ---
+func set_rank(new_rank: int) -> void:
+	if new_rank > rank:
+		rank = new_rank
+		SignalBus.rank_changed.emit(rank)

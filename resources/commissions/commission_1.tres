@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CommissionData" format=3 uid="uid://dhoglub6rmt8d"]
+
+[ext_resource type="Script" uid="uid://4vhn1whgjdr6" path="res://src/data/commission_data.gd" id="1_k7b8w"]
+
+[resource]
+script = ExtResource("1_k7b8w")
+id = &"commission_1"
+title = "Harbor Cook's Request"
+detail = "Bring me 2 roasted dishes, Tier 2 or better — the festival crowd is hungry!"
+giver_npc_id = &"npc_harbor_cook"
+req_family = &"roasted"
+req_min_tier = 2
+req_quantity = 2
+reward_coins = 60
+reward_story_flag = &"commission_1_done"
+on_time_day = 5
+on_time_bonus = 25

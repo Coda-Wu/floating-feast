@@ -4,7 +4,7 @@ extends Node
 ## Travel lines accumulate per island ENTERED; budget is spent per node RESOLVED (Step 5) —
 ## two separate systems (§13). (§5, §6)
 
-enum DayPhase {MORNING, OCEAN_MAP, ISLAND, SHIP, KITCHEN, DAY_END}
+enum DayPhase {MORNING, OCEAN_MAP, ISLAND, SHIP, KITCHEN, FAIR, DAY_END}
 
 var current_phase: DayPhase = DayPhase.MORNING
 var day_islands: Array[Island] = [] # the day's Ocean Map; regenerated at day start
@@ -23,6 +23,7 @@ const _PHASE_SCREENS := {
 	DayPhase.ISLAND: "res://scenes/screens/IslandScreen.tscn",
 	DayPhase.SHIP: "res://scenes/screens/ShipScreen.tscn",
 	DayPhase.KITCHEN: "res://scenes/screens/KitchenScene.tscn",
+	DayPhase.FAIR: "res://scenes/screens/FairScene.tscn",
 }
 
 func _ready() -> void:
@@ -66,6 +67,9 @@ func request_return_to_ship() -> void: # Ocean Map "Return to Ship": end explora
 
 func request_enter_kitchen() -> void:
 	change_phase(DayPhase.KITCHEN)
+
+func request_enter_fair() -> void:
+	change_phase(DayPhase.FAIR)
 
 func request_return_to_map() -> void: # Island "Back to Map": pick another island
 	change_phase(DayPhase.OCEAN_MAP)

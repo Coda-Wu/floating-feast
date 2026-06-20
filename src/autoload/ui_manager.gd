@@ -27,17 +27,28 @@ func _connect_hud_signals() -> void:
 	SignalBus.budget_changed.connect(_on_budget_changed)
 	SignalBus.quest_phase_changed.connect(_on_quest_phase_changed)
 	SignalBus.coins_changed.connect(_on_coins_changed)
+	SignalBus.commission_activated.connect(_on_commission_changed)
+	SignalBus.commission_completed.connect(_on_commission_changed)
+	SignalBus.dish_cooked.connect(_on_commission_changed) # progress may have changed
+	SignalBus.dish_inventory_changed.connect(_on_commission_changed)
+	SignalBus.rank_changed.connect(_on_rank_changed)
 
 func _sync_hud_now() -> void:
 	_on_day_started(GameState.day)
 	_on_budget_changed(GameState.budget_current, GameState.budget_max)
 	_on_quest_phase_changed(GameState.quest_phase)
 	_hud.set_coins(GameState.coins)
+	_refresh_commission_hud()
+	_hud.set_rank(GameState.rank)
 
 func _on_day_started(day: int) -> void:
 	_hud.set_day(day)
 	var weather := Database.get_weather(StringName(GameState.weather_id))
 	_hud.set_weather(weather.display_name if weather else "—")
+
+
+func _on_rank_changed(rank: int) -> void:
+	_hud.set_rank(rank)
 
 func _on_budget_changed(current: int, maximum: int) -> void:
 	_hud.set_budget(current, maximum)
@@ -128,3 +139,18 @@ func show_garden_panel() -> void:
 	_persistent_ui.add_child(panel)
 	panel.setup()
 	panel.close_requested.connect(func() -> void: panel.queue_free())
+
+
+# --- Commission HUD (updated when an NPC asks for something, or when you cook) ---
+func _on_commission_changed(_a = null, _b = null) -> void:
+	_refresh_commission_hud()
+
+func _refresh_commission_hud() -> void:
+	if GameState.active_commissions.is_empty():
+		_hud.set_commission("")
+		return
+	var c := Database.get_commission(StringName(GameState.active_commissions[0]))
+	if c == null:
+		_hud.set_commission("")
+		return
+	_hud.set_commission("◆ %s (%d/%d)" % [c.title, CommissionManager.owned_count(c), c.req_quantity])

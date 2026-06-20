@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://dcb70xe8x7awy"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_h3rki"]
+
+[resource]
+script = ExtResource("1_h3rki")
+id = &"commission"
+text = "Commissions ask for dishes of a certain kind and quality. There's no deadline — deliver whenever you're ready (a little sooner earns a bonus). Bring the dishes to the NPC who asked."

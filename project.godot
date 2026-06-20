@@ -26,6 +26,7 @@ SceneRouter="*uid://cyysfjn7v2lbw"
 UIManager="*uid://yu6qqlw3vmsn"
 TutorialManager="*uid://gemroyj1kqqj"
 QuestManager="*uid://bk58gxympqbke"
+CommissionManager="*uid://dy03qnqu81u5n"
 GameManager="*uid://dfcp5fkyddljs"
 
 [dialogic]

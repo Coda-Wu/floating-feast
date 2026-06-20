@@ -25,9 +25,16 @@ signal spirit_fled(spirit_data, drops)
 
 # --- Meta ---
 signal quest_phase_changed(phase: int)
+signal rank_changed(rank: int) # Fair rank changed
 signal tutorial_triggered(mechanic_id: String)
 signal request_screen_change(screen_id: String)
 
 # --- Cooking & Recipes ---
 signal dish_cooked(recipe_id: String, tier: int)
+signal dish_inventory_changed()
 signal recipe_discovered(recipe_id: String)
+
+
+# --- Commissions & Fair ---
+signal commission_activated(commission_id: String)
+signal commission_completed(commission_id: String)

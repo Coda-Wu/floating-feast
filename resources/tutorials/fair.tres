@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TutorialData" format=3 uid="uid://bmibvxhbwx860"]
+
+[ext_resource type="Script" uid="uid://0v5g6pmdc2p2" path="res://src/data/tutorial_data.gd" id="1_i2t4w"]
+
+[resource]
+script = ExtResource("1_i2t4w")
+id = &"fair"
+text = "At the Trade Fair, submit your dishes to the judges — better dishes earn more coins, and you'll climb the Explorer League ranks. No pressure: bring what you've got."

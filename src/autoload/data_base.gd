@@ -15,6 +15,8 @@ var _tutorials: Dictionary = {} # id -> TutorialData
 var _audio_cues: Dictionary = {} # id -> AudioCue
 var _recipes: Dictionary = {} # id -> RecipeData
 var _station_recipes: Dictionary = {} # id -> StationRecipe
+var _commissions: Dictionary = {} # id -> CommissionData
+var _fair_configs: Dictionary = {}
 
 func _ready() -> void:
 	# folder name -> the index it fills. Dictionaries are references, so writing
@@ -29,6 +31,8 @@ func _ready() -> void:
 		"recipes": _recipes,
 		"station_recipes": _station_recipes,
 		"audio": _audio_cues,
+		"commissions": _commissions,
+		"fair": _fair_configs,
 	}
 	for folder in index_map:
 		_scan_folder(folder, index_map[folder])
@@ -57,9 +61,9 @@ func _scan_folder(folder: String, into: Dictionary) -> void:
 		into[id] = res
 
 func _print_summary() -> void:
-	print("[Database] indexed: %d ingredients, %d spirits, %d islands, %d shops, %d weather, %d tutorials, %d recipes, %d station_recipes, %d audio" % [
+	print("[Database] indexed: %d ingredients, %d spirits, %d islands, %d shops, %d weather, %d tutorials, %d recipes, %d station_recipes, %d commissions, %d fairs, %d audio" % [
 		_ingredients.size(), _spirits.size(), _island_templates.size(), _shop_stocks.size(),
-		_weather.size(), _tutorials.size(), _recipes.size(), _station_recipes.size(), _audio_cues.size()])
+		_weather.size(), _tutorials.size(), _recipes.size(), _station_recipes.size(), _commissions.size(), _fair_configs.size(), _audio_cues.size()])
 
 # --- Typed accessors (now that the data classes exist) ---
 func get_ingredient(id: StringName) -> IngredientData: return _ingredients.get(id)
@@ -82,6 +86,19 @@ func get_weather(id: StringName) -> WeatherData: return _weather.get(id)
 func get_tutorial(id: StringName) -> TutorialData: return _tutorials.get(id)
 func get_audio_cue(id: StringName) -> AudioCue: return _audio_cues.get(id)
 func get_recipe(id: StringName) -> RecipeData: return _recipes.get(id)
+
+func get_fair_config(id: StringName) -> FairConfig:
+	return _fair_configs.get(id)
+	
+func get_commission(id: StringName) -> CommissionData:
+	return _commissions.get(id)
+
+func get_all_commissions() -> Array[CommissionData]:
+	var out: Array[CommissionData] = []
+	for c: CommissionData in _commissions.values():
+		out.append(c)
+	return out
+
 func get_station_recipe(id: StringName) -> StationRecipe:
 	return _station_recipes.get(id)
 
