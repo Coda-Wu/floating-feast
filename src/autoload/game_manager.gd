@@ -132,6 +132,14 @@ func _generate_day_islands(seed: int) -> Array[Island]:
 		var isl := Island.new(template.id, positions[i])
 		isl.node_chain = NodeChainGenerator.generate(template, seed + (i + 1) * 7919)
 		result.append(isl)
+	
+	# stage the mission island so the commission/Fair chain is reachable in a normal run.
+	var _mt := Database.get_island_template(&"island_mission_whale")
+	if _mt:
+		var _mi := Island.new(_mt.id, Vector2(330, 90))
+		_mi.node_chain = NodeChainGenerator.generate(_mt, seed)
+		result.append(_mi)
+		
 	return result
 
 func _roll_day_seed() -> int:
