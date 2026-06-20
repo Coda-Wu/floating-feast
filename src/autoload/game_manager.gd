@@ -50,6 +50,7 @@ func start_day() -> void:
 
 func change_phase(next: DayPhase) -> void:
 	current_phase = next
+	SignalBus.phase_changed.emit(next)
 	if _PHASE_SCREENS.has(next):
 		SceneRouter.change_screen(load(_PHASE_SCREENS[next]))
 	else:

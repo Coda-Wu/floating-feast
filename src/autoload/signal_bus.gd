@@ -11,6 +11,8 @@ signal budget_depleted()
 # --- Inventory ---
 signal inventory_changed(item_id: String, new_count: int)
 signal coins_changed(amount: int)
+signal phase_changed(phase: int)
+signal hotbar_item_selected(item_id: String)
 
 # --- Ocean Map / islands ---
 signal island_entered(island_instance) ## runtime island object

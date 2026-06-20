@@ -63,17 +63,3 @@ text = "Close"
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 autowrap_mode = 2
-
-[node name="HSep" type="HSeparator" parent="Margin/VBox" unique_id=83727530]
-layout_mode = 2
-
-[node name="InvLabel" type="Label" parent="Margin/VBox" unique_id=83727531]
-layout_mode = 2
-text = "Ingredients:"
-
-[node name="InvScroll" type="ScrollContainer" parent="Margin/VBox" unique_id=83727532]
-custom_minimum_size = Vector2(0, 120)
-layout_mode = 2
-
-[node name="InventoryList" type="VBoxContainer" parent="Margin/VBox/InvScroll" unique_id=83727533]
-layout_mode = 2

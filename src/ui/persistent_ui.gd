@@ -4,6 +4,10 @@ class_name PersistentUI extends CanvasLayer
 
 @onready var _hud: Control = $HUD
 @onready var _transition_overlay: ColorRect = $TransitionOverlay
+@onready var _hotbar: Control = $QuickAccessBar
+
+func get_hotbar() -> Control:
+	return _hotbar
 
 func get_hud() -> Control:
 	return _hud

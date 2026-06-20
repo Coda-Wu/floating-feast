@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cfoepwxfg3qmf" path="res://src/ui/persistent_ui.gd" id="1_pkojn"]
 [ext_resource type="PackedScene" uid="uid://dbhpsvfa5cmuf" path="res://scenes/ui/HUD.tscn" id="2_gg412"]
+[ext_resource type="PackedScene" uid="uid://cqroehn224dui" path="res://scenes/ui/QuickAccessBar.tscn" id="3_cfb6v"]
 
 [node name="PersistentUI" type="CanvasLayer" unique_id=1406522944]
 layer = 128
@@ -17,3 +18,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="QuickAccessBar" parent="." unique_id=1779471366 instance=ExtResource("3_cfb6v")]

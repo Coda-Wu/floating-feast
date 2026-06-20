@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://cqroehn224dui"]
+
+[ext_resource type="Script" uid="uid://80dsu0ab7hvq" path="res://src/ui/quick_access_bar.gd" id="1_mgjjb"]
+
+[node name="QuickAccessBar" type="Control" unique_id=1779471366]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("1_mgjjb")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1203059447]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=1819097938]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=858353180]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="Center/Panel/Margin" unique_id=1898953418]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="PrevButton" type="Button" parent="Center/Panel/Margin/HBox" unique_id=1916990560]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+text = "◀"
+
+[node name="SlotsRow" type="HBoxContainer" parent="Center/Panel/Margin/HBox" unique_id=432137400]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Slot0" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=1893156958]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot1" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=948898206]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot2" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=803806760]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot3" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=715568504]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot4" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=2129877660]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot5" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=487786527]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot6" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=525635361]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot7" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=1500579403]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot8" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=2137482132]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="Slot9" type="Button" parent="Center/Panel/Margin/HBox/SlotsRow" unique_id=1305990991]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+
+[node name="NextButton" type="Button" parent="Center/Panel/Margin/HBox" unique_id=1529829564]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+text = "▶"

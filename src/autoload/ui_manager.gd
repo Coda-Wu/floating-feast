@@ -4,6 +4,7 @@ extends Node
 
 var _persistent_ui: CanvasLayer = null
 var _hud: Control = null
+var _hotbar: Control = null
 var _resolution_panel: Control = null # IslandScreen controls its lifecycle via hide_resolution_panel()
 
 func create_persistent_ui(parent: Node) -> void:
@@ -16,6 +17,10 @@ func create_persistent_ui(parent: Node) -> void:
 	_hud = _persistent_ui.get_hud()
 	_connect_hud_signals()
 	_sync_hud_now()
+	_hotbar = _persistent_ui.get_hotbar()
+	SignalBus.phase_changed.connect(_on_phase_changed)
+	SignalBus.inventory_changed.connect(_on_inventory_changed)
+	_hotbar.set_active(_is_hotbar_phase(GameManager.current_phase)) # initial sync
 	SignalBus.tutorial_triggered.connect(_on_tutorial_triggered)
 
 func get_persistent_ui() -> CanvasLayer:
@@ -64,6 +69,18 @@ func show_hud() -> void:
 
 func hide_hud() -> void:
 	if _hud: _hud.visible = false
+
+
+# --- Quick Access hotbar (visible on Ship + Kitchen; mirrors carried inventory) ---
+func _is_hotbar_phase(phase: int) -> bool:
+	return phase == GameManager.DayPhase.SHIP or phase == GameManager.DayPhase.KITCHEN
+
+func _on_phase_changed(phase: int) -> void:
+	_hotbar.set_active(_is_hotbar_phase(phase))
+
+func _on_inventory_changed(_item_id: String, _count: int) -> void:
+	_hotbar.refresh()
+
 
 # --- Tutorials (System -> SignalBus -> UIManager -> UI, §2.6) ---
 func _on_tutorial_triggered(mechanic_id: String) -> void:
