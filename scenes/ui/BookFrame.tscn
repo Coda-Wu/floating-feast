@@ -12,7 +12,6 @@ grow_vertical = 2
 script = ExtResource("1_n0iaw")
 
 [node name="Backdrop" type="ColorRect" parent="." unique_id=328496948]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,33 +29,37 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Book" type="PanelContainer" parent="Center" unique_id=1563749007]
+custom_minimum_size = Vector2(512, 288)
 layout_mode = 2
 
 [node name="BgImage" type="TextureRect" parent="Center/Book" unique_id=1222211756]
+visible = false
 layout_mode = 2
 expand_mode = 1
 
 [node name="BookMargin" type="MarginContainer" parent="Center/Book" unique_id=90695154]
 layout_mode = 2
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 14
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
 
 [node name="Cols" type="HBoxContainer" parent="Center/Book/BookMargin" unique_id=1719962788]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="SideBookmarks" type="VBoxContainer" parent="Center/Book/BookMargin/Cols" unique_id=679895251]
+custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="RightCol" type="VBoxContainer" parent="Center/Book/BookMargin/Cols" unique_id=1603336344]
-custom_minimum_size = Vector2(520, 340)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="TopRow" type="HBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol" unique_id=1997645840]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
 [node name="TopBookmarks" type="HBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol/TopRow" unique_id=648005012]
@@ -65,31 +68,37 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 3
 
 [node name="CloseButton" type="Button" parent="Center/Book/BookMargin/Cols/RightCol/TopRow" unique_id=1442922503]
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 text = "✕"
 
 [node name="PagesRow" type="HBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol" unique_id=781702730]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 
-[node name="LeftPage" type="MarginContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=906734876]
-custom_minimum_size = Vector2(236, 300)
+[node name="LeftPage" type="ScrollContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=906734876]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+size_flags_vertical = 3
+
+[node name="LeftContent" type="VBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow/LeftPage" unique_id=1877231034]
+custom_minimum_size = Vector2(188, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
 
 [node name="Spine" type="Panel" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=2006592543]
 custom_minimum_size = Vector2(3, 0)
 layout_mode = 2
 
-[node name="RightPage" type="MarginContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=1073617930]
-custom_minimum_size = Vector2(236, 300)
+[node name="RightPage" type="ScrollContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=1073617930]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+size_flags_vertical = 3
+
+[node name="RightContent" type="VBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow/RightPage" unique_id=470129879]
+custom_minimum_size = Vector2(224, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4

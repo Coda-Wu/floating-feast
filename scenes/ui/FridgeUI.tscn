@@ -14,5 +14,3 @@ script = ExtResource("1_fridge_scr")
 
 [node name="BookFrame" parent="." unique_id=1662607409 instance=ExtResource("2_cmyrx")]
 layout_mode = 1
-scale = Vector2(0.8, 0.8)
-pivot_offset_ratio = Vector2(0.5, 0.5)

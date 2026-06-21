@@ -32,7 +32,7 @@ func _ready() -> void:
 	root.add_child(_grid)
 	for i in PAGE:
 		var cell: ItemSlot = ITEM_SLOT.instantiate()
-		cell.custom_minimum_size = Vector2(58, 46)
+		cell.custom_minimum_size = Vector2(42, 36) # was (58, 46) — 4 cols now fit the fixed page width
 		cell.slot_clicked.connect(func(item_id: String): cell_clicked.emit(item_id))
 		_grid.add_child(cell)
 		_cells.append(cell)
