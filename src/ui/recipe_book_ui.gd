@@ -1,38 +1,190 @@
 extends Control
-## Recipe Book — knowledge codex of known recipes (name + ingredient→station path). Reads
-## GameState.known_recipes fresh on open. Dumb view; emits close_requested. (§C.5)
+## Recipe Book — open-book codex mirroring the Fridge. Left page: known dishes (base recipe only, not
+## tier-split) with the same sort dropdown. Right page: the dish's icon + name, then its cooking steps
+## as visual rows ([ingredient icons] → [station icon] → [output icon], quantity by repeated icons),
+## and a final row of compatible spices. Reads CookingInfo. Dumb view; emits close_requested. (P-3)
 
 signal close_requested
 
-@onready var _recipe_list: VBoxContainer = $Center/Panel/Margin/VBox/RecipeScroll/RecipeList
-@onready var _close_button: Button = $Center/Panel/Margin/VBox/CloseButton
+const ITEM_SLOT := preload("res://scenes/ui/ItemSlot.tscn")
+
+const STATION_COLORS := {
+	&"prep": Color(0.80, 0.72, 0.55), &"mix_bowl": Color(0.62, 0.78, 0.60), &"oven": Color(0.78, 0.45, 0.35),
+}
+const STATION_NAMES := {&"prep": "Prep", &"mix_bowl": "Mixing Bowl", &"oven": "Oven"}
+
+@onready var _book: BookFrame = $BookFrame
+
+var _sort := 0 # 0 = Star (by cap desc), 1 = Method (by station)
+var _selected: StringName = &""
+var _left_grid: GridContainer
+var _sort_option: OptionButton
+var _right: VBoxContainer
+var _r_swatch: Panel
+var _r_name: Label
+var _steps_box: VBoxContainer
+var _spice_row: HBoxContainer
+
+@export var RECIPE_BG: Texture2D
 
 func setup() -> void:
-	_close_button.pressed.connect(func() -> void: close_requested.emit())
-	_populate()
+	_book.close_requested.connect(func() -> void: close_requested.emit())
+	_book.get_side_bookmarks().visible = false # no categories in the recipe book
+	_build_left()
+	_build_right()
+	SignalBus.recipe_discovered.connect(func(_id): _refresh_left())
+	_refresh_left()
+	_show_empty_right()
+	_book.set_background(RECIPE_BG)
 
-func _populate() -> void:
-	for c in _recipe_list.get_children():
+func _build_left() -> void:
+	var host := _book.get_left_page()
+	var col := VBoxContainer.new(); col.add_theme_constant_override("separation", 4)
+	host.add_child(col)
+	var bar := HBoxContainer.new(); bar.add_theme_constant_override("separation", 6)
+	col.add_child(bar)
+	var lbl := Label.new(); lbl.text = "Recipes"; lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar.add_child(lbl)
+	_sort_option = OptionButton.new()
+	_sort_option.add_item("Tier ★→☆", 0)
+	_sort_option.add_item("Method", 1)
+	_sort_option.item_selected.connect(func(i): _sort = i; _refresh_left())
+	bar.add_child(_sort_option)
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.custom_minimum_size = Vector2(0, 250)
+	col.add_child(scroll)
+	_left_grid = GridContainer.new(); _left_grid.columns = 4
+	_left_grid.add_theme_constant_override("h_separation", 4)
+	_left_grid.add_theme_constant_override("v_separation", 4)
+	_left_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_left_grid)
+
+func _build_right() -> void:
+	var host := _book.get_right_page()
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	host.add_child(scroll)
+	_right = VBoxContainer.new(); _right.add_theme_constant_override("separation", 6)
+	_right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_right)
+	var sw_center := CenterContainer.new(); _right.add_child(sw_center)
+	_r_swatch = Panel.new(); _r_swatch.custom_minimum_size = Vector2(56, 56)
+	sw_center.add_child(_r_swatch)
+	_r_name = Label.new(); _r_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_r_name.add_theme_font_size_override("font_size", 16)
+	_right.add_child(_r_name)
+	_right.add_child(HSeparator.new())
+	var steps_lbl := Label.new(); steps_lbl.text = "How to cook it:"
+	_right.add_child(steps_lbl)
+	_steps_box = VBoxContainer.new(); _steps_box.add_theme_constant_override("separation", 6)
+	_right.add_child(_steps_box)
+	_right.add_child(HSeparator.new())
+	var spice_lbl := Label.new(); spice_lbl.text = "Spices to raise its tier:"
+	_right.add_child(spice_lbl)
+	_spice_row = HBoxContainer.new(); _spice_row.add_theme_constant_override("separation", 4)
+	_right.add_child(_spice_row)
+
+# --- left list ---
+func _refresh_left() -> void:
+	for c in _left_grid.get_children():
 		c.queue_free()
-	if GameState.known_recipes.is_empty():
-		var none := Label.new()
-		none.text = "No recipes learned yet — cook something to discover one!"
-		none.autowrap_mode = TextServer.AUTOWRAP_WORD
-		none.custom_minimum_size = Vector2(260, 0)
-		_recipe_list.add_child(none)
-		return
-	for recipe_id in GameState.known_recipes:
-		_recipe_list.add_child(_entry(recipe_id))
+	var recipes: Array = []
+	for rec: RecipeData in Database.get_all_recipes():
+		if GameState.is_recipe_known(rec.id):
+			recipes.append(rec)
+	recipes.sort_custom(_sort_recipes)
+	for rec in recipes:
+		var slot: ItemSlot = ITEM_SLOT.instantiate()
+		slot.custom_minimum_size = Vector2(54, 46)
+		_left_grid.add_child(slot)
+		slot.set_item(rec.id, 1, rec.display_name, true) # base recipe only — no tier split here
+		slot.slot_clicked.connect(func(_id, r = rec.id): _select_recipe(r))
+	if recipes.is_empty():
+		var none := Label.new(); none.text = "No recipes learned yet."
+		_left_grid.add_child(none)
 
-func _entry(recipe_id: StringName) -> VBoxContainer:
+func _sort_recipes(a: RecipeData, b: RecipeData) -> bool:
+	if _sort == 1:
+		if a.station_id != b.station_id:
+			return String(a.station_id) < String(b.station_id)
+	else:
+		if a.tier_cap != b.tier_cap:
+			return a.tier_cap > b.tier_cap
+	return a.display_name < b.display_name
+
+# --- right detail ---
+func _select_recipe(recipe_id: StringName) -> void:
+	_selected = recipe_id
 	var rec := Database.get_recipe(recipe_id)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 0)
-	var name_lbl := Label.new()
-	name_lbl.text = rec.display_name if rec else String(recipe_id).capitalize()
-	box.add_child(name_lbl)
-	var path_lbl := Label.new()
-	path_lbl.text = "    " + (rec.codex_path if rec else "")
-	path_lbl.modulate = Color(0.72, 0.72, 0.72)
-	box.add_child(path_lbl)
-	return box
+	_r_swatch.visible = true
+	var sb := StyleBoxFlat.new(); sb.bg_color = ItemSlot.color_for(recipe_id); sb.set_corner_radius_all(6)
+	_r_swatch.add_theme_stylebox_override("panel", sb)
+	_r_name.text = (rec.display_name if rec else String(recipe_id)) + ("  (cap %d★)" % rec.tier_cap if rec else "")
+	_build_steps(recipe_id)
+	_build_spices(recipe_id)
+
+func _build_steps(recipe_id: StringName) -> void:
+	for c in _steps_box.get_children():
+		c.queue_free()
+	for step in CookingInfo.get_recipe_steps(recipe_id):
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 3)
+		for inp in step["inputs"]: # [ingredient icons], repeated per unit
+			var nm := Database.get_display_name(inp["ref"])
+			if bool(inp["is_tag"]):
+				nm += " (any)"
+			for _i in int(inp["count"]):
+				row.add_child(_icon(inp["ref"], nm))
+		row.add_child(_arrow())
+		row.add_child(_station_icon(step["station_id"])) # [station icon]
+		row.add_child(_arrow())
+		row.add_child(_icon(step["output_id"], Database.get_display_name(step["output_id"]))) # [output icon]
+		_steps_box.add_child(row)
+
+func _build_spices(recipe_id: StringName) -> void:
+	for c in _spice_row.get_children():
+		c.queue_free()
+	var spices := CookingInfo.get_compatible_spices(recipe_id)
+	if spices.is_empty():
+		var none := Label.new(); none.text = "(none)"
+		_spice_row.add_child(none)
+		return
+	for spice_id in spices:
+		_spice_row.add_child(_icon(spice_id, Database.get_display_name(spice_id), Vector2(36, 32)))
+
+func _show_empty_right() -> void:
+	_selected = &""
+	_r_swatch.visible = false
+	_r_name.text = "Select a recipe"
+	for c in _steps_box.get_children(): c.queue_free()
+	for c in _spice_row.get_children(): c.queue_free()
+
+# --- icon helpers ---
+func _icon(ref: StringName, tip: String, sz := Vector2(38, 34)) -> ItemSlot:
+	var slot: ItemSlot = ITEM_SLOT.instantiate()
+	slot.custom_minimum_size = sz
+	slot.set_item(ref, 1, tip, false) # count 1 → no number; display-only
+	return slot
+
+func _station_icon(station_id: StringName) -> Panel:
+	var p := Panel.new()
+	p.custom_minimum_size = Vector2(38, 34)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = STATION_COLORS.get(station_id, Color(0.5, 0.5, 0.5))
+	sb.set_corner_radius_all(4)
+	sb.set_border_width_all(1)
+	sb.border_color = Color(0.25, 0.20, 0.14)
+	p.add_theme_stylebox_override("panel", sb)
+	p.mouse_filter = Control.MOUSE_FILTER_STOP
+	var name := String(STATION_NAMES.get(station_id, station_id))
+	p.mouse_entered.connect(func() -> void: UIManager.show_item_tooltip(name))
+	p.mouse_exited.connect(func() -> void: UIManager.hide_item_tooltip())
+	return p
+
+func _arrow() -> Label:
+	var l := Label.new()
+	l.text = "→"
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	return l

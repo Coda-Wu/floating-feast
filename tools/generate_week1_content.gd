@@ -50,8 +50,8 @@ func _gen_ingredients() -> int:
 		{"id": &"flour", "name": "Flour", "tags": [&"staple", &"grain"], "full": 5, "qual": 1, "src": &"shop"},
 		{"id": &"rice", "name": "Rice", "tags": [&"grain", &"staple"], "full": 6, "qual": 1, "src": &"shop"},
 		{"id": &"olive_oil", "name": "Olive Oil", "tags": [&"staple"], "full": 3, "qual": 2, "src": &"shop"},
-		{"id": &"egg", "name": "Egg", "tags": [], "full": 6, "qual": 2, "src": &"spirit_drop"},
-		{"id": &"fish", "name": "Fish", "tags": [], "full": 7, "qual": 2, "src": &"butchery"},
+		{"id": &"egg", "name": "Egg", "tags": [&"protein"], "full": 6, "qual": 2, "src": &"spirit_drop"},
+		{"id": &"fish", "name": "Fish", "tags": [&"protein"], "full": 7, "qual": 2, "src": &"butchery"},
 		{"id": &"fig", "name": "Fig", "tags": [&"fruit"], "full": 6, "qual": 2, "src": &"orchard"},
 		{"id": &"grape", "name": "Grape", "tags": [&"fruit"], "full": 5, "qual": 2, "src": &"orchard"},
 	]

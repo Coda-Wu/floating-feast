@@ -6,6 +6,7 @@
 script = ExtResource("1_gn4ws")
 id = &"fish"
 display_name = "Fish"
+tags = Array[StringName]([&"protein"])
 base_fullness = 7
 base_quality = 2
 source_category = &"butchery"

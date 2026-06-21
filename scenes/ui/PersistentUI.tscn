@@ -12,6 +12,8 @@ script = ExtResource("1_pkojn")
 [node name="HUD" parent="." unique_id=1249215660 instance=ExtResource("2_gg412")]
 
 [node name="QuickAccessBar" parent="." unique_id=1779471366 instance=ExtResource("3_cfb6v")]
+scale = Vector2(0.8, 0.8)
+pivot_offset_ratio = Vector2(0.5, 0.5)
 
 [node name="ItemTooltip" parent="." unique_id=1491248052 instance=ExtResource("4_634ab")]
 

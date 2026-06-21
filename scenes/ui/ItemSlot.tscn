@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://fs6fcpiedvqm" path="res://src/ui/item_slot.gd" id="1_m2bxx"]
 
-[node name="ItemSlot" type="Panel"]
+[node name="ItemSlot" type="Panel" unique_id=1780617716]
 script = ExtResource("1_m2bxx")
 
-[node name="Swatch" type="ColorRect" parent="."]
+[node name="Swatch" type="ColorRect" parent="." unique_id=402065463]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="CountLabel" type="Label" parent="."]
+[node name="StarLabel" type="Label" parent="." unique_id=636738649]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+
+[node name="CountLabel" type="Label" parent="." unique_id=17726577]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,11 +37,10 @@ offset_right = -3.0
 offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="HotkeyLabel" type="Label" parent="."]
+[node name="HotkeyLabel" type="Label" parent="." unique_id=429005296]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,5 +49,4 @@ offset_left = 3.0
 offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 vertical_alignment = 2

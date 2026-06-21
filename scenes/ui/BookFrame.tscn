@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://dntkegjndvnki"]
+
+[ext_resource type="Script" uid="uid://307r5adiq0cg" path="res://src/ui/book_frame.gd" id="1_n0iaw"]
+
+[node name="BookFrame" type="Control" unique_id=1662607409]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n0iaw")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=328496948]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=2070754725]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Book" type="PanelContainer" parent="Center" unique_id=1563749007]
+layout_mode = 2
+
+[node name="BgImage" type="TextureRect" parent="Center/Book" unique_id=1222211756]
+layout_mode = 2
+expand_mode = 1
+
+[node name="BookMargin" type="MarginContainer" parent="Center/Book" unique_id=90695154]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="Cols" type="HBoxContainer" parent="Center/Book/BookMargin" unique_id=1719962788]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SideBookmarks" type="VBoxContainer" parent="Center/Book/BookMargin/Cols" unique_id=679895251]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="RightCol" type="VBoxContainer" parent="Center/Book/BookMargin/Cols" unique_id=1603336344]
+custom_minimum_size = Vector2(520, 340)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TopRow" type="HBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol" unique_id=1997645840]
+layout_mode = 2
+
+[node name="TopBookmarks" type="HBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol/TopRow" unique_id=648005012]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="CloseButton" type="Button" parent="Center/Book/BookMargin/Cols/RightCol/TopRow" unique_id=1442922503]
+layout_mode = 2
+text = "✕"
+
+[node name="PagesRow" type="HBoxContainer" parent="Center/Book/BookMargin/Cols/RightCol" unique_id=781702730]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftPage" type="MarginContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=906734876]
+custom_minimum_size = Vector2(236, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Spine" type="Panel" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=2006592543]
+custom_minimum_size = Vector2(3, 0)
+layout_mode = 2
+
+[node name="RightPage" type="MarginContainer" parent="Center/Book/BookMargin/Cols/RightCol/PagesRow" unique_id=1073617930]
+custom_minimum_size = Vector2(236, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://rj1qx7duvj1"]
 
 [ext_resource type="Script" uid="uid://dssqygow1seuf" path="res://src/ui/recipe_book_ui.gd" id="1_0r5wg"]
+[ext_resource type="PackedScene" uid="uid://dntkegjndvnki" path="res://scenes/ui/BookFrame.tscn" id="2_167p0"]
 
 [node name="RecipeBookUI" type="Control" unique_id=1121604290]
 layout_mode = 3
@@ -11,50 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0r5wg")
 
-[node name="Backdrop" type="ColorRect" parent="." unique_id=93727601]
+[node name="BookFrame" parent="." unique_id=1662607409 instance=ExtResource("2_167p0")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.55)
-
-[node name="Center" type="CenterContainer" parent="." unique_id=93727602]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="PanelContainer" parent="Center" unique_id=93727603]
-layout_mode = 2
-
-[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=93727604]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=93727605]
-custom_minimum_size = Vector2(280, 0)
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Title" type="Label" parent="Center/Panel/Margin/VBox" unique_id=93727606]
-layout_mode = 2
-text = "Recipe Book"
-
-[node name="RecipeScroll" type="ScrollContainer" parent="Center/Panel/Margin/VBox" unique_id=52998605]
-custom_minimum_size = Vector2(0, 180)
-layout_mode = 2
-
-[node name="RecipeList" type="VBoxContainer" parent="Center/Panel/Margin/VBox/RecipeScroll" unique_id=563504108]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="CloseButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=93727608]
-layout_mode = 2
-text = "Close"
+scale = Vector2(0.7, 0.7)
+pivot_offset_ratio = Vector2(0.5, 0.5)

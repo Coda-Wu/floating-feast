@@ -9,30 +9,12 @@ func _ready() -> void:
 	SceneRouter.register_host(_screen_host)
 	UIManager.create_persistent_ui(self )
 	GameManager.start_day()
-	_verify_p1() # TEMP — delete after confirming
-
-
-# ==== TEMP — delete after P-1 verify ====
-func _verify_p1() -> void:
-	GameState.known_recipes.assign([&"roasted_tomato", &"roasted_potato", &"roasted_eggplant",
-		&"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
-	print("--- recipe steps ---")
-	for rid in [&"roasted_tomato", &"classic_rustic_salad", &"med_roasted_vegetables", &"hummus"]:
-		print("  ", rid, ":")
-		for step in CookingInfo.get_recipe_steps(rid):
-			var ins: Array = []
-			for i in step["inputs"]:
-				ins.append("%sx%d%s" % [i["ref"], i["count"], "(tag)" if i["is_tag"] else ""])
-			print("    [%s] %s -> %s" % [step["station_id"], ins, step["output_id"]])
-	print("--- base ingredients ---")
-	for rid in [&"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"]:
-		var b: Array = []
-		for x in CookingInfo.get_base_ingredients(rid):
-			b.append("%sx%d%s" % [x["ref"], x["count"], "(tag)" if x["is_tag"] else ""])
-		print("  ", rid, ": ", b)
-	print("--- compatible spices ---")
-	for rid in [&"roasted_tomato", &"classic_rustic_salad", &"hummus"]:
-		print("  ", rid, ": ", CookingInfo.get_compatible_spices(rid))
-	print("--- dishes using ingredient ---")
-	for iid in [&"tomato", &"olive_oil", &"rosemary", &"lemon", &"sugar"]:
-		print("  ", iid, ": ", CookingInfo.get_dishes_using(iid))
+	# TEMP P-2b — dishes across tiers + methods for the Dishes tab
+	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
+	GameState.add_dish(&"roasted_tomato", 2, 1)
+	GameState.add_dish(&"roasted_tomato", 3, 2)
+	GameState.add_dish(&"med_roasted_vegetables", 5, 1)
+	GameState.add_dish(&"med_roasted_vegetables", 3, 1)
+	GameState.add_dish(&"classic_rustic_salad", 4, 1)
+	GameState.add_dish(&"hummus", 2, 1)
+	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])

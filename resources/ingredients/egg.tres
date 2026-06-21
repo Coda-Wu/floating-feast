@@ -6,6 +6,7 @@
 script = ExtResource("1_ua31h")
 id = &"egg"
 display_name = "Egg"
+tags = Array[StringName]([&"protein"])
 base_fullness = 6
 base_quality = 2
 source_category = &"spirit_drop"
