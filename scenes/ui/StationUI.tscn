@@ -26,26 +26,6 @@ layout_mode = 2
 theme_override_constants/separation = 6
 alignment = 1
 
-[node name="Slot0" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727511]
-custom_minimum_size = Vector2(50, 40)
-layout_mode = 2
-text = "+"
-
-[node name="Slot1" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727512]
-custom_minimum_size = Vector2(50, 40)
-layout_mode = 2
-text = "+"
-
-[node name="Slot2" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727513]
-custom_minimum_size = Vector2(50, 40)
-layout_mode = 2
-text = "+"
-
-[node name="Slot3" type="Button" parent="Margin/VBox/SlotRow" unique_id=83727514]
-custom_minimum_size = Vector2(50, 40)
-layout_mode = 2
-text = "+"
-
 [node name="ButtonRow" type="HBoxContainer" parent="Margin/VBox" unique_id=83727520]
 layout_mode = 2
 theme_override_constants/separation = 6

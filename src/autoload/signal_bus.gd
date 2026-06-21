@@ -36,6 +36,8 @@ signal request_screen_change(screen_id: String)
 signal dish_cooked(recipe_id: String, tier: int)
 signal dish_inventory_changed()
 signal recipe_discovered(recipe_id: String)
+signal station_ui_opened()
+signal station_ui_closed()
 
 
 # --- Commissions & Fair ---

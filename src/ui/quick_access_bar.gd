@@ -13,6 +13,7 @@ const ITEM_SLOT := preload("res://scenes/ui/ItemSlot.tscn")
 
 var _slot_nodes: Array = []
 var _page := 0
+var _station_open := false
 
 func _ready() -> void:
 	for i in SLOTS:
@@ -31,6 +32,8 @@ func _ready() -> void:
 		_page += 1
 		refresh())
 	refresh()
+	SignalBus.station_ui_opened.connect(func() -> void: _station_open = true)
+	SignalBus.station_ui_closed.connect(func() -> void: _station_open = false)
 
 func set_active(active: bool) -> void:
 	visible = active
@@ -63,3 +66,23 @@ func _carried_items() -> Array[StringName]:
 			ids.append(StringName(k))
 	ids.sort()
 	return ids
+
+func _input(event: InputEvent) -> void:
+	# Number-key hotbar selection — only when the bar is visible AND a station is consuming, so stray
+	# digits elsewhere do nothing. Routes through the same signal a click emits (staging/deduction/
+	# refund identical). (UX-3)
+	if not visible or not _station_open:
+		return
+	for i in SLOTS:
+		var action := "hotbar_0" if i == SLOTS - 1 else "hotbar_%d" % (i + 1)
+		if event.is_action_pressed(action):
+			_select_slot(i)
+			get_viewport().set_input_as_handled()
+			return
+
+func _select_slot(i: int) -> void:
+	# i is the on-screen slot index (0-9); resolve to the item on the current page, mirroring a click.
+	var items := _carried_items()
+	var idx := _page * SLOTS + i
+	if idx < items.size():
+		SignalBus.hotbar_item_selected.emit(String(items[idx]))

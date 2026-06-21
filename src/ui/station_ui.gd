@@ -1,13 +1,15 @@
 extends PanelContainer
-## Cooking station bar (Prep / Mixing Bowl / Oven): station name + 4 slots + Confirm. Ingredients are
-## selected from the persistent Quick Access hotbar (SignalBus.hotbar_item_selected), not an embedded
-## list. Slots RESERVE (capped at owned − reserved); only Confirm consumes, so closing without
-## confirming costs nothing. Prep = 1:1 batch transform; other stations recipe-match (→ dish or
-## Dubious Food). Dumb view: owns its widgets + reservation state, not the cooking rules. (§C.2)
+## Cooking station bar (Prep / Mixing Bowl / Oven): station name + 4 ItemSlots + Confirm. Ingredients
+## are selected from the Quick Access hotbar (SignalBus.hotbar_item_selected). Slotting an item DEDUCTS
+## it from inventory immediately (real deduction → the hotbar updates live); returning a slot or
+## closing without cooking REFUNDS it. _slots always holds exactly the deducted-but-unfinalized items,
+## so _exit_tree() refunds the remainder no matter how we're closed. Prep = 1:1 batch transform; other
+## stations recipe-match (→ dish or Dubious Food). Dumb view. (§C.2 + Inventory-UX)
 
 signal close_requested
 
 const SLOT_COUNT := 4
+const ITEM_SLOT := preload("res://scenes/ui/ItemSlot.tscn")
 
 @onready var _title: Label = $Margin/VBox/TitleLabel
 @onready var _slot_row: HBoxContainer = $Margin/VBox/SlotRow
@@ -17,25 +19,28 @@ const SLOT_COUNT := 4
 
 var _station_id: StringName
 var _slots: Array[StringName] = []
-var _slot_buttons: Array[Button] = []
+var _slot_nodes: Array = []
 
 func setup(station_id: StringName, display_name: String) -> void:
 	_station_id = station_id
 	_title.text = display_name
 	_slots.resize(SLOT_COUNT)
 	_slots.fill(&"")
-	_slot_buttons.assign(_slot_row.get_children())
-	for i in _slot_buttons.size():
-		_slot_buttons[i].focus_mode = Control.FOCUS_NONE
-		_slot_buttons[i].pressed.connect(_on_slot_pressed.bind(i))
+	for i in SLOT_COUNT:
+		var slot: ItemSlot = ITEM_SLOT.instantiate()
+		slot.custom_minimum_size = Vector2(50, 40)
+		_slot_row.add_child(slot)
+		slot.slot_clicked.connect(_on_slot_returned.bind(i)) # clicking a filled slot returns it
+		_slot_nodes.append(slot)
 	_confirm_button.pressed.connect(_on_confirm_pressed)
 	_close_button.focus_mode = Control.FOCUS_NONE
 	_close_button.pressed.connect(func() -> void: close_requested.emit())
 	_confirm_button.grab_focus() # ui_accept (Space/Enter) confirms
-	SignalBus.hotbar_item_selected.connect(_on_hotbar_item_selected) # ingredients come from the hotbar
+	SignalBus.hotbar_item_selected.connect(_on_hotbar_item_selected)
+	SignalBus.station_ui_opened.emit() # ADD — tells the hotbar keys are live
 	_refresh_slots()
 
-# --- slotting: items arrive from the Quick Access hotbar (reserve into the next free slot) ---
+# --- slotting: deduct immediately on fill, refund on return ---
 func _on_hotbar_item_selected(item_id: String) -> void:
 	var id := StringName(item_id)
 	if Database.get_ingredient(id) == null:
@@ -44,29 +49,21 @@ func _on_hotbar_item_selected(item_id: String) -> void:
 	if free == -1:
 		_set_feedback("Slots are full.")
 		return
-	if _available(id) <= 0:
+	if GameState.get_item_count(id) <= 0:
 		_set_feedback("No more %s to add." % Database.get_display_name(id))
 		return
+	GameState.remove_item(id, 1) # real deduction → inventory_changed → hotbar drops instantly
 	_slots[free] = id
 	_refresh_slots()
 
-func _on_slot_pressed(i: int) -> void:
+func _on_slot_returned(_item_id: String, i: int) -> void:
 	if _slots[i] == &"":
 		return
-	_slots[i] = &"" # return the reservation (item was never consumed)
+	GameState.add_item(_slots[i], 1) # refund → hotbar climbs instantly
+	_slots[i] = &""
 	_refresh_slots()
 
-func _available(item_id: StringName) -> int:
-	return GameState.get_item_count(item_id) - _reserved(item_id)
-
-func _reserved(item_id: StringName) -> int:
-	var n := 0
-	for s in _slots:
-		if s == item_id:
-			n += 1
-	return n
-
-# --- confirm (consume reserved inputs → produce) ---
+# --- confirm (items are ALREADY deducted; do NOT consume again) ---
 func _on_confirm_pressed() -> void:
 	var slotted: Array[StringName] = []
 	for s in _slots:
@@ -76,19 +73,17 @@ func _on_confirm_pressed() -> void:
 		_set_feedback("Add some ingredients first.")
 		return
 
-	if _station_id == &"prep": # Prep = 1:1 batch transform, not recipe-matching
+	if _station_id == &"prep":
 		_confirm_prep(slotted)
 		return
 
 	var result := Cooking.find_match(_station_id, slotted)
 	if result.is_empty():
-		_consume(slotted)
-		GameState.add_item(&"dubious_food", 1)
+		GameState.add_item(&"dubious_food", 1) # slotted items were consumed into this
 		AudioManager.play_sfx(&"cook_fail")
 		_set_feedback("That didn't come together... Dubious Food.")
 	else:
 		var recipe: StationRecipe = result["recipe"]
-		_consume(slotted)
 		if recipe.is_terminal:
 			var breakdown := Cooking.compute_tier(result["enhancers"].size())
 			var tier := int(breakdown["tier"])
@@ -109,19 +104,21 @@ func _on_confirm_pressed() -> void:
 			AudioManager.play_sfx(&"cook_step")
 			_set_feedback("Made %s." % Database.get_display_name(recipe.output_item_id))
 
-	_slots.fill(&"")
+	_slots.fill(&"") # finalized — nothing left to refund
 	_refresh_slots()
 
 func _confirm_prep(slotted: Array[StringName]) -> void:
+	# Raw items were already deducted at slot time: transform consumes them; un-preppable items are
+	# refunded (locked: items with no prep transform are left unconsumed).
 	var produced := {}
 	var skipped := 0
 	for item_id in slotted:
 		var out := Cooking.get_prep_output(item_id)
 		if out == &"":
+			GameState.add_item(item_id, 1) # refund — couldn't be prepped
 			skipped += 1
 			continue
-		GameState.remove_item(item_id, 1)
-		GameState.add_item(out, 1)
+		GameState.add_item(out, 1) # produce the mid-stage product
 		produced[out] = int(produced.get(out, 0)) + 1
 	if produced.is_empty():
 		_set_feedback("Nothing here can be prepped.")
@@ -137,10 +134,6 @@ func _confirm_prep(slotted: Array[StringName]) -> void:
 	_slots.fill(&"")
 	_refresh_slots()
 
-func _consume(items: Array[StringName]) -> void:
-	for item_id in items:
-		GameState.remove_item(item_id, 1)
-
 func _set_feedback(text: String) -> void:
 	_feedback.text = text
 
@@ -148,6 +141,20 @@ func _terminal_recipe_id(recipe: StationRecipe) -> StringName:
 	return recipe.output_item_id
 
 func _refresh_slots() -> void:
-	for i in _slot_buttons.size():
+	for i in _slot_nodes.size():
 		var id := _slots[i]
-		_slot_buttons[i].text = "+" if id == &"" else Database.get_display_name(id)
+		if id == &"":
+			_slot_nodes[i].set_item(&"", 0, "", false) # empty cell
+		else:
+			_slot_nodes[i].set_item(id, 1, Database.get_display_name(id), true) # count 1 → no number
+
+# --- refund catch-all: fires on Close, E-toggle, AND Leave-Kitchen-mid-cook ---
+func _refund_all_slots() -> void:
+	for i in _slots.size():
+		if _slots[i] != &"":
+			GameState.add_item(_slots[i], 1)
+			_slots[i] = &""
+
+func _exit_tree() -> void:
+	_refund_all_slots()
+	SignalBus.station_ui_closed.emit() # ADD
