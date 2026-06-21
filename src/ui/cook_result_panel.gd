@@ -13,22 +13,34 @@ signal dismissed
 @onready var _breakdown_enh: Label = $Center/Panel/Margin/VBox/BreakdownEnh
 @onready var _breakdown_total: Label = $Center/Panel/Margin/VBox/BreakdownTotal
 @onready var _ok_button: Button = $Center/Panel/Margin/VBox/OkButton
+@onready var _set_aside_label: Label = $Center/Panel/Margin/VBox/SetAsideLabel
 
 func setup(info: Dictionary) -> void:
-	# info: { recipe_id, tier, base_stars, bonus_stars, enhancer_count, is_new }
 	_new_banner.visible = bool(info.get("is_new", false))
 	_dish_name.text = Database.get_display_name(info["recipe_id"])
 	var tier := int(info["tier"])
 	_star_label.text = _stars(tier)
 	var base := int(info.get("base_stars", 2))
-	var bonus := int(info.get("bonus_stars", 0))
-	var enh := int(info.get("enhancer_count", 0))
+	var counted: Array = info.get("counted", [])
+	var set_aside: Array = info.get("set_aside", [])
+	var cap := int(info.get("cap", 5))
 	_breakdown_base.text = "Base & execution: %s" % _stars(base)
-	if bonus > 0:
-		_breakdown_enh.text = "Added spices (×%d): +%s" % [enh, _stars(bonus)]
+	if counted.size() > 0:
+		_breakdown_enh.text = "Compatible spices (×%d): +%s" % [counted.size(), _stars(counted.size())]
 	else:
-		_breakdown_enh.text = "Added spices: — (add spices for more stars)"
-	_breakdown_total.text = "= %s  (%s)" % [_stars(tier), _tier_name(tier)]
+		_breakdown_enh.text = "Spices: — (add a compatible spice for more stars)"
+	var total := "= %s  (%s)" % [_stars(tier), _tier_name(tier)]
+	if tier >= cap:
+		total += "  — best this dish can be"
+	_breakdown_total.text = total
+	if set_aside.size() > 0:
+		var names: Array = []
+		for sid in set_aside:
+			names.append(Database.get_display_name(sid))
+		_set_aside_label.text = "Set aside (didn't suit this dish): %s" % ", ".join(names)
+		_set_aside_label.visible = true
+	else:
+		_set_aside_label.visible = false
 	_ok_button.pressed.connect(func() -> void: dismissed.emit())
 	_ok_button.grab_focus()
 

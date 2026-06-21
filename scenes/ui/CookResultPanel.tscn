@@ -75,6 +75,14 @@ text = "Added spices: —"
 layout_mode = 2
 text = "= ★★★"
 
+[node name="SetAsideLabel" type="Label" parent="Center/Panel/Margin/VBox" unique_id=79670308]
+visible = false
+modulate = Color(0.9309246, 0.89624393, 0.80946815, 1)
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="OkButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=93727713]
 layout_mode = 2
 text = "OK"

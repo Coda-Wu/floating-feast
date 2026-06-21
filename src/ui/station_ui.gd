@@ -85,8 +85,10 @@ func _on_confirm_pressed() -> void:
 	else:
 		var recipe: StationRecipe = result["recipe"]
 		if recipe.is_terminal:
-			var breakdown := Cooking.compute_tier(result["enhancers"].size())
-			var tier := int(breakdown["tier"])
+			var seasoning := Cooking.evaluate_seasoning(recipe, result["enhancers"])
+			for spice_id in seasoning["set_aside"]:
+				GameState.add_item(spice_id, 1) # return spices that didn't suit the dish (already deducted at slot time)
+			var tier := int(seasoning["tier"])
 			var recipe_id := _terminal_recipe_id(recipe)
 			GameState.add_dish(recipe_id, tier, 1)
 			var is_new := GameState.mark_recipe_known(recipe_id)
@@ -95,10 +97,11 @@ func _on_confirm_pressed() -> void:
 				SignalBus.recipe_discovered.emit(String(recipe_id))
 			AudioManager.play_sfx(&"recipe_new" if is_new else &"cook_success")
 			_set_feedback("You cooked %s!" % Database.get_display_name(recipe_id))
-			var info := breakdown.duplicate()
-			info["recipe_id"] = recipe_id
-			info["is_new"] = is_new
-			UIManager.show_cook_result(info)
+			UIManager.show_cook_result({
+				"recipe_id": recipe_id, "tier": tier, "is_new": is_new,
+				"base_stars": Cooking.BASE_TIER,
+				"counted": seasoning["counted"], "set_aside": seasoning["set_aside"], "cap": seasoning["cap"],
+			})
 		else:
 			GameState.add_item(recipe.output_item_id, 1)
 			AudioManager.play_sfx(&"cook_step")

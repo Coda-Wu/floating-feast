@@ -10,3 +10,5 @@ family_tags = Array[StringName]([&"dip"])
 station_id = &"mix_bowl"
 codex_path = "Chickpeas + Lemon + Olive Oil → [Mixing Bowl]"
 terminal_recipe_id = &"sr_hummus"
+tier_cap = 3
+accepted_flavors = Array[StringName]([&"savory", &"citrus"])

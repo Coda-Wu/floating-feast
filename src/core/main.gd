@@ -10,10 +10,26 @@ func _ready() -> void:
 	UIManager.create_persistent_ui(self )
 	GameManager.start_day()
 	
-	# TEMP UX-1 — seed ingredients to exercise the hotbar (12 types → 2 pages) + cooking from it
-	for pair in [[&"tomato", 3], [&"potato", 2], [&"eggplant", 2], [&"onion", 1], [&"rosemary", 1], [&"salt", 2], [&"lemon", 1], [&"chickpeas", 2]]:
-		GameState.add_item(pair[0], pair[1])
-	GameState.add_dish(&"roasted_tomato", 2, 1)
-	GameState.fridge_storage = {&"rosemary": 2, &"chickpeas": 4}
-	GameState.add_item(&"tomato", 5)
-	GameState.add_dish(&"roasted_eggplant", 3, 1) # both are family "roasted", tier ≥2
+	_verify_part3() # TEMP — delete after confirming
+
+
+# ==== TEMP — delete after Part 3 verify ====
+func _verify_part3() -> void:
+	_check("oven", [&"tomato"]) # T2 baseline
+	_check("oven", [&"tomato", &"rosemary"]) # T3, herbal compatible
+	_check("oven", [&"tomato", &"sugar"]) # T2, sugar set aside  ← THE FIX
+	_check("oven", [&"tomato", &"salt", &"onion", &"rosemary"]) # T3, 2 set aside (cap 3, beyond-cap)
+	_check("oven", [&"oiled_vegetable", &"rosemary", &"onion", &"salt"]) # T5, 3 distinct spices
+	_check("oven", [&"oiled_vegetable", &"rosemary", &"rosemary", &"rosemary"]) # T3, dupes set aside
+	_check("mix_bowl", [&"chickpeas", &"lemon", &"olive_oil"]) # hummus T2 (lemon = base input)
+	_check("mix_bowl", [&"chickpeas", &"lemon", &"olive_oil", &"rosemary"]) # hummus T2, rosemary set aside
+
+func _check(station: String, items: Array) -> void:
+	var r := Cooking.find_match(StringName(station), items)
+	if r.is_empty():
+		print("[P3] %-9s %s -> NO MATCH (Dubious)" % [station, items]); return
+	var sr: StationRecipe = r["recipe"]
+	if not sr.is_terminal:
+		print("[P3] %-9s %s -> %s (non-terminal)" % [station, items, sr.output_item_id]); return
+	var s := Cooking.evaluate_seasoning(sr, r["enhancers"])
+	print("[P3] %-9s %s -> %s  T%d/cap%d | counted=%s set_aside=%s" % [station, items, sr.output_item_id, s["tier"], s["cap"], s["counted"], s["set_aside"]])

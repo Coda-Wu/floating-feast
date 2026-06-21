@@ -41,12 +41,12 @@ func _gen_ingredients() -> int:
 		{"id": &"eggplant", "name": "Eggplant", "tags": [&"vegetable"], "full": 9, "qual": 2, "src": &"spirit_drop"},
 		{"id": &"zucchini", "name": "Zucchini", "tags": [&"vegetable"], "full": 8, "qual": 2, "src": &"spirit_drop"},
 		{"id": &"bell_pepper", "name": "Bell Pepper", "tags": [&"vegetable"], "full": 8, "qual": 2, "src": &"spirit_drop"},
-		{"id": &"onion", "name": "Onion", "tags": [&"vegetable", &"spice"], "full": 6, "qual": 2, "src": &"spirit_drop"},
 		{"id": &"chickpeas", "name": "Chickpeas", "tags": [&"vegetable"], "full": 9, "qual": 2, "src": &"spirit_drop"},
-		{"id": &"rosemary", "name": "Rosemary", "tags": [&"spice"], "full": 2, "qual": 3, "src": &"spirit_drop"},
-		{"id": &"sugar", "name": "Sugar", "tags": [&"spice"], "full": 4, "qual": 1, "src": &"spirit_drop"},
-		{"id": &"salt", "name": "Salt", "tags": [&"spice"], "full": 1, "qual": 1, "src": &"shop"},
-		{"id": &"lemon", "name": "Lemon", "tags": [&"fruit", &"spice"], "full": 5, "qual": 3, "src": &"orchard"},
+		{"id": &"onion", "name": "Onion", "tags": [&"vegetable", &"spice"], "full": 6, "qual": 2, "src": &"spirit_drop", "flavor": [&"savory"]},
+		{"id": &"rosemary", "name": "Rosemary", "tags": [&"spice"], "full": 2, "qual": 3, "src": &"spirit_drop", "flavor": [&"herbal"]},
+		{"id": &"sugar", "name": "Sugar", "tags": [&"spice"], "full": 4, "qual": 1, "src": &"spirit_drop", "flavor": [&"sweet"]},
+		{"id": &"salt", "name": "Salt", "tags": [&"spice"], "full": 1, "qual": 1, "src": &"shop", "flavor": [&"savory"]},
+		{"id": &"lemon", "name": "Lemon", "tags": [&"fruit", &"spice"], "full": 5, "qual": 3, "src": &"orchard", "flavor": [&"citrus"]},
 		{"id": &"flour", "name": "Flour", "tags": [&"staple", &"grain"], "full": 5, "qual": 1, "src": &"shop"},
 		{"id": &"rice", "name": "Rice", "tags": [&"grain", &"staple"], "full": 6, "qual": 1, "src": &"shop"},
 		{"id": &"olive_oil", "name": "Olive Oil", "tags": [&"staple"], "full": 3, "qual": 2, "src": &"shop"},
@@ -63,6 +63,7 @@ func _gen_ingredients() -> int:
 		ing.base_fullness = r["full"]
 		ing.base_quality = r["qual"]
 		ing.source_category = r["src"]
+		ing.flavor_tags.assign(r.get("flavor", []))
 		_save(ing, "ingredients", ing.id)
 	return rows.size()
 
@@ -251,12 +252,12 @@ func _gen_cooking_items() -> int:
 # ---------- Dishes (RecipeData — codex/display/family; tiered instances live in dish_inventory) ----------
 func _gen_recipes() -> int:
 	var rows := [
-		{"id": &"roasted_tomato", "name": "Roasted Tomato", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Tomato → [Oven]", "sr": &"sr_roasted_tomato"},
-		{"id": &"roasted_potato", "name": "Roasted Potato", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Potato → [Oven]", "sr": &"sr_roasted_potato"},
-		{"id": &"roasted_eggplant", "name": "Roasted Eggplant", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Eggplant → [Oven]", "sr": &"sr_roasted_eggplant"},
-		{"id": &"med_roasted_vegetables", "name": "Mediterranean Roasted Vegetables", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Veg → [Prep] ·2 → [Mixing Bowl] +Olive Oil → [Oven]", "sr": &"sr_med_roasted_vegetables"},
-		{"id": &"classic_rustic_salad", "name": "Classic Rustic Salad", "fam": [&"salad", &"vegetable"], "st": &"mix_bowl", "codex": "Veg → [Prep] → [Mixing Bowl] +Olive Oil", "sr": &"sr_classic_rustic_salad"},
-		{"id": &"hummus", "name": "Hummus", "fam": [&"dip"], "st": &"mix_bowl", "codex": "Chickpeas + Lemon + Olive Oil → [Mixing Bowl]", "sr": &"sr_hummus"},
+		{"id": &"roasted_tomato", "name": "Roasted Tomato", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Tomato → [Oven]", "sr": &"sr_roasted_tomato", "cap": 3, "flav": [&"savory", &"herbal"]},
+		{"id": &"roasted_potato", "name": "Roasted Potato", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Potato → [Oven]", "sr": &"sr_roasted_potato", "cap": 3, "flav": [&"savory", &"herbal"]},
+		{"id": &"roasted_eggplant", "name": "Roasted Eggplant", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Eggplant → [Oven]", "sr": &"sr_roasted_eggplant", "cap": 3, "flav": [&"savory", &"herbal"]},
+		{"id": &"med_roasted_vegetables", "name": "Mediterranean Roasted Vegetables", "fam": [&"roasted", &"vegetable"], "st": &"oven", "codex": "Veg → [Prep] ·2 → [Mixing Bowl] +Olive Oil → [Oven]", "sr": &"sr_med_roasted_vegetables", "cap": 5, "flav": [&"savory", &"herbal"]},
+		{"id": &"classic_rustic_salad", "name": "Classic Rustic Salad", "fam": [&"salad", &"vegetable"], "st": &"mix_bowl", "codex": "Veg → [Prep] → [Mixing Bowl] +Olive Oil", "sr": &"sr_classic_rustic_salad", "cap": 4, "flav": [&"savory", &"herbal", &"citrus"]},
+		{"id": &"hummus", "name": "Hummus", "fam": [&"dip"], "st": &"mix_bowl", "codex": "Chickpeas + Lemon + Olive Oil → [Mixing Bowl]", "sr": &"sr_hummus", "cap": 3, "flav": [&"savory", &"citrus"]},
 	]
 	for r in rows:
 		var rec := RecipeData.new()
@@ -266,6 +267,8 @@ func _gen_recipes() -> int:
 		rec.station_id = r["st"]
 		rec.codex_path = r["codex"]
 		rec.terminal_recipe_id = r["sr"]
+		rec.tier_cap = r["cap"]
+		rec.accepted_flavors.assign(r["flav"])
 		_save(rec, "recipes", rec.id)
 	return rows.size()
 

@@ -9,3 +9,4 @@ display_name = "Salt"
 tags = Array[StringName]([&"spice"])
 base_fullness = 1
 source_category = &"shop"
+flavor_tags = Array[StringName]([&"savory"])

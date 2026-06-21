@@ -6,9 +6,8 @@ class_name Cooking extends RefCounted
 
 const PREP_STATION := &"prep"
 const ENHANCER_TAGS := [&"spice", &"flavor"]
-# --- Quality Tier (terminal cooks only) ---
-const BASE_TIER := 2 # a correctly-cooked dish, base ingredients, no added enhancers = ★★ "Plain"
-const MAX_ENHANCER_BONUS := 3 # +1 per added spice/flavor enhancer, up to 3 → ★★★★★ via spices alone
+# --- Quality Tier & spice compatibility (terminal cooks only) ---
+const BASE_TIER := 2 # correctly-cooked, base ingredients, no compatible spice = ★★ Plain
 const MIN_TIER := 1
 const MAX_TIER := 5
 
@@ -72,11 +71,6 @@ static func _required_total(recipe: StationRecipe) -> int:
 		total += int(req.get("count", 1))
 	return total
 
-## enhancer_count = leftover enhancers a terminal match carried (the `enhancers` array from find_match).
-static func compute_tier(enhancer_count: int) -> Dictionary:
-	var bonus := clampi(enhancer_count, 0, MAX_ENHANCER_BONUS)
-	var tier := clampi(BASE_TIER + bonus, MIN_TIER, MAX_TIER)
-	return {"tier": tier, "base_stars": BASE_TIER, "bonus_stars": bonus, "enhancer_count": enhancer_count}
 
 ## Prep is a 1:1 batch transform, not a combinatorial recipe: each raw ingredient maps to its
 ## mid-stage product independently. Returns the output for one item, or &"" if it can't be prepped.
@@ -88,3 +82,37 @@ static func get_prep_output(item_id: StringName) -> StringName:
 			if _item_matches(item_id, recipe.inputs[0]["match"]):
 				return recipe.output_item_id
 	return &""
+
+
+## Sort a terminal cook's leftover spices into counted (distinct, compatible, within the dish's cap)
+## vs set_aside (incompatible, duplicate, or beyond the cap — returned to inventory), and compute the
+## final tier (clamped to the dish's per-recipe cap). spice_items are find_match's leftover enhancers
+## (already guaranteed spice-tagged). (superseding tier rules)
+static func evaluate_seasoning(terminal_recipe: StationRecipe, spice_items: Array) -> Dictionary:
+	var dish := Database.get_recipe(terminal_recipe.output_item_id) # terminal output_item_id == dish id
+	var accepted: Array = dish.accepted_flavors if dish else []
+	var cap: int = dish.tier_cap if dish else MAX_TIER
+	var headroom: int = maxi(0, cap - BASE_TIER) # how many spices can actually raise this dish
+	var counted: Array = [] # distinct + compatible + within headroom → consumed, +1 each
+	var set_aside: Array = [] # incompatible / duplicate / beyond cap → returned
+	var counted_types := {}
+	for item_id in spice_items:
+		if _spice_compatible(item_id, accepted) and not counted_types.has(item_id) and counted.size() < headroom:
+			counted_types[item_id] = true
+			counted.append(item_id)
+		else:
+			set_aside.append(item_id)
+	return {
+		"tier": clampi(BASE_TIER + counted.size(), MIN_TIER, cap),
+		"counted": counted, "set_aside": set_aside, "cap": cap,
+	}
+
+## A spice improves a dish iff its flavor profile intersects the dish's accepted flavors.
+static func _spice_compatible(item_id: StringName, accepted_flavors: Array) -> bool:
+	var ing := Database.get_ingredient(item_id)
+	if ing == null:
+		return false
+	for f in ing.flavor_tags:
+		if accepted_flavors.has(f):
+			return true
+	return false

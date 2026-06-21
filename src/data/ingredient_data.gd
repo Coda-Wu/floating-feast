@@ -7,3 +7,4 @@ class_name IngredientData extends Resource
 @export var base_fullness: int = 0 ## flat raw-feed value for spirit encounters
 @export var base_quality: int = 1 ## 1–5, feeds the cooking tier (Week 2)
 @export var source_category: StringName ## orchard, shop, butchery, spirit_drop, ...
+@export var flavor_tags: Array[StringName] = [] # spices only: flavor profile (savory/herbal/citrus/sweet) for dish compatibility

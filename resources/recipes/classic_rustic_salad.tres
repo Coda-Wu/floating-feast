@@ -10,3 +10,5 @@ family_tags = Array[StringName]([&"salad", &"vegetable"])
 station_id = &"mix_bowl"
 codex_path = "Veg → [Prep] → [Mixing Bowl] +Olive Oil"
 terminal_recipe_id = &"sr_classic_rustic_salad"
+tier_cap = 4
+accepted_flavors = Array[StringName]([&"savory", &"herbal", &"citrus"])

@@ -10,3 +10,4 @@ tags = Array[StringName]([&"fruit", &"spice"])
 base_fullness = 5
 base_quality = 3
 source_category = &"orchard"
+flavor_tags = Array[StringName]([&"citrus"])

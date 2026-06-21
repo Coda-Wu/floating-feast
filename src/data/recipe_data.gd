@@ -10,3 +10,5 @@ class_name RecipeData extends Resource
 @export var station_id: StringName # the terminal station
 @export var codex_path: String = "" # human-readable ingredient + station path (codex display)
 @export var terminal_recipe_id: StringName # the StationRecipe that produces it
+@export var tier_cap: int = 5 # max reachable tier (simple dishes cap low; the pipeline earns 5)
+@export var accepted_flavors: Array[StringName] = [] # spice flavor profiles that improve this dish

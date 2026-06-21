@@ -10,3 +10,5 @@ family_tags = Array[StringName]([&"roasted", &"vegetable"])
 station_id = &"oven"
 codex_path = "Potato → [Oven]"
 terminal_recipe_id = &"sr_roasted_potato"
+tier_cap = 3
+accepted_flavors = Array[StringName]([&"savory", &"herbal"])
