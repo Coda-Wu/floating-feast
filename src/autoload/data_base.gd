@@ -73,6 +73,26 @@ func get_ingredients_by_source(category: StringName) -> Array[IngredientData]:
 		if ing.source_category == category:
 			out.append(ing)
 	return out
+
+func get_all_ingredients() -> Array[IngredientData]:
+	var out: Array[IngredientData] = []
+	for ing: IngredientData in _ingredients.values():
+		out.append(ing)
+	return out
+
+func get_all_recipes() -> Array[RecipeData]:
+	var out: Array[RecipeData] = []
+	for rec: RecipeData in _recipes.values():
+		out.append(rec)
+	return out
+
+func get_all_station_recipes() -> Array[StationRecipe]:
+	var out: Array[StationRecipe] = []
+	for sr: StationRecipe in _station_recipes.values():
+		out.append(sr)
+	return out
+
+	
 func get_spirit(id: StringName) -> SpiritData: return _spirits.get(id)
 func get_island_template(id: StringName) -> IslandTemplate: return _island_templates.get(id)
 func get_random_island_templates() -> Array[IslandTemplate]:
@@ -89,7 +109,7 @@ func get_recipe(id: StringName) -> RecipeData: return _recipes.get(id)
 
 func get_fair_config(id: StringName) -> FairConfig:
 	return _fair_configs.get(id)
-	
+
 func get_commission(id: StringName) -> CommissionData:
 	return _commissions.get(id)
 
