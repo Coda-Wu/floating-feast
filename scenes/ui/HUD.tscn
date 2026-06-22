@@ -54,11 +54,48 @@ text = "—"
 [node name="RankLabel" type="Label" parent="Panel/PMargin/VBox/TopRow" unique_id=1552839048]
 layout_mode = 2
 
-[node name="BudgetLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=396076925]
+[node name="TimeRow" type="HBoxContainer" parent="Panel/PMargin/VBox" unique_id=188733499]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Time: 4/4"
-horizontal_alignment = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="TimeLabel" type="Label" parent="Panel/PMargin/VBox/TimeRow" unique_id=1162518409]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "6:00AM"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeBar" type="ProgressBar" parent="Panel/PMargin/VBox/TimeRow" unique_id=1224694294]
+custom_minimum_size = Vector2(90, 10)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 360.0
+max_value = 1560.0
+value = 360.0
+show_percentage = false
+
+[node name="FuelRow" type="HBoxContainer" parent="Panel/PMargin/VBox" unique_id=226926861]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="FuelLabel" type="Label" parent="Panel/PMargin/VBox/FuelRow" unique_id=2021072291]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Fuel 6/6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FuelBar" type="ProgressBar" parent="Panel/PMargin/VBox/FuelRow" unique_id=1949713522]
+custom_minimum_size = Vector2(90, 10)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 6.0
+value = 6.0
+show_percentage = false
 
 [node name="CoinsLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=1422874294]
 layout_mode = 2

@@ -43,3 +43,8 @@ signal station_ui_closed()
 # --- Commissions & Fair ---
 signal commission_activated(commission_id: String)
 signal commission_completed(commission_id: String)
+
+
+# --- Exploration resources ---
+signal fuel_changed(current: int, maximum: int)
+signal time_changed(minutes: int)

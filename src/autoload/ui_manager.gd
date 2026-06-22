@@ -31,7 +31,6 @@ func get_persistent_ui() -> CanvasLayer:
 # --- HUD ---
 func _connect_hud_signals() -> void:
 	SignalBus.day_started.connect(_on_day_started)
-	SignalBus.budget_changed.connect(_on_budget_changed)
 	SignalBus.quest_phase_changed.connect(_on_quest_phase_changed)
 	SignalBus.coins_changed.connect(_on_coins_changed)
 	SignalBus.commission_activated.connect(_on_commission_changed)
@@ -39,14 +38,17 @@ func _connect_hud_signals() -> void:
 	SignalBus.dish_cooked.connect(_on_commission_changed) # progress may have changed
 	SignalBus.dish_inventory_changed.connect(_on_commission_changed)
 	SignalBus.rank_changed.connect(_on_rank_changed)
+	SignalBus.fuel_changed.connect(_on_fuel_changed)
+	SignalBus.time_changed.connect(_on_time_changed)
 
 func _sync_hud_now() -> void:
 	_on_day_started(GameState.day)
-	_on_budget_changed(GameState.budget_current, GameState.budget_max)
 	_on_quest_phase_changed(GameState.quest_phase)
 	_hud.set_coins(GameState.coins)
 	_refresh_commission_hud()
 	_hud.set_rank(GameState.rank)
+	_hud.set_fuel(GameState.fuel_current, GameState.fuel_max)
+	_hud.set_time(GameState.time_minutes)
 
 func _on_day_started(day: int) -> void:
 	_hud.set_day(day)
@@ -57,8 +59,11 @@ func _on_day_started(day: int) -> void:
 func _on_rank_changed(rank: int) -> void:
 	_hud.set_rank(rank)
 
-func _on_budget_changed(current: int, maximum: int) -> void:
-	_hud.set_budget(current, maximum)
+func _on_fuel_changed(current: int, maximum: int) -> void:
+	_hud.set_fuel(current, maximum)
+
+func _on_time_changed(minutes: int) -> void:
+	_hud.set_time(minutes)
 
 func _on_coins_changed(amount: int) -> void:
 	_hud.set_coins(amount)

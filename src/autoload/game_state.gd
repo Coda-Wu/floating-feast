@@ -19,6 +19,9 @@ var day_seed: int = 0
 var quest_phase: int = 0
 var rank: int = 0 # Explorer League rank; 0 = unranked until the first Fair
 var active_commissions: Array = [] # commission ids currently active
+var fuel_max: int = 6
+var fuel_current: int = 6
+var time_minutes: int = 360 # 6:00 AM; the day runs to 1560 (2:00 AM)
 
 # --- Ingredient inventory mutators (the one place inventory changes + the signal fires) ---
 func add_item(item_id: StringName, count: int = 1) -> void:
@@ -223,6 +226,9 @@ func serialize() -> Dictionary:
 		"active_commissions": active_commissions.duplicate(),
 		"rank": rank,
 		"fridge_storage": fridge_storage.duplicate(true),
+		"fuel_current": fuel_current,
+		"fuel_max": fuel_max,
+		"time_minutes": time_minutes,
 	}
 
 func deserialize(d: Dictionary) -> void:
@@ -242,6 +248,9 @@ func deserialize(d: Dictionary) -> void:
 	active_commissions = (d.get("active_commissions", []) as Array).duplicate()
 	rank = d.get("rank", 0)
 	fridge_storage = (d.get("fridge_storage", {}) as Dictionary).duplicate(true)
+	fuel_current = d.get("fuel_current", 6)
+	fuel_max = d.get("fuel_max", 6)
+	time_minutes = d.get("time_minutes", 360)
 
 # --- Garden (assign captured spirits to pots; remove permanently consumes) ---
 func assign_spirit_to_garden(spirit_id: String, slot: int) -> bool:
@@ -269,3 +278,24 @@ func set_rank(new_rank: int) -> void:
 	if new_rank > rank:
 		rank = new_rank
 		SignalBus.rank_changed.emit(rank)
+
+
+# --- Fuel & Time (exploration resources) ---
+func spend_fuel(amount: int) -> void:
+	if amount <= 0:
+		return
+	fuel_current = maxi(0, fuel_current - amount)
+	SignalBus.fuel_changed.emit(fuel_current, fuel_max)
+	# (fuel_depleted is emitted from here in Step 4, where the traversal consumes it)
+
+func add_fuel(amount: int) -> void:
+	if amount <= 0:
+		return
+	fuel_current = mini(fuel_max, fuel_current + amount) # clamp to tank
+	SignalBus.fuel_changed.emit(fuel_current, fuel_max)
+
+func advance_time(minutes: int) -> void:
+	if minutes <= 0:
+		return
+	time_minutes += minutes
+	SignalBus.time_changed.emit(time_minutes)
