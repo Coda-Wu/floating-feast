@@ -18,18 +18,6 @@ func _ready() -> void:
 	GameState.add_dish(&"classic_rustic_salad", 4, 1)
 	GameState.add_dish(&"hummus", 2, 1)
 	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
-	_verify_step1() # TEMP — delete after confirming
-
-
-# ==== TEMP — delete after Step 1 verify ====
-func _verify_step1() -> void:
-	print("[verify 1] start: fuel %d/%d, time %d" % [GameState.fuel_current, GameState.fuel_max, GameState.time_minutes])
-	await get_tree().create_timer(1.0).timeout
-	GameState.spend_fuel(2) # 7 → 5
-	GameState.advance_time(180) # 6:00 AM → 9:00 AM
-	await get_tree().create_timer(1.0).timeout
-	GameState.spend_fuel(3) # 5 → 2
-	GameState.advance_time(300) # 9:00 AM → 2:00 PM
-	await get_tree().create_timer(1.0).timeout
-	GameState.add_fuel(9) # 2 → 7 (clamped to fuel_max, not 11)
-	print("[verify 1] end: fuel %d/%d, time %d" % [GameState.fuel_current, GameState.fuel_max, GameState.time_minutes])
+	# TEMP 2a — print unlock states at current quest_phase
+	for wi in Database.get_all_world_islands():
+		print("[verify 2a] %s @ (%s): unlocked=%s" % [wi.display_name, wi.map_position, GameState.quest_phase >= wi.unlock_phase])

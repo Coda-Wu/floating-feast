@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WorldIslandData" format=3 uid="uid://bowpary0i6rks"]
+
+[ext_resource type="Script" uid="uid://b1jbg6c44u76n" path="res://src/data/world_island_data.gd" id="1_hi6h3"]
+
+[resource]
+script = ExtResource("1_hi6h3")
+id = &"spice_isle"
+display_name = "Spice Isle"
+unlock_phase = 99
+map_position = Vector2(452, 150)

@@ -17,6 +17,7 @@ var _recipes: Dictionary = {} # id -> RecipeData
 var _station_recipes: Dictionary = {} # id -> StationRecipe
 var _commissions: Dictionary = {} # id -> CommissionData
 var _fair_configs: Dictionary = {}
+var _world_islands: Dictionary = {} # id -> WorldIslandData
 
 func _ready() -> void:
 	# folder name -> the index it fills. Dictionaries are references, so writing
@@ -33,6 +34,7 @@ func _ready() -> void:
 		"audio": _audio_cues,
 		"commissions": _commissions,
 		"fair": _fair_configs,
+		"world_islands": _world_islands,
 	}
 	for folder in index_map:
 		_scan_folder(folder, index_map[folder])
@@ -61,9 +63,9 @@ func _scan_folder(folder: String, into: Dictionary) -> void:
 		into[id] = res
 
 func _print_summary() -> void:
-	print("[Database] indexed: %d ingredients, %d spirits, %d islands, %d shops, %d weather, %d tutorials, %d recipes, %d station_recipes, %d commissions, %d fairs, %d audio" % [
+	print("[Database] indexed: %d ingredients, %d spirits, %d islands, %d shops, %d weather, %d tutorials, %d recipes, %d station_recipes, %d commissions, %d fairs, %d audio, %d world_islands" % [
 		_ingredients.size(), _spirits.size(), _island_templates.size(), _shop_stocks.size(),
-		_weather.size(), _tutorials.size(), _recipes.size(), _station_recipes.size(), _commissions.size(), _fair_configs.size(), _audio_cues.size()])
+		_weather.size(), _tutorials.size(), _recipes.size(), _station_recipes.size(), _commissions.size(), _fair_configs.size(), _audio_cues.size(), _world_islands.size()])
 
 # --- Typed accessors (now that the data classes exist) ---
 func get_ingredient(id: StringName) -> IngredientData: return _ingredients.get(id)
@@ -138,3 +140,12 @@ func get_display_name(id: StringName) -> String:
 	if rec != null:
 		return rec.display_name
 	return String(id).capitalize()
+
+func get_world_island(id: StringName) -> WorldIslandData:
+	return _world_islands.get(id)
+
+func get_all_world_islands() -> Array[WorldIslandData]:
+	var out: Array[WorldIslandData] = []
+	for wi: WorldIslandData in _world_islands.values():
+		out.append(wi)
+	return out

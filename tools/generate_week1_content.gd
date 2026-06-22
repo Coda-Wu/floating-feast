@@ -7,7 +7,7 @@ extends EditorScript
 const BASE := "res://resources/"
 
 func _run() -> void:
-	_ensure_dirs(["ingredients", "spirits", "islands", "shops", "weather", "tutorials", "recipes", "station_recipes", "commissions", "fair"])
+	_ensure_dirs(["world_islands", "ingredients", "spirits", "islands", "shops", "weather", "tutorials", "recipes", "station_recipes", "commissions", "fair"])
 	var n := 0
 	n += _gen_ingredients()
 	n += _gen_spirits()
@@ -20,8 +20,26 @@ func _run() -> void:
 	n += _gen_station_recipes()
 	n += _gen_commissions()
 	n += _gen_fair()
+	n += _gen_world_islands()
 	print("[Week-1 content] wrote %d resources into %s" % [n, BASE])
 	EditorInterface.get_resource_filesystem().scan() # refresh the FileSystem dock
+
+
+func _gen_world_islands() -> int:
+	var rows := [
+		{"id": &"cat_island", "name": "Cat Island", "cuisine": "Mediterranean", "phase": 0, "pos": Vector2(196, 196)},
+		{"id": &"spice_isle", "name": "Spice Isle", "cuisine": "", "phase": 99, "pos": Vector2(452, 150)}, # fogged in M1 ("to be continued")
+	]
+	for r in rows:
+		var wi := WorldIslandData.new()
+		wi.id = r["id"]
+		wi.display_name = r["name"]
+		wi.cuisine = r["cuisine"]
+		wi.unlock_phase = r["phase"]
+		wi.map_position = r["pos"]
+		_save(wi, "world_islands", wi.id)
+	return rows.size()
+
 
 func _ensure_dirs(subs: Array) -> void:
 	for s in subs:

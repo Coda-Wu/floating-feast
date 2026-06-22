@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WorldIslandData" format=3 uid="uid://c64hghaav55am"]
+
+[ext_resource type="Script" uid="uid://b1jbg6c44u76n" path="res://src/data/world_island_data.gd" id="1_nlsi5"]
+
+[resource]
+script = ExtResource("1_nlsi5")
+id = &"cat_island"
+display_name = "Cat Island"
+cuisine = "Mediterranean"
+map_position = Vector2(196, 196)
