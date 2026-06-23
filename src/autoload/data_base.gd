@@ -141,6 +141,8 @@ func get_display_name(id: StringName) -> String:
 		return rec.display_name
 	return String(id).capitalize()
 
+# World islands
+
 func get_world_island(id: StringName) -> WorldIslandData:
 	return _world_islands.get(id)
 

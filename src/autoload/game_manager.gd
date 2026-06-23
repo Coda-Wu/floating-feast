@@ -11,6 +11,7 @@ var day_islands: Array[Island] = [] # the day's Ocean Map; regenerated at day st
 var travel_path: Array[Vector2] = [] # waypoints sailed today: [ship, islandA, ...]
 var current_island: Island = null # the island currently being explored
 var _last_save: Dictionary = {}
+var run_graph: RunGraph = null # the day's exploration DAG, generated on island entry (replaces the bridge)
 
 const SHIP_POS := Vector2(86, 300)
 const _MIN_ISLANDS := 3
@@ -83,13 +84,7 @@ func enter_island(island: Island) -> void:
 	change_phase(DayPhase.ISLAND)
 
 func enter_world_island(wi: WorldIslandData) -> void:
-	# TEMP Step-2 bridge: the new IslandScreen (Step 4) will generate a RunGraph from wi's own node
-	# pools. Until then, run the existing IslandScreen on a throwaway chain so the loop stays playable.
-	var templates := Database.get_random_island_templates()
-	var island := Island.new(wi.id, wi.map_position)
-	if not templates.is_empty():
-		island.node_chain = NodeChainGenerator.generate(templates[0], GameState.day_seed)
-	current_island = island
+	run_graph = RunGraphGenerator.generate(wi, GameState.day_seed)
 	change_phase(DayPhase.ISLAND)
 
 # --- Day end ---

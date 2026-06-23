@@ -22,6 +22,7 @@ var active_commissions: Array = [] # commission ids currently active
 var fuel_max: int = 6
 var fuel_current: int = 6
 var time_minutes: int = 360 # 6:00 AM; the day runs to 1560 (2:00 AM)
+var island_depletion: Dictionary = {} # { island_id: { tier_s_id: collected_count } } — generator reads; Step 7 writes + serializes
 
 # --- Ingredient inventory mutators (the one place inventory changes + the signal fires) ---
 func add_item(item_id: StringName, count: int = 1) -> void:

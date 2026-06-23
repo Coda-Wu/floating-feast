@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw8st2b0tpxxo"
-path="res://.godot/imported/MapIcon-Sheet.png-8daa10cf756ff3e87ce2b7cd65ded2a9.ctex"
+uid="uid://doqjs1i8ikn4d"
+path="res://.godot/imported/CharacterStand.png-5eccd0152af89d4bd26eed335113fd41.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/ui/MapIcon-Sheet.png"
-dest_files=["res://.godot/imported/MapIcon-Sheet.png-8daa10cf756ff3e87ce2b7cd65ded2a9.ctex"]
+source_file="res://assets/art/actors/player/CharacterStand.png"
+dest_files=["res://.godot/imported/CharacterStand.png-5eccd0152af89d4bd26eed335113fd41.ctex"]
 
 [params]
 

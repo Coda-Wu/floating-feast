@@ -26,19 +26,39 @@ func _run() -> void:
 
 
 func _gen_world_islands() -> int:
-	var rows := [
-		{"id": &"cat_island", "name": "Cat Island", "cuisine": "Mediterranean", "phase": 0, "pos": Vector2(196, 196)},
-		{"id": &"spice_isle", "name": "Spice Isle", "cuisine": "", "phase": 99, "pos": Vector2(452, 150)}, # fogged in M1 ("to be continued")
+	var cat := WorldIslandData.new()
+	cat.id = &"cat_island"
+	cat.display_name = "Cat Island"
+	cat.cuisine = "Mediterranean"
+	cat.unlock_phase = 0
+	cat.map_position = Vector2(196, 196)
+	# NOTE: params are placeholders pending Step-4 node-execution reconciliation against the node scenes.
+	cat.shallow_pool = [
+		{"type": &"gathering", "params": {"biome": &"orchard"}, "weight": 2.0},
+		{"type": &"shop", "params": {"stock_id": &"stock_island_shop"}, "weight": 1.0},
 	]
-	for r in rows:
-		var wi := WorldIslandData.new()
-		wi.id = r["id"]
-		wi.display_name = r["name"]
-		wi.cuisine = r["cuisine"]
-		wi.unlock_phase = r["phase"]
-		wi.map_position = r["pos"]
-		_save(wi, "world_islands", wi.id)
-	return rows.size()
+	cat.mid_pool = [
+		{"type": &"spirit_encounter", "params": {"spirit_pool": [&"spirit_tomato", &"spirit_chicken", &"spirit_sprout"]}, "weight": 3.0},
+		{"type": &"gathering", "params": {"biome": &"orchard"}, "weight": 2.0},
+		{"type": &"npc", "params": {}, "weight": 1.0},
+		{"type": &"butchery", "params": {"stock_id": &"stock_butchery"}, "weight": 1.0, "fuel_cost": 2}, # heavy (2 fuel)
+	]
+	cat.deep_pool = [
+		{"type": &"reward", "params": {"recipe_id": &"classic_rustic_salad"}, "fuel_cost": 2}, # → PlaceholderNode until Step 7
+		{"type": &"reward", "params": {"tier_s_id": &"cat_geode"}, "fuel_cost": 3}, # → PlaceholderNode until Step 7
+		{"type": &"spirit_encounter", "params": {"spirit_id": &"spirit_gourmand", "tier_s_id": &"spirit_gourmand"}, "fuel_cost": 2},
+	]
+	cat.tier_s_caps = {&"cat_geode": 1, &"spirit_gourmand": 1}
+	_save(cat, "world_islands", cat.id)
+
+	var spice := WorldIslandData.new()
+	spice.id = &"spice_isle"
+	spice.display_name = "Spice Isle"
+	spice.cuisine = ""
+	spice.unlock_phase = 99
+	spice.map_position = Vector2(452, 150)
+	_save(spice, "world_islands", spice.id)
+	return 2
 
 
 func _ensure_dirs(subs: Array) -> void:

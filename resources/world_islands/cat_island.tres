@@ -8,3 +8,64 @@ id = &"cat_island"
 display_name = "Cat Island"
 cuisine = "Mediterranean"
 map_position = Vector2(196, 196)
+shallow_pool = Array[Dictionary]([{
+"params": {
+"biome": &"orchard"
+},
+"type": &"gathering",
+"weight": 2.0
+}, {
+"params": {
+"stock_id": &"stock_island_shop"
+},
+"type": &"shop",
+"weight": 1.0
+}])
+mid_pool = Array[Dictionary]([{
+"params": {
+"spirit_pool": [&"spirit_tomato", &"spirit_chicken", &"spirit_sprout"]
+},
+"type": &"spirit_encounter",
+"weight": 3.0
+}, {
+"params": {
+"biome": &"orchard"
+},
+"type": &"gathering",
+"weight": 2.0
+}, {
+"params": {},
+"type": &"npc",
+"weight": 1.0
+}, {
+"fuel_cost": 2,
+"params": {
+"stock_id": &"stock_butchery"
+},
+"type": &"butchery",
+"weight": 1.0
+}])
+deep_pool = Array[Dictionary]([{
+"fuel_cost": 2,
+"params": {
+"recipe_id": &"classic_rustic_salad"
+},
+"type": &"reward"
+}, {
+"fuel_cost": 3,
+"params": {
+"tier_s_id": &"cat_geode"
+},
+"type": &"reward"
+}, {
+"fuel_cost": 2,
+"params": {
+"spirit_id": &"spirit_gourmand",
+"tier_s_id": &"spirit_gourmand"
+},
+"type": &"spirit_encounter"
+}])
+tier_s_caps = {
+&"cat_geode": 1,
+&"spirit_gourmand": 1
+}
