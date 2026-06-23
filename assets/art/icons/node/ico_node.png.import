@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cw8st2b0tpxxo"
-path="res://.godot/imported/MapIcon-Sheet.png-65f5ad9c17b75edda2356c21d8ae489b.ctex"
+path="res://.godot/imported/ico_node.png-b93fe59269bd048ec61e0252154f3942.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/ui/panel/MapIcon-Sheet.png"
-dest_files=["res://.godot/imported/MapIcon-Sheet.png-65f5ad9c17b75edda2356c21d8ae489b.ctex"]
+source_file="res://assets/art/icons/node/ico_node.png"
+dest_files=["res://.godot/imported/ico_node.png-b93fe59269bd048ec61e0252154f3942.ctex"]
 
 [params]
 

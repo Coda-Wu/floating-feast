@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw5hum2hgjclx"
-path="res://.godot/imported/Character_walk.png-7f555093ec283c2078d3120aba86dc32.ctex"
+uid="uid://ksffrkwoe5g6"
+path="res://.godot/imported/bg_islandmap.png-82e5e57fec5703d216b25d3bca7bfe94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/actors/player/Character_walk.png"
-dest_files=["res://.godot/imported/Character_walk.png-7f555093ec283c2078d3120aba86dc32.ctex"]
+source_file="res://assets/art/ui/panel/bg_islandmap.png"
+dest_files=["res://.godot/imported/bg_islandmap.png-82e5e57fec5703d216b25d3bca7bfe94.ctex"]
 
 [params]
 

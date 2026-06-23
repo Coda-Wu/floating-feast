@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ksffrkwoe5g6"
-path="res://.godot/imported/Map.png-211a2959cd0a86419d47e0e7646ed00b.ctex"
+uid="uid://bw5hum2hgjclx"
+path="res://.godot/imported/chr_saff_walk_r.png-5a3d031c85ae04f6802dc9669950d534.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/ui/panel/Map.png"
-dest_files=["res://.godot/imported/Map.png-211a2959cd0a86419d47e0e7646ed00b.ctex"]
+source_file="res://assets/art/actors/player/chr_saff_walk_r.png"
+dest_files=["res://.godot/imported/chr_saff_walk_r.png-5a3d031c85ae04f6802dc9669950d534.ctex"]
 
 [params]
 

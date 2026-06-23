@@ -1,13 +1,57 @@
 [gd_scene format=3 uid="uid://d2us3ewjo2l31"]
 
-[ext_resource type="Script" uid="uid://dqpsykow6af24" path="res://src/ui/island_marker.gd" id="1_jc4qr"]
+[sub_resource type="GDScript" id="GDScript_p0i0e"]
+script/source = "class_name IslandMarker extends Area2D
+## A gray-box island on the Ocean Map. Draws a placeholder circle, brightens on hover,
+## and emits intent signals carrying its Island. Pointer interaction via Area2D (§4);
+## visual is custom-drawn so Week 3 swaps in a sprite with no code change (§3).
+
+signal marker_hovered(island)
+signal marker_unhovered(island)
+signal marker_clicked(island)
+
+const RADIUS := 16.0
+const COLOR_FILL := Color(0.55, 0.62, 0.40)
+const COLOR_FILL_HOVER := Color(0.80, 0.86, 0.56)
+const COLOR_OUTLINE := Color(0.20, 0.24, 0.15)
+
+var _island: Island
+var _hovered := false
+
+func setup(island: Island) -> void:
+	_island = island
+	position = island.position
+	queue_redraw()
+
+func _ready() -> void:
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+	input_event.connect(_on_input_event)
+
+func _draw() -> void:
+	draw_circle(Vector2.ZERO, RADIUS, COLOR_FILL_HOVER if _hovered else COLOR_FILL)
+	draw_arc(Vector2.ZERO, RADIUS, 0.0, TAU, 32, COLOR_OUTLINE, 2.0, true)
+
+func _on_mouse_entered() -> void:
+	_hovered = true
+	queue_redraw()
+	marker_hovered.emit(_island)
+
+func _on_mouse_exited() -> void:
+	_hovered = false
+	queue_redraw()
+	marker_unhovered.emit(_island)
+
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		marker_clicked.emit(_island)"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p0i0e"]
 radius = 25.0
 
 [node name="IslandMarker" type="Area2D" unique_id=1394147971]
 texture_filter = 1
-script = ExtResource("1_jc4qr")
+script = SubResource("GDScript_p0i0e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1156031652]
 shape = SubResource("CircleShape2D_p0i0e")

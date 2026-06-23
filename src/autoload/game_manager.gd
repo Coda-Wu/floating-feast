@@ -7,15 +7,13 @@ extends Node
 enum DayPhase {MORNING, OCEAN_MAP, ISLAND, SHIP, KITCHEN, FAIR, DAY_END}
 
 var current_phase: DayPhase = DayPhase.MORNING
-var day_islands: Array[Island] = [] # the day's Ocean Map; regenerated at day start
-var travel_path: Array[Vector2] = [] # waypoints sailed today: [ship, islandA, ...]
-var current_island: Island = null # the island currently being explored
+
+
 var _last_save: Dictionary = {}
 var run_graph: RunGraph = null # the day's exploration DAG, generated on island entry (replaces the bridge)
 
 const SHIP_POS := Vector2(86, 300)
-const _MIN_ISLANDS := 3
-const _MAX_ISLANDS := 5
+
 
 # DAY_END is an overlay, not a screen, so it is deliberately absent here.
 const _PHASE_SCREENS := {
@@ -41,11 +39,6 @@ func _seed_new_game() -> void:
 func start_day() -> void:
 	GameState.day_seed = _roll_day_seed()
 	GameState.weather_id = _roll_weather(GameState.day_seed)
-	day_islands = []
-	travel_path.assign([SHIP_POS]) # fresh journey from the ship
-	current_island = null
-	GameState.budget_current = GameState.budget_max
-	SignalBus.budget_changed.emit(GameState.budget_current, GameState.budget_max)
 	SignalBus.day_started.emit(GameState.day)
 	change_phase(DayPhase.MORNING)
 
@@ -76,12 +69,6 @@ func request_enter_fair() -> void:
 func request_return_to_map() -> void: # Island "Back to Map": pick another island
 	change_phase(DayPhase.OCEAN_MAP)
 
-func enter_island(island: Island) -> void:
-	current_island = island
-	# Commit the waypoint (skip a duplicate if re-entering where we already are).
-	if travel_path.is_empty() or travel_path.back().distance_to(island.position) > 1.0:
-		travel_path.append(island.position)
-	change_phase(DayPhase.ISLAND)
 
 func enter_world_island(wi: WorldIslandData) -> void:
 	run_graph = RunGraphGenerator.generate(wi, GameState.day_seed)
@@ -122,31 +109,6 @@ func _save_in_memory() -> void:
 	_last_save = GameState.serialize()
 	print("[GameManager] saved (in-memory) at end of day ", _last_save.get("day"))
 
-# --- Day setup ---
-func _generate_day_islands(seed: int) -> Array[Island]:
-	var templates := Database.get_random_island_templates()
-	var result: Array[Island] = []
-	if templates.is_empty():
-		push_warning("GameManager: no random island templates found.")
-		return result
-	var rng := RandomNumberGenerator.new()
-	rng.seed = seed
-	var count := rng.randi_range(_MIN_ISLANDS, _MAX_ISLANDS)
-	var positions := IslandArranger.arrange(seed, count, SHIP_POS)
-	for i in positions.size():
-		var template: IslandTemplate = templates[rng.randi() % templates.size()]
-		var isl := Island.new(template.id, positions[i])
-		isl.node_chain = NodeChainGenerator.generate(template, seed + (i + 1) * 7919)
-		result.append(isl)
-	
-	# stage the mission island so the commission/Fair chain is reachable in a normal run.
-	var _mt := Database.get_island_template(&"island_mission_whale")
-	if _mt:
-		var _mi := Island.new(_mt.id, Vector2(330, 90))
-		_mi.node_chain = NodeChainGenerator.generate(_mt, seed)
-		result.append(_mi)
-		
-	return result
 
 func _roll_day_seed() -> int:
 	return hash(str(GameState.day) + "_floating_feast")

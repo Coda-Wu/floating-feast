@@ -4,8 +4,6 @@ extends Node
 
 # --- Runtime state ---
 var day: int = 1
-var budget_max: int = 4
-var budget_current: int = 4
 var coins: int = 50
 var inventory: Dictionary = {} # ingredient item_id -> count (UNTOUCHED by Week 2)
 var fridge_storage: Dictionary = {} # ingredient item_id -> count (home storage; parallel to carried inventory)
@@ -48,14 +46,6 @@ func remove_item(item_id: StringName, count: int = 1) -> bool:
 func get_item_count(item_id: StringName) -> int:
 	return int(inventory.get(item_id, 0))
 
-# --- Budget ---
-func spend_budget(amount: int = 1) -> void:
-	if amount <= 0:
-		return
-	budget_current = maxi(0, budget_current - amount)
-	SignalBus.budget_changed.emit(budget_current, budget_max)
-	if budget_current == 0:
-		SignalBus.budget_depleted.emit()
 
 # --- Coins (now emit coins_changed; consumed by the HUD + later payouts) ---
 func add_coins(amount: int) -> void:
@@ -212,8 +202,6 @@ func mark_recipe_known(recipe_id: StringName) -> bool:
 func serialize() -> Dictionary:
 	return {
 		"day": day,
-		"budget_max": budget_max,
-		"budget_current": budget_current,
 		"coins": coins,
 		"inventory": inventory.duplicate(true),
 		"dish_inventory": dish_inventory.duplicate(true),
@@ -234,8 +222,6 @@ func serialize() -> Dictionary:
 
 func deserialize(d: Dictionary) -> void:
 	day = d.get("day", 1)
-	budget_max = d.get("budget_max", 4)
-	budget_current = d.get("budget_current", 4)
 	coins = d.get("coins", 50)
 	inventory = (d.get("inventory", {}) as Dictionary).duplicate(true)
 	dish_inventory = (d.get("dish_inventory", {}) as Dictionary).duplicate(true)

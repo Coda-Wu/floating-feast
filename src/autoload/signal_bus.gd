@@ -5,8 +5,6 @@ extends Node
 # --- Day cycle ---
 signal day_started(day: int)
 signal day_ended()
-signal budget_changed(current: int, max: int)
-signal budget_depleted()
 
 # --- Inventory ---
 signal inventory_changed(item_id: String, new_count: int)
