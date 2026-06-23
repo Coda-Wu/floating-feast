@@ -114,12 +114,34 @@ func _tooltip_for(i: int) -> String:
 
 # --- entering & running a node ---
 func _enter_node(i: int) -> void:
-	GameState.spend_fuel(_graph.nodes[i].fuel_cost) # fuel paid on entry (§4.1); Step 5 advances time here too
+	var minutes := _time_cost(_graph.nodes[i])
+	if GameState.would_pass_curfew(minutes):
+		_faint() # 2 AM — denied the next step (loot kept, capped coin loss)
+		return
+	GameState.spend_fuel(_graph.nodes[i].fuel_cost) # fuel paid on entry (§4.1)
+	GameState.advance_time(minutes) # time advances on entry (§4.2) — never gates, only wraps the day
 	UIManager.hide_item_tooltip()
 	_hover = -1
 	_current = i
 	_visited[i] = true
 	_run_node(i)
+
+func _time_cost(nd: NodeDefinition) -> int:
+	return 120 if nd.fuel_cost >= 2 else 60 # heavy nodes take 2 in-game hours; standard 1
+
+
+func _faint() -> void:
+	UIManager.hide_item_tooltip()
+	GameManager.apply_faint_penalty()
+	SignalBus.day_auto_returned.emit(&"curfew")
+	SignalBus.island_exited.emit()
+	UIManager.show_resolution_panel({}, false,
+		"It's 2 AM — you drifted off on the way back. (coin - 25)",
+		"Wake up", _wake, _wake)
+
+func _wake() -> void:
+	UIManager.hide_resolution_panel()
+	GameManager.request_return_to_ship() # faint sends you home to the ship, not the map
 
 func _run_node(i: int) -> void:
 	_clear_node()

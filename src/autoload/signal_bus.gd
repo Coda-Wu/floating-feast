@@ -46,3 +46,4 @@ signal commission_completed(commission_id: String)
 # --- Exploration resources ---
 signal fuel_changed(current: int, maximum: int)
 signal time_changed(minutes: int)
+signal day_auto_returned(reason: StringName) # the run ended itself: &"fuel" or &"curfew"

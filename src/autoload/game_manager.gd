@@ -13,6 +13,7 @@ var _last_save: Dictionary = {}
 var run_graph: RunGraph = null # the day's exploration DAG, generated on island entry (replaces the bridge)
 
 const SHIP_POS := Vector2(86, 300)
+const FAINT_COIN_LOSS := 25 # capped; the faint never costs items/recipes/spirits/progress (§11)
 
 
 # DAY_END is an overlay, not a screen, so it is deliberately absent here.
@@ -40,6 +41,8 @@ func start_day() -> void:
 	GameState.day_seed = _roll_day_seed()
 	GameState.weather_id = _roll_weather(GameState.day_seed)
 	SignalBus.day_started.emit(GameState.day)
+	GameState.add_fuel(GameState.fuel_max) # Ember rests overnight → tank refills (clamps to max)
+	GameState.reset_day_clock() # back to 6:00 AM
 	change_phase(DayPhase.MORNING)
 
 func change_phase(next: DayPhase) -> void:
@@ -116,3 +119,9 @@ func _roll_day_seed() -> int:
 func _roll_weather(seed: int) -> String:
 	var ids := ["weather_sunny", "weather_rainy", "weather_foggy"]
 	return ids[abs(seed) % ids.size()]
+
+
+func apply_faint_penalty() -> void:
+	var lost := mini(GameState.coins, FAINT_COIN_LOSS)
+	if lost > 0:
+		GameState.try_spend_coins(lost) # emits coins_changed → HUD updates
