@@ -40,7 +40,7 @@ func _seed_new_game() -> void:
 func start_day() -> void:
 	GameState.day_seed = _roll_day_seed()
 	GameState.weather_id = _roll_weather(GameState.day_seed)
-	day_islands = _generate_day_islands(GameState.day_seed)
+	day_islands = []
 	travel_path.assign([SHIP_POS]) # fresh journey from the ship
 	current_island = null
 	GameState.budget_current = GameState.budget_max
@@ -80,6 +80,16 @@ func enter_island(island: Island) -> void:
 	# Commit the waypoint (skip a duplicate if re-entering where we already are).
 	if travel_path.is_empty() or travel_path.back().distance_to(island.position) > 1.0:
 		travel_path.append(island.position)
+	change_phase(DayPhase.ISLAND)
+
+func enter_world_island(wi: WorldIslandData) -> void:
+	# TEMP Step-2 bridge: the new IslandScreen (Step 4) will generate a RunGraph from wi's own node
+	# pools. Until then, run the existing IslandScreen on a throwaway chain so the loop stays playable.
+	var templates := Database.get_random_island_templates()
+	var island := Island.new(wi.id, wi.map_position)
+	if not templates.is_empty():
+		island.node_chain = NodeChainGenerator.generate(templates[0], GameState.day_seed)
+	current_island = island
 	change_phase(DayPhase.ISLAND)
 
 # --- Day end ---
