@@ -40,6 +40,7 @@ func _connect_hud_signals() -> void:
 	SignalBus.rank_changed.connect(_on_rank_changed)
 	SignalBus.fuel_changed.connect(_on_fuel_changed)
 	SignalBus.time_changed.connect(_on_time_changed)
+	SignalBus.run_buff_applied.connect(_on_run_buff_applied)
 
 func _sync_hud_now() -> void:
 	_on_day_started(GameState.day)
@@ -49,6 +50,7 @@ func _sync_hud_now() -> void:
 	_hud.set_rank(GameState.rank)
 	_hud.set_fuel(GameState.fuel_current, GameState.fuel_max)
 	_hud.set_time(GameState.time_minutes)
+	_hud.set_buff(GameState.run_buff)
 
 func _on_day_started(day: int) -> void:
 	_hud.set_day(day)
@@ -71,6 +73,8 @@ func _on_coins_changed(amount: int) -> void:
 func _on_quest_phase_changed(_phase: int) -> void:
 	_hud.set_quest(QuestManager.get_current_quest_text())
 
+func _on_run_buff_applied(buff: Dictionary) -> void:
+	_hud.set_buff(buff)
 func show_hud() -> void:
 	if _hud: _hud.visible = true
 

@@ -48,6 +48,10 @@ mid_pool = Array[Dictionary]([{
 "params": {},
 "type": &"dock",
 "weight": 2.0
+}, {
+"params": {},
+"type": &"synergy",
+"weight": 1.5
 }])
 deep_pool = Array[Dictionary]([{
 "fuel_cost": 2,

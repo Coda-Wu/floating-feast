@@ -21,6 +21,8 @@ var fuel_max: int = 6
 var fuel_current: int = 6
 var time_minutes: int = 360 # 6:00 AM; the day runs to 1560 (2:00 AM)
 var island_depletion: Dictionary = {} # { island_id: { tier_s_id: collected_count } } — generator reads; Step 7 writes + serializes
+var run_buff: Dictionary = {} # run-scoped synergy buff, e.g. { "fungible_yield_mult": 2, "label": ... }; cleared on run exit
+
 
 const DAY_START_MINUTES := 360 # 6:00 AM
 const CURFEW_MINUTES := 1560 # 2:00 AM — the day's hard edge
@@ -56,6 +58,19 @@ func remove_item(item_id: StringName, count: int = 1) -> bool:
 func get_item_count(item_id: StringName) -> int:
 	return int(inventory.get(item_id, 0))
 
+
+func apply_run_buff(buff: Dictionary) -> void:
+	run_buff = buff.duplicate(true)
+	SignalBus.run_buff_applied.emit(run_buff)
+
+func clear_run_buff() -> void:
+	if run_buff.is_empty():
+		return
+	run_buff = {}
+	SignalBus.run_buff_applied.emit(run_buff)
+
+func has_run_buff() -> bool:
+	return not run_buff.is_empty()
 
 # --- Coins (now emit coins_changed; consumed by the HUD + later payouts) ---
 func add_coins(amount: int) -> void:

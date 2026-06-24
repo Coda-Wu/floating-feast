@@ -115,3 +115,11 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "c"
 autowrap_mode = 2
+
+[node name="BuffLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=336289245]
+visible = false
+modulate = Color(0.9309246, 0.9776916, 0.9309246, 1)
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "c"
+autowrap_mode = 2

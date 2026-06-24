@@ -43,6 +43,7 @@ func _gen_world_islands() -> int:
 		{"type": &"npc", "params": {}, "weight": 1.0},
 		{"type": &"butchery", "params": {"stock_id": &"stock_butchery"}, "weight": 1.0, "fuel_cost": 2}, # heavy (2 fuel)
 		{"type": &"dock", "params": {}, "weight": 2.0},
+		{"type": &"synergy", "params": {}, "weight": 1.5},
 	]
 	cat.deep_pool = [
 		{"type": &"reward", "params": {"recipe_id": &"classic_rustic_salad"}, "fuel_cost": 2},

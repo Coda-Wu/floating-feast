@@ -13,6 +13,8 @@ extends Control
 @onready var _time_bar: ProgressBar = $Panel/PMargin/VBox/TimeRow/TimeBar
 @onready var _fuel_label: Label = $Panel/PMargin/VBox/FuelRow/FuelLabel
 @onready var _fuel_bar: ProgressBar = $Panel/PMargin/VBox/FuelRow/FuelBar
+@onready var _buff_label: Label = $Panel/PMargin/VBox/BuffLabel
+
 
 func _ready() -> void:
 	var fuel_fill := StyleBoxFlat.new() # amber → reads as a fuel/gas gauge (gray-box)
@@ -23,6 +25,7 @@ func _ready() -> void:
 	time_fill.bg_color = Color(0.45, 0.62, 0.85)
 	time_fill.set_corner_radius_all(2)
 	_time_bar.add_theme_stylebox_override("fill", time_fill)
+	_buff_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
 
 func set_time(minutes: int) -> void:
 	_time_label.text = _format_clock(minutes)
@@ -63,3 +66,11 @@ func set_coins(amount: int) -> void:
 func set_commission(text: String) -> void:
 	_commission_label.text = text
 	_commission_label.visible = text != ""
+
+func set_buff(buff: Dictionary) -> void:
+	if buff.is_empty():
+		_buff_label.visible = false
+		_buff_label.text = ""
+	else:
+		_buff_label.visible = true
+		_buff_label.text = "✨ %s" % String(buff.get("label", "Run buff"))

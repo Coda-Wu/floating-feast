@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bft3wi5o3tr0l"]
+
+[ext_resource type="Script" uid="uid://csmu7xukhcbnc" path="res://src/nodes/synergy_event_node.gd" id="1_8cu7j"]
+
+[node name="SynergyEventNode" type="Control" unique_id=1120218550]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8cu7j")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1664550522]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=2099267423]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=628966832]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Column" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=1600396886]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Heading" type="Label" parent="Center/Panel/Margin/Column" unique_id=584674446]
+layout_mode = 2
+text = "A Hidden Shrine"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="Center/Panel/Margin/Column" unique_id=396076924]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CoinButton" type="Button" parent="Center/Panel/Margin/Column" unique_id=1542657104]
+layout_mode = 2
+
+[node name="FuelButton" type="Button" parent="Center/Panel/Margin/Column" unique_id=102938475]
+layout_mode = 2
+
+[node name="DeclineButton" type="Button" parent="Center/Panel/Margin/Column" unique_id=256204328]
+layout_mode = 2

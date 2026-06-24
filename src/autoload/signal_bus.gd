@@ -18,6 +18,7 @@ signal island_entered(island_instance) ## runtime island object
 signal island_exited()
 signal node_started(node_def) ## NodeDefinition
 signal node_resolved(node_def, rewards) ## rewards: {item_id: count}
+signal run_buff_applied(buff: Dictionary) # run-scoped synergy buff set or cleared (empty = cleared)
 
 # --- Spirits ---
 signal spirit_encountered(spirit_data) ## SpiritData
