@@ -22,6 +22,7 @@ var fuel_current: int = 6
 var time_minutes: int = 360 # 6:00 AM; the day runs to 1560 (2:00 AM)
 var island_depletion: Dictionary = {} # { island_id: { tier_s_id: collected_count } } — generator reads; Step 7 writes + serializes
 var run_buff: Dictionary = {} # run-scoped synergy buff, e.g. { "fungible_yield_mult": 2, "label": ... }; cleared on run exit
+var islands_explored_today: Array = [] # world-island ids explored today (one foray/day); cleared at dawn
 
 
 const DAY_START_MINUTES := 360 # 6:00 AM
@@ -33,6 +34,11 @@ func would_pass_curfew(minutes: int) -> bool:
 func reset_day_clock() -> void:
 	time_minutes = DAY_START_MINUTES
 	SignalBus.time_changed.emit(time_minutes)
+
+
+func mark_island_explored(island_id: StringName) -> void:
+	if island_id not in islands_explored_today:
+		islands_explored_today.append(island_id)
 
 # --- Ingredient inventory mutators (the one place inventory changes + the signal fires) ---
 func add_item(item_id: StringName, count: int = 1) -> void:

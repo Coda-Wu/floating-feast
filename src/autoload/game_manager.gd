@@ -45,6 +45,7 @@ func start_day() -> void:
 	SignalBus.day_started.emit(GameState.day)
 	GameState.add_fuel(GameState.fuel_max) # Ember rests overnight → tank refills (clamps to max)
 	GameState.reset_day_clock() # back to 6:00 AM
+	GameState.islands_explored_today.clear()
 	change_phase(DayPhase.MORNING)
 
 func change_phase(next: DayPhase) -> void:

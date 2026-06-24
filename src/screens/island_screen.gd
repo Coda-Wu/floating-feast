@@ -122,6 +122,8 @@ func _enter_node(i: int) -> void:
 	if GameState.would_pass_curfew(minutes):
 		_faint() # 2 AM — denied the next step (loot kept, capped coin loss)
 		return
+	if GameManager.current_world_island != null:
+		GameState.mark_island_explored(GameManager.current_world_island.id) # first node commits the day's run
 	GameState.spend_fuel(_graph.nodes[i].fuel_cost) # fuel paid on entry (§4.1)
 	GameState.advance_time(minutes) # time advances on entry (§4.2) — never gates, only wraps the day
 	UIManager.hide_item_tooltip()
@@ -188,14 +190,15 @@ func _on_ack(ending: bool) -> void:
 	UIManager.hide_resolution_panel()
 	if ending:
 		SignalBus.island_exited.emit()
-		GameManager.request_return_to_map()
+		GameManager.request_return_to_ship()
 	else:
 		_show_map()
+		
 
 func _retreat() -> void:
 	UIManager.hide_item_tooltip()
 	SignalBus.island_exited.emit()
-	GameManager.request_return_to_map()
+	GameManager.request_return_to_ship()
 
 func _clear_node() -> void:
 	if _running_node != null:

@@ -23,9 +23,13 @@ func _ready() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		for wi in _islands:
-			if _is_unlocked(wi) and event.position.distance_to(wi.map_position) <= ISLAND_RADIUS:
+			if _is_unlocked(wi) and not _is_explored(wi) and event.position.distance_to(wi.map_position) <= ISLAND_RADIUS:
 				GameManager.enter_world_island(wi)
 				return
+
+
+func _is_explored(wi: WorldIslandData) -> bool:
+	return wi.id in GameState.islands_explored_today
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, VIEWPORT), SEA_COLOR)
@@ -36,16 +40,22 @@ func _draw() -> void:
 
 func _draw_island(wi: WorldIslandData) -> void:
 	var pos := wi.map_position
-	if _is_unlocked(wi):
-		draw_circle(pos, ISLAND_RADIUS, Color(0.55, 0.70, 0.42)) # land
-		draw_arc(pos, ISLAND_RADIUS, 0.0, TAU, 28, Color(0.30, 0.22, 0.14), 2.0, true)
-		_draw_label(wi.display_name, pos + Vector2(0, ISLAND_RADIUS + 10), Color.WHITE)
-		if wi.cuisine != "":
-			_draw_label(wi.cuisine, pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.85, 0.90, 0.75))
-	else:
+	if not _is_unlocked(wi):
 		draw_circle(pos, ISLAND_RADIUS, Color(0.22, 0.30, 0.36, 0.85)) # fogged silhouette
 		draw_arc(pos, ISLAND_RADIUS, 0.0, TAU, 28, Color(0.30, 0.38, 0.44), 2.0, true)
 		_draw_label("? ? ?", pos + Vector2(0, ISLAND_RADIUS + 10), Color(0.60, 0.68, 0.72))
+		return
+	if _is_explored(wi):
+		draw_circle(pos, ISLAND_RADIUS, Color(0.40, 0.50, 0.42, 0.7)) # explored: dimmed, inert
+		draw_arc(pos, ISLAND_RADIUS, 0.0, TAU, 28, Color(0.32, 0.40, 0.32), 2.0, true)
+		_draw_label(wi.display_name, pos + Vector2(0, ISLAND_RADIUS + 10), Color(0.70, 0.75, 0.70))
+		_draw_label("Explored today", pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.62, 0.68, 0.62))
+		return
+	draw_circle(pos, ISLAND_RADIUS, Color(0.55, 0.70, 0.42)) # available
+	draw_arc(pos, ISLAND_RADIUS, 0.0, TAU, 28, Color(0.30, 0.22, 0.14), 2.0, true)
+	_draw_label(wi.display_name, pos + Vector2(0, ISLAND_RADIUS + 10), Color.WHITE)
+	if wi.cuisine != "":
+		_draw_label(wi.cuisine, pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.85, 0.90, 0.75))
 
 func _is_unlocked(wi: WorldIslandData) -> bool:
 	return GameState.quest_phase >= wi.unlock_phase
