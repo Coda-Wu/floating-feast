@@ -44,6 +44,10 @@ mid_pool = Array[Dictionary]([{
 },
 "type": &"butchery",
 "weight": 1.0
+}, {
+"params": {},
+"type": &"dock",
+"weight": 2.0
 }])
 deep_pool = Array[Dictionary]([{
 "fuel_cost": 2,
@@ -54,18 +58,22 @@ deep_pool = Array[Dictionary]([{
 }, {
 "fuel_cost": 3,
 "params": {
+"count": 1,
+"item_id": &"cat_geode",
 "tier_s_id": &"cat_geode"
 },
 "type": &"reward"
 }, {
 "fuel_cost": 2,
 "params": {
-"spirit_id": &"spirit_gourmand",
-"tier_s_id": &"spirit_gourmand"
+"spirit_id": &"spirit_gourmand"
 },
 "type": &"spirit_encounter"
 }])
 tier_s_caps = {
-&"cat_geode": 1,
-&"spirit_gourmand": 1
+&"cat_geode": 1
+}
+standard_terminal_reward = {
+"count": 2,
+"item_id": &"tomato"
 }

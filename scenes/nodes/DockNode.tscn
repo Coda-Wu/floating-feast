@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://coepf2lgjv6pk"]
+
+[ext_resource type="Script" uid="uid://7cgaga3wt2wl" path="res://src/nodes/dock_node.gd" id="1_8gkhb"]
+
+[node name="DockNode" type="Control" unique_id=480432480]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8gkhb")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1664550522]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=2099267423]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=628966832]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Column" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=1600396886]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/Column" unique_id=584674446]
+layout_mode = 2
+text = "A Quiet Dock"
+horizontal_alignment = 1
+
+[node name="Result" type="Label" parent="Center/Panel/Margin/Column" unique_id=396076924]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="CastOff" type="Button" parent="Center/Panel/Margin/Column" unique_id=1542657104]
+layout_mode = 2
+text = "Cast off"

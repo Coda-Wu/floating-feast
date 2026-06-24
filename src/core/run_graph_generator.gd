@@ -39,13 +39,28 @@ static func generate(island: WorldIslandData, seed: int) -> RunGraph:
 
 	# terminal — the day's prime reward
 	var term_layer := middle + 1
-	g.terminal_index = _add_node(g, term_layer, _make_node(_pick(deep, rng), term_layer, true))
+	var deep_entry := _pick(deep, rng)
+	var term: NodeDefinition
+	if deep_entry.is_empty(): # all Tier-S exhausted → 2× standard consumable terminal
+		var r := island.standard_terminal_reward.duplicate(true)
+		r["count"] = int(r.get("count", 1)) * 2
+		term = _node(&"reward", r, 2)
+	else:
+		term = _make_node(deep_entry, term_layer, true)
+	g.terminal_index = _add_node(g, term_layer, term)
 	layers.append([g.terminal_index])
 
 	# edges — connect each column forward, guaranteeing connectivity
 	for l in range(layers.size() - 1):
 		_connect(g, layers[l], layers[l + 1], rng)
 	return g
+
+
+static func _node(type: StringName, params: Dictionary, fuel: int) -> NodeDefinition:
+	var nd := NodeDefinition.new(type, params)
+	nd.fuel_cost = fuel
+	return nd
+
 
 # --- eligibility: the two consultations ---
 static func _eligible(pool: Array, island: WorldIslandData) -> Array:
@@ -54,10 +69,12 @@ static func _eligible(pool: Array, island: WorldIslandData) -> Array:
 		var p: Dictionary = entry.get("params", {})
 		if p.has("recipe_id") and GameState.is_recipe_known(StringName(p["recipe_id"])):
 			continue # recipes self-deplete via the learned flag
+		if p.has("spirit_id") and GameState.captured_spirits.has(String(p["spirit_id"])):
+			continue # unique spirits self-deplete via capture
 		if p.has("tier_s_id"):
 			var sid := StringName(p["tier_s_id"])
 			if _collected(island.id, sid) >= int(island.tier_s_caps.get(sid, 0)):
-				continue # capped Tier-S exhausted on this island
+				continue # counted collectibles (geode) deplete via island_depletion
 		out.append(entry)
 	return out
 

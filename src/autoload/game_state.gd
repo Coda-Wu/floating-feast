@@ -228,6 +228,7 @@ func serialize() -> Dictionary:
 		"fuel_current": fuel_current,
 		"fuel_max": fuel_max,
 		"time_minutes": time_minutes,
+		"island_depletion": island_depletion.duplicate(true),
 	}
 
 func deserialize(d: Dictionary) -> void:
@@ -248,6 +249,7 @@ func deserialize(d: Dictionary) -> void:
 	fuel_current = d.get("fuel_current", 6)
 	fuel_max = d.get("fuel_max", 6)
 	time_minutes = d.get("time_minutes", 360)
+	island_depletion = (d.get("island_depletion", {}) as Dictionary).duplicate(true)
 
 # --- Garden (assign captured spirits to pots; remove permanently consumes) ---
 func assign_spirit_to_garden(spirit_id: String, slot: int) -> bool:
@@ -296,3 +298,9 @@ func advance_time(minutes: int) -> void:
 		return
 	time_minutes += minutes
 	SignalBus.time_changed.emit(time_minutes)
+
+
+func record_tier_s_collected(island_id: StringName, tier_s_id: StringName) -> void:
+	var st: Dictionary = island_depletion.get(island_id, {})
+	st[tier_s_id] = int(st.get(tier_s_id, 0)) + 1
+	island_depletion[island_id] = st

@@ -19,39 +19,31 @@ func _ready() -> void:
 	GameState.add_dish(&"hummus", 2, 1)
 	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
 	# TEMP 2a — print unlock states at current quest_phase
-	_verify_step3() # TEMP — delete after confirming
+	_verify_step7() # TEMP — delete after confirming
 
 
-# ==== TEMP — delete after Step 3 verify ====
-func _verify_step3() -> void:
+# ==== TEMP — delete after Step 7 verify ====
+func _verify_step7() -> void:
 	var island := Database.get_world_island(&"cat_island")
-	for s in [GameState.day_seed, GameState.day_seed + 1]: # two seeds → reshuffle
-		print("=== RunGraph: %s (seed %d) ===" % [island.display_name, s])
-		var g := RunGraphGenerator.generate(island, s)
-		_print_graph(g)
-		print("  start=%d terminal=%d layers=%d nodes=%d" % [g.start_index, g.terminal_index, g.layer_count(), g.nodes.size()])
-		var bad := 0
-		for i in g.nodes.size():
-			if i != g.terminal_index and g.next_of(i).is_empty(): bad += 1
-			if i != g.start_index and g.incoming_count(i) == 0: bad += 1
-		print("  dangling/unreachable: %d (expect 0)" % bad)
-	# consultations: learn the salad recipe + deplete cat_geode → neither appears on any terminal
-	GameState.known_recipes.append(&"classic_rustic_salad")
-	GameState.island_depletion = {&"cat_island": {&"cat_geode": 1}}
-	var salad := 0; var geode := 0; var fig := 0
-	for s in 300:
-		var gg := RunGraphGenerator.generate(island, s)
-		var tp: Dictionary = gg.nodes[gg.terminal_index].params
-		if tp.get("recipe_id") == &"classic_rustic_salad": salad += 1
-		elif tp.get("tier_s_id") == &"cat_geode": geode += 1
-		elif tp.get("tier_s_id") == &"fig_spirit": fig += 1
-	print("=== after learning salad + depleting cat_geode (300 terminals) ===")
-	print("  salad=%d geode=%d fig=%d  (expect 0 / 0 / 300)" % [salad, geode, fig])
+	print("baseline terminals: ", _terminal_hist(island, 300))
+	GameState.known_recipes.append(&"classic_rustic_salad") # learn the recipe
+	GameState.captured_spirits.append("spirit_gourmand") # tame the unique spirit
+	GameState.record_tier_s_collected(&"cat_island", &"cat_geode") # collect the capped geode
+	print("island_depletion: ", GameState.island_depletion)
+	print("depleted terminals: ", _terminal_hist(island, 300))
+	var saved := GameState.serialize() # round-trip
+	GameState.island_depletion = {}
+	GameState.deserialize(saved)
+	print("after round-trip: ", GameState.island_depletion)
 
-func _print_graph(g) -> void:
-	for layer in g.layer_count():
-		var parts: Array = []
-		for i in g.nodes_in_layer(layer):
-			var nd = g.nodes[i]
-			parts.append("#%d %s(f%d)->%s" % [i, nd.type, nd.fuel_cost, g.next_of(i)])
-		print("  L%d: %s" % [layer, parts])
+func _terminal_hist(island, n: int) -> Dictionary:
+	var h := {}
+	for s in n:
+		var p: Dictionary = RunGraphGenerator.generate(island, s).nodes[RunGraphGenerator.generate(island, s).terminal_index].params
+		var key := "?"
+		if p.has("recipe_id"): key = "recipe:" + String(p["recipe_id"])
+		elif p.has("spirit_id"): key = "spirit:" + String(p["spirit_id"])
+		elif p.has("tier_s_id"): key = "tierS:" + String(p["tier_s_id"])
+		elif p.has("item_id"): key = "consumable:%sx%d" % [p["item_id"], int(p.get("count", 1))]
+		h[key] = int(h.get(key, 0)) + 1
+	return h

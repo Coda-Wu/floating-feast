@@ -11,6 +11,8 @@ var current_phase: DayPhase = DayPhase.MORNING
 
 var _last_save: Dictionary = {}
 var run_graph: RunGraph = null # the day's exploration DAG, generated on island entry (replaces the bridge)
+var current_world_island: WorldIslandData = null
+
 
 const SHIP_POS := Vector2(86, 300)
 const FAINT_COIN_LOSS := 25 # capped; the faint never costs items/recipes/spirits/progress (§11)
@@ -74,9 +76,11 @@ func request_return_to_map() -> void: # Island "Back to Map": pick another islan
 
 
 func enter_world_island(wi: WorldIslandData) -> void:
+	current_world_island = wi
 	run_graph = RunGraphGenerator.generate(wi, GameState.day_seed)
 	change_phase(DayPhase.ISLAND)
 
+	
 # --- Day end ---
 func request_end_day() -> void:
 	current_phase = DayPhase.DAY_END # overlay phase: no screen swap

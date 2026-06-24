@@ -16,3 +16,4 @@ class_name WorldIslandData extends Resource
 @export var mid_pool: Array[Dictionary] = [] # middle layers: soft-build (+ heavy variants)
 @export var deep_pool: Array[Dictionary] = [] # terminal: build-defining
 @export var tier_s_caps: Dictionary = {} # tier_s_id -> max collectable on this island, ever
+@export var standard_terminal_reward: Dictionary = {} # baseline consumable terminal; doubled when the island is depleted

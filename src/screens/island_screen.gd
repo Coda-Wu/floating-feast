@@ -13,17 +13,19 @@ const NODE_SCENES := {
 	&"butchery": preload("res://scenes/nodes/ShopNode.tscn"),
 	&"npc": preload("res://scenes/nodes/NpcNode.tscn"),
 	&"event": preload("res://scenes/nodes/EventNode.tscn"),
+	&"dock": preload("res://scenes/nodes/DockNode.tscn"),
+	&"reward": preload("res://scenes/nodes/RewardNode.tscn"),
 }
 const FALLBACK_NODE := preload("res://scenes/nodes/PlaceholderNode.tscn") # also stands in for terminal "reward" nodes until Step 7
 
 const NODE_LABELS := {
 	&"start": "Start", &"gathering": "Forage", &"spirit_encounter": "Spirit", &"shop": "Shop",
-	&"butchery": "Butcher", &"npc": "NPC", &"event": "Event", &"reward": "Reward",
+	&"butchery": "Butcher", &"npc": "NPC", &"event": "Event", &"reward": "Reward", &"dock": "Dock",
 }
 const NODE_COLORS := {
 	&"start": Color(0.70, 0.70, 0.74), &"gathering": Color(0.55, 0.75, 0.45), &"spirit_encounter": Color(0.78, 0.55, 0.80),
 	&"shop": Color(0.85, 0.75, 0.50), &"butchery": Color(0.82, 0.50, 0.45), &"npc": Color(0.55, 0.70, 0.85),
-	&"event": Color(0.80, 0.70, 0.40), &"reward": Color(0.95, 0.80, 0.35),
+	&"event": Color(0.80, 0.70, 0.40), &"reward": Color(0.95, 0.80, 0.35), &"dock": Color(0.40, 0.62, 0.78),
 }
 const MAP_BG := Color(0.13, 0.20, 0.24)
 const NODE_RADIUS := 18.0
@@ -161,6 +163,8 @@ func _on_node_completed(rewards: Dictionary, outcome_text: String) -> void:
 	var def := _graph.nodes[_current]
 	for item_id in rewards:
 		GameState.add_item(item_id, int(rewards[item_id]))
+	if def.params.has("tier_s_id") and GameManager.current_world_island != null:
+		GameState.record_tier_s_collected(GameManager.current_world_island.id, StringName(def.params["tier_s_id"]))
 	SignalBus.node_resolved.emit(def, rewards)
 	_clear_node()
 	var ending := _current == _graph.terminal_index or not _any_affordable_ahead()

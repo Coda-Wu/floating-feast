@@ -42,13 +42,15 @@ func _gen_world_islands() -> int:
 		{"type": &"gathering", "params": {"biome": &"orchard"}, "weight": 2.0},
 		{"type": &"npc", "params": {}, "weight": 1.0},
 		{"type": &"butchery", "params": {"stock_id": &"stock_butchery"}, "weight": 1.0, "fuel_cost": 2}, # heavy (2 fuel)
+		{"type": &"dock", "params": {}, "weight": 2.0},
 	]
 	cat.deep_pool = [
-		{"type": &"reward", "params": {"recipe_id": &"classic_rustic_salad"}, "fuel_cost": 2}, # → PlaceholderNode until Step 7
-		{"type": &"reward", "params": {"tier_s_id": &"cat_geode"}, "fuel_cost": 3}, # → PlaceholderNode until Step 7
-		{"type": &"spirit_encounter", "params": {"spirit_id": &"spirit_gourmand", "tier_s_id": &"spirit_gourmand"}, "fuel_cost": 2},
+		{"type": &"reward", "params": {"recipe_id": &"classic_rustic_salad"}, "fuel_cost": 2},
+		{"type": &"reward", "params": {"item_id": &"cat_geode", "count": 1, "tier_s_id": &"cat_geode"}, "fuel_cost": 3},
+		{"type": &"spirit_encounter", "params": {"spirit_id": &"spirit_gourmand"}, "fuel_cost": 2},
 	]
-	cat.tier_s_caps = {&"cat_geode": 1, &"spirit_gourmand": 1}
+	cat.tier_s_caps = {&"cat_geode": 1}
+	cat.standard_terminal_reward = {"item_id": &"tomato", "count": 2} # depleted island → 2× = 4
 	_save(cat, "world_islands", cat.id)
 
 	var spice := WorldIslandData.new()
