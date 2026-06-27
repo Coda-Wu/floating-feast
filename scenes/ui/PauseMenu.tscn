@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://b3lularuogb2u"]
+
+[ext_resource type="Script" uid="uid://dpxketpkv258" path="res://src/ui/pause_menu.gd" id="1_vb6pq"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1791494037]
+layer = 5
+script = ExtResource("1_vb6pq")
+
+[node name="Root" type="Control" parent="." unique_id=1791494038]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Root" unique_id=1791494039]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Center" type="CenterContainer" parent="Root" unique_id=1791494040]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frame" type="PanelContainer" parent="Root/Center" unique_id=1791494041]
+custom_minimum_size = Vector2(560, 320)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Root/Center/Frame" unique_id=1791494042]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Root/Center/Frame/Margin" unique_id=1791494043]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TopRow" type="HBoxContainer" parent="Root/Center/Frame/Margin/VBox" unique_id=1791494044]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Tabs" type="HBoxContainer" parent="Root/Center/Frame/Margin/VBox/TopRow" unique_id=1791494045]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BackpackTab" type="Button" parent="Root/Center/Frame/Margin/VBox/TopRow/Tabs" unique_id=1791494046]
+layout_mode = 2
+text = "Backpack"
+
+[node name="SpiritsTab" type="Button" parent="Root/Center/Frame/Margin/VBox/TopRow/Tabs" unique_id=1791494047]
+layout_mode = 2
+text = "Spirits"
+
+[node name="NpcsTab" type="Button" parent="Root/Center/Frame/Margin/VBox/TopRow/Tabs" unique_id=1791494048]
+layout_mode = 2
+text = "NPCs"
+
+[node name="QuestsTab" type="Button" parent="Root/Center/Frame/Margin/VBox/TopRow/Tabs" unique_id=1791494049]
+layout_mode = 2
+text = "Quests"
+
+[node name="SettingsTab" type="Button" parent="Root/Center/Frame/Margin/VBox/TopRow/Tabs" unique_id=1791494050]
+layout_mode = 2
+text = "Settings"
+
+[node name="LeaveTab" type="Button" parent="Root/Center/Frame/Margin/VBox/TopRow/Tabs" unique_id=1791494051]
+layout_mode = 2
+text = "Leave Game"
+
+[node name="Spacer" type="Control" parent="Root/Center/Frame/Margin/VBox/TopRow" unique_id=1791494052]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="Root/Center/Frame/Margin/VBox/TopRow" unique_id=1791494053]
+layout_mode = 2
+text = "✕"
+
+[node name="Content" type="PanelContainer" parent="Root/Center/Frame/Margin/VBox" unique_id=1791494054]
+layout_mode = 2
+size_flags_vertical = 3

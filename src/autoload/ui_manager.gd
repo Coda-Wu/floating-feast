@@ -2,11 +2,21 @@ extends Node
 ## Owns PersistentUI (a CanvasLayer that survives screen swaps) and is the ONLY bridge
 ## between systems and UI scenes. Listens to SignalBus and pushes updates into UI (§2.6). (§6)
 
+
+const PAUSE_MENU := preload("res://scenes/ui/PauseMenu.tscn")
+
+
 var _persistent_ui: CanvasLayer = null
 var _hud: Control = null
 var _hotbar: Control = null
 var _item_tooltip: Control = null
 var _resolution_panel: Control = null # IslandScreen controls its lifecycle via hide_resolution_panel()
+var _open_modals: Array = [] # dedicated modals currently open (Fridge, Recipe Book, ...)
+var _pause_menu: CanvasLayer = null
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS # still hear Esc to close the menu while the tree is paused
+
 
 func create_persistent_ui(parent: Node) -> void:
 	if _persistent_ui != null:
@@ -21,7 +31,7 @@ func create_persistent_ui(parent: Node) -> void:
 	_hotbar = _persistent_ui.get_hotbar()
 	_item_tooltip = _persistent_ui.get_item_tooltip()
 	SignalBus.phase_changed.connect(_on_phase_changed)
-	SignalBus.inventory_changed.connect(_on_inventory_changed)
+	#SignalBus.inventory_changed.connect(_on_inventory_changed)
 	_hotbar.set_active(_is_hotbar_phase(GameManager.current_phase)) # initial sync
 	SignalBus.tutorial_triggered.connect(_on_tutorial_triggered)
 
@@ -89,8 +99,8 @@ func _is_hotbar_phase(phase: int) -> bool:
 func _on_phase_changed(phase: int) -> void:
 	_hotbar.set_active(_is_hotbar_phase(phase))
 
-func _on_inventory_changed(_item_id: String, _count: int) -> void:
-	_hotbar.refresh()
+# func _on_inventory_changed(_item_id: String, _count: int) -> void:
+# 	_hotbar.refresh()
 
 
 # --- Item-name tooltip (driven by ItemSlot hover; one shared bubble) ---
@@ -191,3 +201,40 @@ func _refresh_commission_hud() -> void:
 		_hud.set_commission("")
 		return
 	_hud.set_commission("◆ %s (%d/%d)" % [c.title, CommissionManager.owned_count(c), c.req_quantity])
+
+
+# --- modal registry (gates whether Esc may open the pause menu) ---
+func register_modal(node: Node) -> void:
+	if node not in _open_modals:
+		_open_modals.append(node)
+
+func unregister_modal(node: Node) -> void:
+	_open_modals.erase(node)
+
+func is_modal_open() -> bool:
+	return not _open_modals.is_empty()
+
+# --- pause menu ---
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if _pause_menu != null:
+			close_pause_menu()
+		elif not is_modal_open():
+			open_pause_menu()
+		# else: a dedicated UI owns the screen — Esc does nothing (gating rule)
+		get_viewport().set_input_as_handled()
+
+func open_pause_menu() -> void:
+	if _pause_menu != null:
+		return
+	_pause_menu = PAUSE_MENU.instantiate()
+	add_child(_pause_menu)
+	_pause_menu.close_requested.connect(close_pause_menu)
+	get_tree().paused = true
+
+func close_pause_menu() -> void:
+	if _pause_menu == null:
+		return
+	get_tree().paused = false
+	_pause_menu.queue_free()
+	_pause_menu = null

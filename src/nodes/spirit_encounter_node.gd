@@ -173,8 +173,7 @@ func _refresh_feed_list() -> void:
 	var rows_added := 0
 	# Raw ingredients — only for easygoing spirits (gourmets refuse raw); working items excluded.
 	if _spirit.required_tier == 0:
-		var ids := GameState.inventory.keys()
-		ids.sort()
+		var ids := GameState.get_carried_item_ids()
 		for item_id in ids:
 			var count := GameState.get_item_count(item_id)
 			if count <= 0:

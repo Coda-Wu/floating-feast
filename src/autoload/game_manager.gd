@@ -35,7 +35,7 @@ func _seed_new_game() -> void:
 	# MVP starting fridge (Appendix A). No save system yet, so this seeds each boot; a real
 	# new-game / load flow replaces it later via the serialization seam. Direct set (no signal):
 	# this is initial model state, not a gameplay event.
-	GameState.inventory = {&"flour": 3, &"sugar": 2, &"olive_oil": 2, &"rice": 2, &"potato": 3, &"tomato": 3, &"eggplant": 1, &"salt": 5, &"rosemary": 1, &"onion": 1}
+	GameState._load_inventory({&"flour": 3, &"sugar": 2, &"olive_oil": 2, &"rice": 2, &"potato": 3, &"tomato": 3, &"eggplant": 1, &"salt": 5, &"rosemary": 1, &"onion": 1})
 	GameState.known_recipes.assign([&"roasted_tomato"]) # tutorial's guaranteed recipe; rest are discoverable
 	
 

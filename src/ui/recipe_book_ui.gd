@@ -34,6 +34,7 @@ func setup() -> void:
 	SignalBus.recipe_discovered.connect(func(_id): _refresh_left())
 	_refresh_left()
 	_show_empty_right()
+	UIManager.register_modal(self)
 
 func _build_left() -> void:
 	var host := _book.get_left_page()
@@ -176,3 +177,7 @@ func _arrow() -> Label:
 	l.text = "→"
 	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	return l
+
+
+func _exit_tree() -> void:
+	UIManager.unregister_modal(self)

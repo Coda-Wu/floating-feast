@@ -72,6 +72,7 @@ func setup() -> void:
 	SignalBus.hotbar_item_selected.connect(_on_hotbar_deposit)
 	_select_tab(&"ingredients")
 	_select_category(&"all")
+	UIManager.register_modal(self)
 
 func _build_top_bookmarks() -> void:
 	for tab in [&"ingredients", &"dishes"]:
@@ -368,3 +369,7 @@ func _on_add_to_backpack() -> void:
 
 func _on_hotbar_deposit(item_id: String) -> void:
 	GameState.deposit_to_fridge(StringName(item_id), 1)
+
+
+func _exit_tree() -> void:
+	UIManager.unregister_modal(self)

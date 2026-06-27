@@ -37,16 +37,6 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="PrevButton" type="Button" parent="Center/Panel/Margin/HBox" unique_id=1916990560]
-custom_minimum_size = Vector2(24, 0)
-layout_mode = 2
-text = "◀"
-
 [node name="SlotsRow" type="HBoxContainer" parent="Center/Panel/Margin/HBox" unique_id=432137400]
 layout_mode = 2
 theme_override_constants/separation = 3
-
-[node name="NextButton" type="Button" parent="Center/Panel/Margin/HBox" unique_id=1529829564]
-custom_minimum_size = Vector2(24, 0)
-layout_mode = 2
-text = "▶"

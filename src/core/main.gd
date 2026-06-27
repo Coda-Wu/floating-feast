@@ -7,7 +7,7 @@ class_name Main extends Node2D
 
 func _ready() -> void:
 	SceneRouter.register_host(_screen_host)
-	UIManager.create_persistent_ui(self )
+	UIManager.create_persistent_ui(self)
 	GameManager.start_day()
 	# TEMP P-2b — dishes across tiers + methods for the Dishes tab
 	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
@@ -19,31 +19,13 @@ func _ready() -> void:
 	GameState.add_dish(&"hummus", 2, 1)
 	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
 	# TEMP 2a — print unlock states at current quest_phase
-	_verify_step7() # TEMP — delete after confirming
+	_verify_step2()
 
-
-# ==== TEMP — delete after Step 7 verify ====
-func _verify_step7() -> void:
-	var island := Database.get_world_island(&"cat_island")
-	print("baseline terminals: ", _terminal_hist(island, 300))
-	GameState.known_recipes.append(&"classic_rustic_salad") # learn the recipe
-	GameState.captured_spirits.append("spirit_gourmand") # tame the unique spirit
-	GameState.record_tier_s_collected(&"cat_island", &"cat_geode") # collect the capped geode
-	print("island_depletion: ", GameState.island_depletion)
-	print("depleted terminals: ", _terminal_hist(island, 300))
-	var saved := GameState.serialize() # round-trip
-	GameState.island_depletion = {}
-	GameState.deserialize(saved)
-	print("after round-trip: ", GameState.island_depletion)
-
-func _terminal_hist(island, n: int) -> Dictionary:
-	var h := {}
-	for s in n:
-		var p: Dictionary = RunGraphGenerator.generate(island, s).nodes[RunGraphGenerator.generate(island, s).terminal_index].params
-		var key := "?"
-		if p.has("recipe_id"): key = "recipe:" + String(p["recipe_id"])
-		elif p.has("spirit_id"): key = "spirit:" + String(p["spirit_id"])
-		elif p.has("tier_s_id"): key = "tierS:" + String(p["tier_s_id"])
-		elif p.has("item_id"): key = "consumable:%sx%d" % [p["item_id"], int(p.get("count", 1))]
-		h[key] = int(h.get(key, 0)) + 1
-	return h
+func _verify_step2() -> void:
+	print("[v2] slots=", GameState.slot_count(), " (expect 30)")
+	GameState.add_item(&"tomato", 3); GameState.add_item(&"potato", 1); GameState.add_item(&"tomato", 2)
+	print("[v2] tomato=", GameState.get_item_count(&"tomato"), " (expect 5)  slot0=", GameState.get_slot(0))
+	print("[v2] removed4=", GameState.remove_item(&"tomato", 4), " tomato=", GameState.get_item_count(&"tomato"), " (expect true,1)")
+	print("[v2] ids=", GameState.get_carried_item_ids())
+	var saved := GameState.serialize(); GameState.inventory = []; GameState.deserialize(saved)
+	print("[v2] round-trip tomato=", GameState.get_item_count(&"tomato"), " slot0=", GameState.get_slot(0))

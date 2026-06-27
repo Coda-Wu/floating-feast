@@ -2,10 +2,11 @@ extends Node
 ## The runtime model: pure data + persistence + thin mutators that emit change signals.
 ## NO gameplay rules (deciding rewards / prices / tiers lives in the systems). (§6, §E)
 
+
 # --- Runtime state ---
 var day: int = 1
 var coins: int = 50
-var inventory: Dictionary = {} # ingredient item_id -> count (UNTOUCHED by Week 2)
+var inventory: Array = [] # slot-ordered carried items; each cell null OR { kind:StringName, id:StringName, count:int }. Slots 0-9 = hotbar row 0.
 var fridge_storage: Dictionary = {} # ingredient item_id -> count (home storage; parallel to carried inventory)
 var dish_inventory: Dictionary = {} # "recipe_id|tier" -> count (the one Week-2 model extension, §H-1)
 var known_recipes: Array[StringName] = [] # recipe ids the player has learned (codex)
@@ -28,6 +29,22 @@ var islands_explored_today: Array = [] # world-island ids explored today (one fo
 const DAY_START_MINUTES := 360 # 6:00 AM
 const CURFEW_MINUTES := 1560 # 2:00 AM — the day's hard edge
 
+
+const HOTBAR_SLOTS := 10
+const SLOTS_PER_ROW := 10
+const BACKPACK_ROWS := 2 # active backpack rows below the hotbar (upgradable later, +1 row of 10 each)
+const STACK_MAX := 999
+
+
+func _ready() -> void:
+	_ensure_inventory_size()
+
+func _ensure_inventory_size() -> void:
+	var target := HOTBAR_SLOTS + BACKPACK_ROWS * SLOTS_PER_ROW
+	while inventory.size() < target:
+		inventory.append(null)
+
+
 func would_pass_curfew(minutes: int) -> bool:
 	return time_minutes + minutes > CURFEW_MINUTES
 
@@ -44,25 +61,48 @@ func mark_island_explored(island_id: StringName) -> void:
 func add_item(item_id: StringName, count: int = 1) -> void:
 	if count <= 0:
 		return
-	var new_count := int(inventory.get(item_id, 0)) + count
-	inventory[item_id] = new_count
-	SignalBus.inventory_changed.emit(item_id, new_count)
+	var remaining := count
+	for i in inventory.size(): # 1) stack onto existing item slots
+		if remaining <= 0: break
+		if _is_item_slot(inventory[i], item_id):
+			var space := STACK_MAX - int(inventory[i]["count"])
+			if space > 0:
+				var add := mini(space, remaining)
+				inventory[i]["count"] += add
+				remaining -= add
+	for i in inventory.size(): # 2) leftovers into empty slots
+		if remaining <= 0: break
+		if inventory[i] == null:
+			var add := mini(STACK_MAX, remaining)
+			inventory[i] = {"kind": &"item", "id": item_id, "count": add}
+			remaining -= add
+	if remaining > 0:
+		push_warning("Inventory full: dropped %d × %s" % [remaining, item_id]) # capacity-full UX is Step 5
+	_emit_inventory_changed(item_id)
 
 func remove_item(item_id: StringName, count: int = 1) -> bool:
-	var have := int(inventory.get(item_id, 0))
-	if have < count:
+	if count <= 0:
+		return true
+	if get_item_count(item_id) < count:
 		return false
-	var new_count := have - count
-	if new_count <= 0:
-		inventory.erase(item_id)
-		new_count = 0
-	else:
-		inventory[item_id] = new_count
-	SignalBus.inventory_changed.emit(item_id, new_count)
+	var remaining := count
+	for i in inventory.size():
+		if remaining <= 0: break
+		if _is_item_slot(inventory[i], item_id):
+			var take := mini(int(inventory[i]["count"]), remaining)
+			inventory[i]["count"] -= take
+			remaining -= take
+			if int(inventory[i]["count"]) <= 0:
+				inventory[i] = null
+	_emit_inventory_changed(item_id)
 	return true
 
 func get_item_count(item_id: StringName) -> int:
-	return int(inventory.get(item_id, 0))
+	var total := 0
+	for slot in inventory:
+		if _is_item_slot(slot, item_id):
+			total += int(slot["count"])
+	return total
 
 
 func apply_run_buff(buff: Dictionary) -> void:
@@ -255,7 +295,7 @@ func serialize() -> Dictionary:
 func deserialize(d: Dictionary) -> void:
 	day = d.get("day", 1)
 	coins = d.get("coins", 50)
-	inventory = (d.get("inventory", {}) as Dictionary).duplicate(true)
+	# inventory = (d.get("inventory", {}) as Dictionary).duplicate(true)
 	dish_inventory = (d.get("dish_inventory", {}) as Dictionary).duplicate(true)
 	known_recipes.assign(d.get("known_recipes", []))
 	captured_spirits.assign(d.get("captured_spirits", []))
@@ -271,6 +311,7 @@ func deserialize(d: Dictionary) -> void:
 	fuel_max = d.get("fuel_max", 6)
 	time_minutes = d.get("time_minutes", 360)
 	island_depletion = (d.get("island_depletion", {}) as Dictionary).duplicate(true)
+	_load_inventory(d.get("inventory", []))
 
 # --- Garden (assign captured spirits to pots; remove permanently consumes) ---
 func assign_spirit_to_garden(spirit_id: String, slot: int) -> bool:
@@ -325,3 +366,42 @@ func record_tier_s_collected(island_id: StringName, tier_s_id: StringName) -> vo
 	var st: Dictionary = island_depletion.get(island_id, {})
 	st[tier_s_id] = int(st.get(tier_s_id, 0)) + 1
 	island_depletion[island_id] = st
+
+
+# --- Inventory utility helpers ---
+func _is_item_slot(slot, item_id: StringName) -> bool:
+	return slot != null and slot.get("kind") == &"item" and StringName(slot.get("id")) == item_id
+
+func _emit_inventory_changed(item_id: StringName) -> void:
+	SignalBus.inventory_changed.emit(item_id, get_item_count(item_id)) # ID consumers (fridge)
+	SignalBus.inventory_slots_changed.emit() # positional consumers (hotbar/backpack)
+
+func get_slot(i: int):
+	return inventory[i] if i >= 0 and i < inventory.size() else null
+
+func slot_count() -> int:
+	return inventory.size()
+
+func get_carried_item_ids() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for slot in inventory:
+		if slot != null and slot.get("kind") == &"item":
+			var id := StringName(slot["id"])
+			if id not in ids:
+				ids.append(id)
+	return ids
+
+func _load_inventory(data) -> void:
+	inventory = []
+	_ensure_inventory_size()
+	if data is Array:
+		for i in mini(data.size(), inventory.size()):
+			var s = data[i]
+			inventory[i] = (s.duplicate(true) if s is Dictionary else null)
+	elif data is Dictionary: # legacy {id:count} save → fill slots in order
+		var idx := 0
+		for id in data:
+			if idx >= inventory.size(): break
+			inventory[idx] = {"kind": &"item", "id": StringName(id), "count": int(data[id])}
+			idx += 1
+	SignalBus.inventory_slots_changed.emit()
