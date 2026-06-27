@@ -1,0 +1,209 @@
+[gd_scene format=3 uid="uid://oxt1kqgi73ea"]
+
+[ext_resource type="Texture2D" uid="uid://d1m4ltbnbstr4" path="res://assets/art/scenes/cabin/ceiling.png" id="1_ceiling"]
+[ext_resource type="Texture2D" uid="uid://byxvbhj7fslbg" path="res://assets/art/scenes/cabin/wall_tile.png" id="2_walltile"]
+[ext_resource type="Texture2D" uid="uid://4yd16wukj5kw" path="res://assets/art/scenes/cabin/floor.png" id="4_floor"]
+[ext_resource type="Texture2D" uid="uid://cbm7byyjpuviy" path="res://assets/art/scenes/cabin/carpet.png" id="5_carpet"]
+[ext_resource type="Texture2D" uid="uid://nnrs81oh40fp" path="res://assets/art/scenes/cabin/decoration.png" id="6_decor"]
+[ext_resource type="Texture2D" uid="uid://dqnd42orjt80s" path="res://assets/art/scenes/cabin/bed.png" id="7_bed"]
+[ext_resource type="Texture2D" uid="uid://bwvvwjcipm67h" path="res://assets/art/scenes/cabin/fridge.png" id="8_fridge"]
+[ext_resource type="Texture2D" uid="uid://b2xdku1ktfob2" path="res://assets/art/scenes/cabin/oven.png" id="9_oven"]
+[ext_resource type="Texture2D" uid="uid://bqaxxqcuhs508" path="res://assets/art/scenes/cabin/cabinet_1.png" id="10_cab1"]
+[ext_resource type="Texture2D" uid="uid://87qheg2i32ah" path="res://assets/art/scenes/cabin/cabinet_2.png" id="11_cab2"]
+[ext_resource type="Texture2D" uid="uid://bc07m1et6qcca" path="res://assets/art/scenes/cabin/mixer.png" id="12_mixer"]
+[ext_resource type="Texture2D" uid="uid://cfsfekjeeac6w" path="res://assets/art/scenes/cabin/window.png" id="13_window"]
+[ext_resource type="Texture2D" uid="uid://o6hg3ie3j7b8" path="res://assets/art/scenes/cabin/door.png" id="14_door"]
+[ext_resource type="Texture2D" uid="uid://dmhdeu567gyse" path="res://assets/art/scenes/cabin/wood_box.png" id="15_woodbox"]
+[ext_resource type="Texture2D" uid="uid://dq0g10gg2kpls" path="res://assets/art/scenes/cabin/rudder.png" id="16_rudder"]
+[ext_resource type="Texture2D" uid="uid://ha6sub2ymhju" path="res://assets/art/scenes/cabin/lamp.png" id="17_lamp"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r4cx6"]
+load_path = "res://.godot/imported/wall_wood.png-dd3e5cb8b52be1ce0231264095ff7f30.ctex"
+
+[node name="CabinLayout" type="Control" unique_id=2108696514]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WallTile" type="TextureRect" parent="." unique_id=100380265]
+layout_mode = 1
+offset_right = 501.0
+offset_bottom = 158.0
+texture = ExtResource("2_walltile")
+stretch_mode = 1
+
+[node name="Floor" type="TextureRect" parent="." unique_id=811671352]
+layout_mode = 1
+offset_top = 137.0
+offset_right = 501.0
+offset_bottom = 169.0
+texture = ExtResource("4_floor")
+stretch_mode = 1
+
+[node name="WallWood" type="TextureRect" parent="." unique_id=1817813190]
+layout_mode = 1
+offset_top = 104.0
+offset_right = 501.0
+offset_bottom = 139.0
+texture = SubResource("CompressedTexture2D_r4cx6")
+stretch_mode = 1
+
+[node name="Ceiling" type="TextureRect" parent="." unique_id=950599546]
+layout_mode = 1
+offset_right = 501.0
+offset_bottom = 12.0
+texture = ExtResource("1_ceiling")
+stretch_mode = 1
+
+[node name="Carpet" type="TextureRect" parent="." unique_id=372440288]
+layout_mode = 1
+offset_left = 253.0
+offset_top = 140.0
+offset_right = 275.0
+offset_bottom = 167.0
+texture = ExtResource("5_carpet")
+
+[node name="Bed" type="TextureRect" parent="." unique_id=1990478024]
+layout_mode = 1
+offset_left = 375.0
+offset_top = 100.0
+offset_right = 446.0
+offset_bottom = 146.0
+texture = ExtResource("7_bed")
+stretch_mode = 2
+
+[node name="Fridge" type="TextureRect" parent="." unique_id=70934357]
+layout_mode = 1
+offset_top = 58.0
+offset_right = 41.0
+offset_bottom = 144.0
+texture = ExtResource("8_fridge")
+
+[node name="Decoration" type="TextureRect" parent="." unique_id=1685165352]
+layout_mode = 1
+offset_top = 5.0
+offset_right = 501.0
+offset_bottom = 163.0
+texture = ExtResource("6_decor")
+metadata/_edit_lock_ = true
+
+[node name="Oven" type="TextureRect" parent="." unique_id=1778732579]
+layout_mode = 1
+offset_left = 41.0
+offset_top = 95.0
+offset_right = 83.0
+offset_bottom = 144.0
+texture = ExtResource("9_oven")
+
+[node name="Cabinet1" type="TextureRect" parent="." unique_id=1018686977]
+layout_mode = 1
+offset_left = 82.0
+offset_top = 99.0
+offset_right = 131.0
+offset_bottom = 144.0
+texture = ExtResource("10_cab1")
+
+[node name="Cabinet2" type="TextureRect" parent="." unique_id=1869681271]
+layout_mode = 1
+offset_left = 130.0
+offset_top = 84.0
+offset_right = 179.0
+offset_bottom = 144.0
+texture = ExtResource("11_cab2")
+
+[node name="Mixer" type="TextureRect" parent="." unique_id=1964610029]
+layout_mode = 1
+offset_left = 94.0
+offset_top = 84.0
+offset_right = 123.0
+offset_bottom = 113.0
+texture = ExtResource("12_mixer")
+
+[node name="Window" type="TextureRect" parent="." unique_id=1134265838]
+layout_mode = 1
+offset_left = 193.0
+offset_top = 48.0
+offset_right = 259.0
+offset_bottom = 96.0
+texture = ExtResource("13_window")
+
+[node name="Door" type="TextureRect" parent="." unique_id=919361203]
+layout_mode = 1
+offset_left = 299.0
+offset_top = 70.0
+offset_right = 346.0
+offset_bottom = 139.0
+texture = ExtResource("14_door")
+
+[node name="WoodBox" type="TextureRect" parent="." unique_id=251306049]
+layout_mode = 1
+offset_left = 450.0
+offset_top = 118.0
+offset_right = 475.0
+offset_bottom = 146.0
+texture = ExtResource("15_woodbox")
+
+[node name="WoodBox2" type="TextureRect" parent="WoodBox" unique_id=1189687636]
+layout_mode = 0
+offset_left = 24.0
+offset_right = 49.0
+offset_bottom = 28.0
+texture = ExtResource("15_woodbox")
+
+[node name="WoodBox3" type="TextureRect" parent="WoodBox" unique_id=237433823]
+layout_mode = 0
+offset_left = 12.0
+offset_top = -19.0
+offset_right = 37.0
+offset_bottom = 9.0
+texture = ExtResource("15_woodbox")
+
+[node name="Rudder" type="TextureRect" parent="." unique_id=735690114]
+layout_mode = 1
+offset_left = 479.0
+offset_top = 114.0
+offset_right = 501.0
+offset_bottom = 158.0
+texture = ExtResource("16_rudder")
+
+[node name="Lamp" type="TextureRect" parent="." unique_id=1894434021]
+layout_mode = 1
+offset_left = 129.0
+offset_top = 39.0
+offset_right = 138.0
+offset_bottom = 49.0
+texture = ExtResource("17_lamp")
+
+[node name="Lamp2" type="TextureRect" parent="Lamp" unique_id=512410169]
+layout_mode = 0
+offset_left = 153.0
+offset_top = 52.0
+offset_right = 162.0
+offset_bottom = 62.0
+texture = ExtResource("17_lamp")
+
+[node name="Lamp" type="TextureRect" parent="Lamp" unique_id=28881824]
+layout_mode = 0
+offset_left = -116.0
+offset_right = -107.0
+offset_bottom = 10.0
+texture = ExtResource("17_lamp")
+
+[node name="Lamp3" type="TextureRect" parent="Lamp" unique_id=1372070263]
+layout_mode = 0
+offset_left = 225.0
+offset_top = 52.0
+offset_right = 234.0
+offset_bottom = 62.0
+texture = ExtResource("17_lamp")
+
+[node name="Window2" type="TextureRect" parent="." unique_id=1159509376]
+layout_mode = 0
+offset_left = 378.0
+offset_top = 49.0
+offset_right = 444.0
+offset_bottom = 97.0
+texture = ExtResource("13_window")
