@@ -24,10 +24,10 @@ How the code is wired, so any code you propose **fits this project's conventions
 
 ## 3. Autoloads (singletons) — dependency order
 
-Defined in `src/autoload/`, snake_case filenames. **Autoloads have NO `class_name`** (the global is the autoload name). Loaded in this order:
+Defined in `src/autoload/`, snake_case filenames. **Autoloads have NO `class_name`** (the global is the autoload name). The **Dialogic** plugin registers its own autoload *first* (before SignalBus); it's an addon, not one of our singletons — see §10. Our singletons load in this dependency order:
 
 1. `signal_bus.gd` — **SignalBus.** Global signal hub; the only cross-system channel.
-2. `database.gd` — **Database.** Scans `resources/`, indexes every `.tres` by `id`, halts on duplicate ids. Final-first asset resolver.
+2. `data_base.gd` — **Database.** Scans `resources/`, indexes every `.tres` by `id`, halts on duplicate ids. Final-first asset resolver.
 3. `game_state.gd` — **GameState.** The runtime model: pure data + persistence + thin mutators that emit signals. **No gameplay rules.**
 4. `audio_manager.gd` — **AudioManager.**
 5. `scene_router.gd` — **SceneRouter.**
@@ -36,6 +36,7 @@ Defined in `src/autoload/`, snake_case filenames. **Autoloads have NO `class_nam
 8. `quest_manager.gd` — **QuestManager.**
 9. `commission_manager.gd` — **CommissionManager.**
 10. `game_manager.gd` — **GameManager.** Day-phase machine + run orchestration.
+11. `locale_manager.gd` — **LocaleManager.** Runtime language handling (registered last; adds no dependency to game scenes). See §11.
 
 ---
 
@@ -124,3 +125,12 @@ Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_invent
 ## 10. Other tools
 
 - **Dialogic** for NPC dialogue (signal pattern retained from prior architecture). Reserved for M2 narrative work.
+
+## 11. Localization (runtime i18n)
+
+The game ships English + Simplified Chinese, switchable live.
+
+- **`LocaleManager`** (autoload, no `class_name`) — defaults to the **OS language**, shows a **first-launch language picker**, and mounts a persistent **"语言" button** (its own `CanvasLayer`, layers 127/128) so the player can re-pick anytime. `set_language("zh"/"en"/"system")` switches live; the choice persists to `user://settings.cfg` under `[locale]/language`. `SUPPORTED = ["zh","en"]`, fallback `en`. It builds its UI in code, so it touches **no** game scene.
+- **Translation source:** Godot's `TranslationServer` + `res://locale/zh.po`, registered in `project.godot` under `[internationalization] locale/translations`.
+- **Font:** `assets/fonts/ZCOOLKuaiLe-Regular.ttf` is set as `gui/theme/custom_font` for CJK glyph coverage.
+- **Coding standard (mirrors CLAUDE.md):** every player-facing string goes through `tr()` / `tr_n()`; every new English key gets its `zh.po` Chinese counterpart **in the same pass** — no untranslated player-facing English in a code change.

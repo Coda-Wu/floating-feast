@@ -20,6 +20,12 @@
 - **Deferred:** Nothing new; carried the existing deferred-threads list into STATE.md.
 - **Verified:** Transition made on a clean boundary — Pause-Menu **Step 2 done & verified, Step 3 not started.** First local task is the doc seeding itself, then resume at Step 3.
 
+## 2026-06-27 — Doc reconciliation: i18n system documented; cabin art parked
+
+- **Changed (docs only):** ARCHITECTURE §3 now lists Dialogic (plugin autoload, registered first) + LocaleManager (11th autoload) and corrects the Database filename to `data_base.gd`; added ARCHITECTURE §11 documenting the runtime localization pipeline. STATE: added Localization to Completed systems; parked the orphaned `scenes/cabin/CabinLayout.tscn` under Deferred threads.
+- **Decided:** the i18n system (LocaleManager + zh.po + TranslationServer + ZCOOLKuaiLe font) is canon and matches CLAUDE.md's strict-L10n standard. The cabin art drop stays parked M2 — it does NOT override "kitchen top-down forever" or "walkable ship = M2".
+- **Deferred:** wiring the cabin interior; Dialogic narrative (M2).
+- **Verified:** code is the source of truth — both autoloads confirmed in project.godot; cabin scene confirmed orphaned (no references). No code changed.
 ---
 
 ## (reconstructed) — Project history to date

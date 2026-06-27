@@ -41,6 +41,7 @@ Each item is its own teach-then-code step behind a Verify gate.
 - **Cooking spice-constraint redesign (LOCKED):** tier = `clamp(2 + distinct compatible spices, 1, tier_cap)`; flavor-tag compatibility; set-aside (never wasted/Dubious); pipeline = only 5★ path. See DESIGN.md §3.
 - **Open-book Fridge + Recipe Book:** shared hardened `BookFrame` (512×288), category bookmarks, info pages, visual recipe rows; driven by `CookingInfo`.
 - **Exploration System Rework (all 9 steps COMPLETE):** Fuel+Time resources (fuel 6, node-driven time, 2 AM curfew, fuel-only gate); static fog-of-war Ocean Map of `WorldIslandData`; branching layered DAG via `RunGraphGenerator`/`RunGraph` held by `GameManager.run_graph`; previewable one-way path-map `IslandScreen` (fuel-on-entry, branch forfeit, loot-kept auto-return, capped 2 AM faint, manual retreat, overnight refuel/reset); DockNode; RewardNode + 3-mechanism Tier-S depletion (recipes/spirits/`island_depletion`) + 2× depleted terminal; SynergyEventNode (fungible-only buff, never Tier-S); **budget system deleted** + orphaned procedural classes removed; all-exits-to-ship + one-foray-per-day. See DESIGN.md §4, ARCHITECTURE.md §7–8.
+**Localization (runtime i18n):** `LocaleManager` autoload (OS-default language, first-launch picker, persistent 语言 button, live switch, persisted to `user://settings.cfg`); Godot `TranslationServer` + `locale/zh.po`; ZCOOLKuaiLe CJK font as the project font. Standard: all player-facing strings via `tr()`/`tr_n()` with simultaneous `zh.po` entries. See ARCHITECTURE.md §11.
 
 ---
 
@@ -55,6 +56,7 @@ Each item is its own teach-then-code step behind a Verify gate.
 - **Mining / fishing** — deferred; open decision whether they become node minigames or free on-ship daytime activities. If free on-ship: rewards stay consumable-tier; food never refuels Ember (the firewall).
 - **M2:** name-entry onboarding (writes `player_name`/`ship_name`), Dialogic narrative slice, walkable ship deck, side-scroller Garden, additional World Islands, non-spirit slot kinds (ore/geode/furniture), Captain's-room steering wheel for the Ocean Map.
 - **Steam roadmap:** Next Fest slot held for the launch run-up (not used early).
+**Ship cabin interior** (`scenes/cabin/CabinLayout.tscn` + cabin art): artist-authored walkable ship-interior layout (rudder/oven/mixer/fridge in one room), currently **orphaned** — referenced by no script or scene. Parked as **M2 art**; does **not** override the locked "kitchen top-down forever" or "walkable ship deck + Captain's-room steering wheel = M2" decisions. Revisit when the M2 ship interior is actually designed.
 
 ---
 
