@@ -34,25 +34,25 @@ func set_time(minutes: int) -> void:
 func set_fuel(current: int, maximum: int) -> void:
 	_fuel_bar.max_value = maximum
 	_fuel_bar.value = current
-	_fuel_label.text = "Fuel %d/%d" % [current, maximum]
+	_fuel_label.text = tr("Fuel %d/%d") % [current, maximum]
 
 func _format_clock(minutes: int) -> String:
 	var h := int(minutes / 60.0) % 24
 	var m := minutes % 60
-	var suffix := "AM" if h < 12 else "PM"
+	var suffix := tr("AM") if h < 12 else tr("PM")
 	var h12 := h % 12
 	if h12 == 0:
 		h12 = 12
 	return "%d:%02d %s" % [h12, m, suffix]
 
 func set_day(day: int) -> void:
-	_day_label.text = "Day %d" % day
+	_day_label.text = tr("Day %d") % day
 
 func set_weather(weather_name: String) -> void:
-	_weather_label.text = weather_name
+	_weather_label.text = tr(weather_name)
 
 func set_rank(rank: int) -> void:
-	_rank_label.text = "Rank %d" % rank
+	_rank_label.text = tr("Rank %d") % rank
 	_rank_label.visible = rank > 0
 
 
@@ -60,7 +60,7 @@ func set_quest(text: String) -> void:
 	_quest_label.text = text
 
 func set_coins(amount: int) -> void:
-	_coins_label.text = "Coins: %d" % amount
+	_coins_label.text = tr("Coins: %d") % amount
 
 
 func set_commission(text: String) -> void:
@@ -73,4 +73,4 @@ func set_buff(buff: Dictionary) -> void:
 		_buff_label.text = ""
 	else:
 		_buff_label.visible = true
-		_buff_label.text = "✨ %s" % String(buff.get("label", "Run buff"))
+		_buff_label.text = "✨ %s" % tr(String(buff.get("label", "Run buff")))

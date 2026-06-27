@@ -14,5 +14,5 @@ func _run() -> void:
 	var before := GameState.fuel_current
 	GameState.add_fuel(randi_range(MIN_REFUEL, MAX_REFUEL)) # clamps to fuel_max
 	var gained := GameState.fuel_current - before # actual gain after clamping
-	_result.text = "Ember refuels: +%d fuel   (tank %d/%d)" % [gained, GameState.fuel_current, GameState.fuel_max]
-	_cast_off.pressed.connect(func() -> void: complete({}, "Refueled at the dock (+%d fuel)." % gained))
+	_result.text = tr("Ember refuels: +%d fuel   (tank %d/%d)") % [gained, GameState.fuel_current, GameState.fuel_max]
+	_cast_off.pressed.connect(func() -> void: complete({}, tr("Refueled at the dock (+%d fuel).") % gained))

@@ -20,8 +20,8 @@ func _run() -> void:
 	_giver_id = node_def.params.get("giver_id", &"")
 	var text := String(node_def.params.get("text", ""))
 	if text.is_empty():
-		text = _DEFAULT_LINES[randi() % _DEFAULT_LINES.size()]
-	_name_label.text = "Islander"
+		text = tr(_DEFAULT_LINES[randi() % _DEFAULT_LINES.size()])
+	_name_label.text = tr("Islander")
 	_text_label.text = text
 	_continue_button.pressed.connect(func() -> void: complete({}))
 	if _giver_id != &"":
@@ -36,12 +36,12 @@ func _add_commission_ui() -> void:
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD
 	status.custom_minimum_size = Vector2(300, 0)
 	var owned := CommissionManager.owned_count(_commission)
-	status.text = "» %s: %s (have %d/%d)" % [_commission.title, _commission.detail, owned, _commission.req_quantity]
+	status.text = tr("» %s: %s (have %d/%d)") % [_commission.title, _commission.detail, owned, _commission.req_quantity]
 	box.add_child(status)
 	box.move_child(status, _continue_button.get_index()) # above Continue
 	if CommissionManager.can_fulfill(_commission):
 		var deliver := Button.new()
-		deliver.text = "Deliver  (%d dishes)" % _commission.req_quantity
+		deliver.text = tr("Deliver  (%d dishes)") % _commission.req_quantity
 		deliver.pressed.connect(_on_deliver)
 		box.add_child(deliver)
 		box.move_child(deliver, _continue_button.get_index())
@@ -55,5 +55,5 @@ func _on_deliver() -> void:
 		return
 	if is_instance_valid(_deliver_button):
 		_deliver_button.queue_free()
-	var bonus := "  (+%d on-time bonus!)" % _commission.on_time_bonus if result["on_time"] else ""
-	_text_label.text = "Wonderful — exactly what I needed! Here's %d coins.%s" % [result["coins"], bonus]
+	var bonus := tr("  (+%d on-time bonus!)") % _commission.on_time_bonus if result["on_time"] else ""
+	_text_label.text = tr("Wonderful — exactly what I needed! Here's %d coins.%s") % [result["coins"], bonus]

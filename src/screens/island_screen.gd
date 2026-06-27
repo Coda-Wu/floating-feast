@@ -109,11 +109,11 @@ func _any_affordable_ahead() -> bool:
 
 func _tooltip_for(i: int) -> String:
 	var nd := _graph.nodes[i]
-	var label: String = NODE_LABELS.get(nd.type, String(nd.type))
+	var label: String = tr(NODE_LABELS.get(nd.type, String(nd.type)))
 	if i == _current:
-		return "%s — you are here" % label
+		return tr("%s — you are here") % label
 	if i in _graph.next_of(_current):
-		return "%s — %d fuel%s" % [label, nd.fuel_cost, ("" if _affordable(i) else "  (not enough fuel)")]
+		return tr("%s — %d fuel%s") % [label, nd.fuel_cost, ("" if _affordable(i) else tr("  (not enough fuel)"))]
 	return label
 
 # --- entering & running a node ---
@@ -142,8 +142,8 @@ func _faint() -> void:
 	SignalBus.day_auto_returned.emit(&"curfew")
 	SignalBus.island_exited.emit()
 	UIManager.show_resolution_panel({}, false,
-		"It's 2 AM — you drifted off on the way back. (coin - 25)",
-		"Wake up", _wake, _wake)
+		tr("It's 2 AM — you drifted off on the way back. (coin - 25)"),
+		tr("Wake up"), _wake, _wake)
 
 func _wake() -> void:
 	UIManager.hide_resolution_panel()
@@ -180,10 +180,10 @@ func _on_node_completed(rewards: Dictionary, outcome_text: String) -> void:
 	var ending := _current == _graph.terminal_index or not _any_affordable_ahead()
 	var msg := outcome_text
 	if _current == _graph.terminal_index:
-		msg = (msg + "\n" if msg != "" else "") + "You reached the day's prize."
+		msg = (msg + "\n" if msg != "" else "") + tr("You reached the day's prize.")
 	elif ending:
-		msg = (msg + "\n" if msg != "" else "") + "Ember's tank is too low to press on."
-	var label := "Set sail home" if ending else "Continue"
+		msg = (msg + "\n" if msg != "" else "") + tr("Ember's tank is too low to press on.")
+	var label := tr("Set sail home") if ending else tr("Continue")
 	UIManager.show_resolution_panel(granted, false, msg, label, _on_ack.bind(ending), _on_ack.bind(ending))
 
 func _on_ack(ending: bool) -> void:
@@ -240,7 +240,7 @@ func _draw_node(i: int) -> void:
 		draw_arc(p, NODE_RADIUS + 3, 0, TAU, 28, Color(1, 1, 1, 0.95), 2.5, true)
 	elif reachable and _affordable(i):
 		draw_arc(p, NODE_RADIUS + 2, 0, TAU, 28, Color(0.98, 0.92, 0.55), 2.0, true)
-	_draw_label(NODE_LABELS.get(nd.type, String(nd.type)), p + Vector2(0, -NODE_RADIUS - 4), Color.WHITE)
+	_draw_label(tr(NODE_LABELS.get(nd.type, String(nd.type))), p + Vector2(0, -NODE_RADIUS - 4), Color.WHITE)
 	if nd.fuel_cost > 0:
 		_draw_fuel(p + Vector2(0, NODE_RADIUS + 8), nd.fuel_cost)
 

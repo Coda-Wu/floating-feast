@@ -54,8 +54,8 @@ func _run() -> void:
 	_fruit_pool = Database.get_ingredients_by_source(&"orchard")
 	_build_legend()
 	_time_left = DURATION
-	_timer_label.text = "Time: %.1f" % _time_left
-	_basket_label.text = "Basket: 0"
+	_timer_label.text = tr("Time: %.1f") % _time_left
+	_basket_label.text = tr("Basket: 0")
 	_ready_overlay.visible = true
 	_start_button.pressed.connect(_begin)
 	set_process(false) # nothing moves until Start
@@ -66,7 +66,7 @@ func _begin() -> void:
 		return
 	if _fruit_pool.is_empty():
 		push_warning("OrchardGatheringNode: no orchard-sourced ingredients.")
-		complete({}, "The orchard was bare today.")
+		complete({}, tr("The orchard was bare today."))
 		return
 	_ready_overlay.visible = false
 	_playing = true
@@ -80,7 +80,7 @@ func _process(delta: float) -> void:
 		_time_left = 0.0
 		_finish()
 		return
-	_timer_label.text = "Time: %.1f" % _time_left
+	_timer_label.text = tr("Time: %.1f") % _time_left
 	var half := BASKET_SIZE.x * 0.5
 	_basket_x = clampf(get_local_mouse_position().x, PLAY_RECT.position.x + half, PLAY_RECT.end.x - half)
 	_spawn_accum += delta
@@ -124,7 +124,7 @@ func _on_caught(item: Dictionary) -> void:
 		var id: StringName = item["id"]
 		_caught[id] = int(_caught.get(id, 0)) + 1
 		_caught_total += 1
-		_basket_label.text = "Basket: %d" % _caught_total
+		_basket_label.text = tr("Basket: %d") % _caught_total
 
 func _finish() -> void:
 	if _resolved:
@@ -133,7 +133,7 @@ func _finish() -> void:
 	_playing = false
 	set_process(false)
 	queue_redraw()
-	var msg := "Gathered a basketful!" if not _caught.is_empty() else "The fruit all slipped past you this time."
+	var msg := tr("Gathered a basketful!") if not _caught.is_empty() else tr("The fruit all slipped past you this time.")
 	complete(_caught.duplicate(), msg)
 
 # --- drawing ---
@@ -165,8 +165,8 @@ func _build_legend() -> void:
 	for c in _legend.get_children():
 		c.queue_free()
 	for fruit in _fruit_pool:
-		_legend.add_child(_legend_entry(_fruit_color(fruit.id), fruit.display_name))
-	_legend.add_child(_legend_entry(HAZARD_COLOR, "hazards -%ds" % int(HAZARD_TIME_PENALTY)))
+		_legend.add_child(_legend_entry(_fruit_color(fruit.id), tr(fruit.display_name)))
+	_legend.add_child(_legend_entry(HAZARD_COLOR, tr("hazards -%ds") % int(HAZARD_TIME_PENALTY)))
 
 func _legend_entry(color: Color, text: String) -> HBoxContainer:
 	var box := HBoxContainer.new()

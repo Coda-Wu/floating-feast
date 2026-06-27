@@ -48,14 +48,14 @@ func _draw_island(wi: WorldIslandData) -> void:
 	if _is_explored(wi):
 		draw_circle(pos, ISLAND_RADIUS, Color(0.40, 0.50, 0.42, 0.7)) # explored: dimmed, inert
 		draw_arc(pos, ISLAND_RADIUS, 0.0, TAU, 28, Color(0.32, 0.40, 0.32), 2.0, true)
-		_draw_label(wi.display_name, pos + Vector2(0, ISLAND_RADIUS + 10), Color(0.70, 0.75, 0.70))
-		_draw_label("Explored today", pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.62, 0.68, 0.62))
+		_draw_label(tr(wi.display_name), pos + Vector2(0, ISLAND_RADIUS + 10), Color(0.70, 0.75, 0.70))
+		_draw_label(tr("Explored today"), pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.62, 0.68, 0.62))
 		return
 	draw_circle(pos, ISLAND_RADIUS, Color(0.55, 0.70, 0.42)) # available
 	draw_arc(pos, ISLAND_RADIUS, 0.0, TAU, 28, Color(0.30, 0.22, 0.14), 2.0, true)
-	_draw_label(wi.display_name, pos + Vector2(0, ISLAND_RADIUS + 10), Color.WHITE)
+	_draw_label(tr(wi.display_name), pos + Vector2(0, ISLAND_RADIUS + 10), Color.WHITE)
 	if wi.cuisine != "":
-		_draw_label(wi.cuisine, pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.85, 0.90, 0.75))
+		_draw_label(tr(wi.cuisine), pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.85, 0.90, 0.75))
 
 func _is_unlocked(wi: WorldIslandData) -> bool:
 	return GameState.quest_phase >= wi.unlock_phase

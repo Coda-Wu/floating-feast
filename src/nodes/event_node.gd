@@ -13,5 +13,5 @@ func _run() -> void:
 	var to_activate: StringName = node_def.params.get("activate_commission", &"") # ADD
 	if to_activate != &"": # ADD
 		CommissionManager.activate(to_activate) # ADD
-	_text_label.text = "The objective updates..." if advanced else "You sense something has shifted here."
+	_text_label.text = tr("The objective updates...") if advanced else tr("You sense something has shifted here.")
 	_continue_button.pressed.connect(func() -> void: complete({}))

@@ -135,10 +135,10 @@ func get_station_recipes_for(station_id: StringName) -> Array[StationRecipe]:
 func get_display_name(id: StringName) -> String:
 	var ing := get_ingredient(id)
 	if ing != null:
-		return ing.display_name
+		return tr(ing.display_name)
 	var rec := get_recipe(id)
 	if rec != null:
-		return rec.display_name
+		return tr(rec.display_name)
 	return String(id).capitalize()
 
 # World islands

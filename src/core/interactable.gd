@@ -21,7 +21,7 @@ func _ready() -> void:
 	queue_redraw()
 
 func get_prompt() -> String:
-	return "[E]  %s" % display_name
+	return "[E]  %s" % tr(display_name)
 
 func set_prompt_shown(v: bool) -> void:
 	if _prompt_shown == v:
@@ -33,7 +33,7 @@ func _draw() -> void:
 	var half := block_size * 0.5
 	draw_rect(Rect2(-half, block_size), block_color)
 	draw_rect(Rect2(-half, block_size), block_color.darkened(0.4), false, 2.0)
-	_draw_text_centered(display_name, Vector2.ZERO, Color(0.15, 0.12, 0.10))
+	_draw_text_centered(tr(display_name), Vector2.ZERO, Color(0.15, 0.12, 0.10))
 	if _prompt_shown:
 		_draw_prompt(get_prompt(), -half.y - 8.0)
 

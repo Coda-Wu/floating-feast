@@ -12,7 +12,7 @@ var _rows: Array = [] # [{ id, price, buy_button, bought_label, count }]
 
 func _run() -> void:
 	var stock_id: StringName = node_def.params.get("stock_id", &"")
-	_title.text = "Butchery" if stock_id == &"stock_butchery" else "Island Shop"
+	_title.text = tr("Butchery") if stock_id == &"stock_butchery" else tr("Island Shop")
 	_leave_button.pressed.connect(func() -> void: complete({}))
 	var stock := Database.get_shop_stock(stock_id)
 	if stock == null:
@@ -26,15 +26,15 @@ func _run() -> void:
 
 func _add_entry_row(ingredient_id: StringName, price: int) -> void:
 	var ing := Database.get_ingredient(ingredient_id)
-	var disp := ing.display_name if ing else String(ingredient_id)
+	var disp := tr(ing.display_name) if ing else String(ingredient_id)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	var name_label := Label.new()
-	name_label.text = "%s — %d c" % [disp, price]
+	name_label.text = tr("%s — %d c") % [disp, price]
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bought_label := Label.new()
 	var buy_button := Button.new()
-	buy_button.text = "Buy"
+	buy_button.text = tr("Buy")
 	row.add_child(name_label)
 	row.add_child(bought_label)
 	row.add_child(buy_button)
@@ -48,12 +48,12 @@ func _on_buy(rec: Dictionary) -> void:
 		return
 	GameState.add_item(rec["id"], 1)
 	rec["count"] = int(rec["count"]) + 1
-	rec["bought_label"].text = "×%d" % rec["count"]
+	rec["bought_label"].text = tr("×%d") % rec["count"]
 	_refresh_coins()
 	_refresh_buttons()
 
 func _refresh_coins() -> void:
-	_coins_label.text = "Coins: %d" % GameState.coins
+	_coins_label.text = tr("Coins: %d") % GameState.coins
 
 func _refresh_buttons() -> void:
 	for rec in _rows:

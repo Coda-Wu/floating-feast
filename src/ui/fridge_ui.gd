@@ -77,7 +77,7 @@ func _build_top_bookmarks() -> void:
 	for tab in [&"ingredients", &"dishes"]:
 		var bm: Bookmark = BOOKMARK.instantiate()
 		_book.get_top_bookmarks().add_child(bm)
-		bm.setup(tab, "Ingredients" if tab == &"ingredients" else "Dishes", TAB_COLORS[tab])
+		bm.setup(tab, tr("Ingredients") if tab == &"ingredients" else tr("Dishes"), TAB_COLORS[tab])
 		bm.selected.connect(func(id): _select_tab(StringName(id)))
 		_tab_marks[tab] = bm
 
@@ -85,7 +85,7 @@ func _build_side_bookmarks() -> void:
 	for cat in CATEGORIES:
 		var bm: Bookmark = BOOKMARK.instantiate()
 		_book.get_side_bookmarks().add_child(bm)
-		bm.setup(cat["id"], cat["label"], cat["color"])
+		bm.setup(cat["id"], tr(cat["label"]), cat["color"])
 		bm.selected.connect(func(id): _select_category(StringName(id)))
 		_cat_marks[cat["id"]] = bm
 
@@ -94,7 +94,7 @@ func _build_left() -> void:
 	_ing_left = VBoxContainer.new()
 	_ing_left.add_theme_constant_override("separation", 4)
 	host.add_child(_ing_left)
-	var hdr := Label.new(); hdr.text = "In Fridge"; hdr.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var hdr := Label.new(); hdr.text = tr("In Fridge"); hdr.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_ing_left.add_child(hdr)
 	_left_grid = ITEM_GRID.instantiate()
 	var ing_center := CenterContainer.new()
@@ -110,11 +110,11 @@ func _build_dish_left(host: Control) -> void:
 	host.add_child(_dish_left)
 	var bar := HBoxContainer.new(); bar.add_theme_constant_override("separation", 6)
 	_dish_left.add_child(bar)
-	var lbl := Label.new(); lbl.text = "Dishes"; lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var lbl := Label.new(); lbl.text = tr("Dishes"); lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(lbl)
 	_dish_sort_option = OptionButton.new()
-	_dish_sort_option.add_item("Star ★→☆", 0)
-	_dish_sort_option.add_item("Method", 1)
+	_dish_sort_option.add_item(tr("Star ★→☆"), 0)
+	_dish_sort_option.add_item(tr("Method"), 1)
 	_dish_sort_option.item_selected.connect(func(i): _dish_sort = i; _dish_page = 0; _refresh_dish_left())
 	bar.add_child(_dish_sort_option)
 	_dish_grid_left = GridContainer.new(); _dish_grid_left.columns = DISH_COLS
@@ -148,13 +148,13 @@ func _build_right() -> void:
 	_name_label.custom_minimum_size = Vector2(160, 0)
 	_ing_right.add_child(_name_label)
 	_ing_right.add_child(HSeparator.new())
-	var dlbl := Label.new(); dlbl.text = "Dishes you can make:"
+	var dlbl := Label.new(); dlbl.text = tr("Dishes you can make:")
 	_ing_right.add_child(dlbl)
 	_dish_grid = GridContainer.new(); _dish_grid.columns = 4
 	_dish_grid.add_theme_constant_override("h_separation", 4)
 	_dish_grid.add_theme_constant_override("v_separation", 4)
 	_ing_right.add_child(_dish_grid)
-	_add_button = Button.new(); _add_button.text = "Add to Backpack"
+	_add_button = Button.new(); _add_button.text = tr("Add to Backpack")
 	_add_button.pressed.connect(_on_add_to_backpack)
 	_ing_right.add_child(_add_button)
 	_build_dish_right(host)
@@ -176,13 +176,13 @@ func _build_dish_right(host: Control) -> void:
 	_d_stars.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
 	_dish_info.add_child(_d_stars)
 	_dish_info.add_child(HSeparator.new())
-	var b := Label.new(); b.text = "Base ingredients:"; _dish_info.add_child(b)
+	var b := Label.new(); b.text = tr("Base ingredients:"); _dish_info.add_child(b)
 	_d_base = HBoxContainer.new(); _d_base.add_theme_constant_override("separation", 4)
 	_dish_info.add_child(_d_base)
-	var s := Label.new(); s.text = "Spices that raise its tier:"; _dish_info.add_child(s)
+	var s := Label.new(); s.text = tr("Spices that raise its tier:"); _dish_info.add_child(s)
 	_d_spices = HBoxContainer.new(); _d_spices.add_theme_constant_override("separation", 4)
 	_dish_info.add_child(_d_spices)
-	_d_add = Button.new(); _d_add.text = "Add to Backpack"
+	_d_add = Button.new(); _d_add.text = tr("Add to Backpack")
 	_d_add.pressed.connect(_on_dish_add)
 	_dish_info.add_child(_d_add)
 
@@ -227,7 +227,7 @@ func _refresh_left() -> void:
 		var ing := Database.get_ingredient(item_id)
 		if ing == null or (tag != &"" and not ing.tags.has(tag)):
 			continue
-		rows.append({"id": item_id, "count": int(GameState.fridge_storage[item_id]), "label": ing.display_name})
+		rows.append({"id": item_id, "count": int(GameState.fridge_storage[item_id]), "label": tr(ing.display_name)})
 	_left_grid.set_items(rows, true)
 	_update_add_button()
 
@@ -243,7 +243,7 @@ func _select_ingredient(id: StringName) -> void:
 	var ing := Database.get_ingredient(id)
 	_big_swatch.visible = true
 	_apply_swatch(_big_swatch, ItemSlot.color_for(id))
-	_name_label.text = ing.display_name if ing else String(id)
+	_name_label.text = tr(ing.display_name) if ing else String(id)
 	for c in _dish_grid.get_children():
 		c.queue_free()
 	for dish_id in CookingInfo.get_dishes_using(id, true):
@@ -251,13 +251,13 @@ func _select_ingredient(id: StringName) -> void:
 		var slot: ItemSlot = ITEM_SLOT.instantiate()
 		slot.custom_minimum_size = Vector2(46, 40)
 		_dish_grid.add_child(slot)
-		slot.set_item(dish_id, 1, rec.display_name if rec else String(dish_id), false)
+		slot.set_item(dish_id, 1, tr(rec.display_name) if rec else String(dish_id), false)
 	_update_add_button()
 
 func _show_empty_right() -> void:
 	_selected = &""
 	_big_swatch.visible = false
-	_name_label.text = "Select an ingredient"
+	_name_label.text = tr("Select an ingredient")
 	for c in _dish_grid.get_children():
 		c.queue_free()
 	_add_button.disabled = true
@@ -265,7 +265,7 @@ func _show_empty_right() -> void:
 func _update_add_button() -> void:
 	var n := GameState.get_fridge_count(_selected)
 	_add_button.disabled = _selected == &"" or n <= 0
-	_add_button.text = "Add to Backpack" if n > 0 else "None left in fridge"
+	_add_button.text = tr("Add to Backpack") if n > 0 else tr("None left in fridge")
 
 # --- dish left grid (paginated) ---
 func _on_dish_store_changed() -> void:
@@ -288,7 +288,7 @@ func _refresh_dish_left() -> void:
 		var slot: ItemSlot = ITEM_SLOT.instantiate()
 		slot.custom_minimum_size = Vector2(42, 36)
 		_dish_grid_left.add_child(slot)
-		slot.set_item(e["recipe_id"], int(e["count"]), rec.display_name if rec else String(e["recipe_id"]), true)
+		slot.set_item(e["recipe_id"], int(e["count"]), tr(rec.display_name) if rec else String(e["recipe_id"]), true)
 		slot.set_stars(tier)
 		slot.slot_clicked.connect(func(_id, rid = e["recipe_id"], t = tier): _select_dish(rid, t))
 	_dish_prev.disabled = _dish_page <= 0
@@ -314,13 +314,13 @@ func _select_dish(recipe_id: StringName, tier: int) -> void:
 	var rec := Database.get_recipe(recipe_id)
 	_d_swatch.visible = true
 	_apply_swatch(_d_swatch, ItemSlot.color_for(recipe_id))
-	_d_name.text = rec.display_name if rec else String(recipe_id)
-	_d_stars.text = "★".repeat(tier) + "  (cap %d)" % (rec.tier_cap if rec else 5)
+	_d_name.text = tr(rec.display_name) if rec else String(recipe_id)
+	_d_stars.text = "★".repeat(tier) + tr("  (cap %d)") % (rec.tier_cap if rec else 5)
 	for c in _d_base.get_children(): c.queue_free()
 	for base in CookingInfo.get_base_ingredients(recipe_id):
-		var nm := Database.get_display_name(base["ref"])
+		var nm := tr(Database.get_display_name(base["ref"]))
 		if bool(base["is_tag"]):
-			nm += " (any)"
+			nm += tr(" (any)")
 		for _i in int(base["count"]):
 			var slot: ItemSlot = ITEM_SLOT.instantiate()
 			slot.custom_minimum_size = Vector2(36, 32)
@@ -331,13 +331,13 @@ func _select_dish(recipe_id: StringName, tier: int) -> void:
 		var slot: ItemSlot = ITEM_SLOT.instantiate()
 		slot.custom_minimum_size = Vector2(36, 32)
 		_d_spices.add_child(slot)
-		slot.set_item(spice_id, 1, Database.get_display_name(spice_id), false)
+		slot.set_item(spice_id, 1, tr(Database.get_display_name(spice_id)), false)
 	_update_dish_add()
 
 func _show_empty_dish_right() -> void:
 	_selected_dish = ""
 	_d_swatch.visible = false
-	_d_name.text = "Select a dish"
+	_d_name.text = tr("Select a dish")
 	_d_stars.text = ""
 	for c in _d_base.get_children(): c.queue_free()
 	for c in _d_spices.get_children(): c.queue_free()
@@ -349,11 +349,11 @@ func _update_dish_add() -> void:
 		return
 	var have := int(GameState.dish_inventory.get(_selected_dish, 0))
 	_d_add.disabled = have <= 0
-	_d_add.text = "Add to Backpack" if have > 0 else "None of this tier left"
+	_d_add.text = tr("Add to Backpack") if have > 0 else tr("None of this tier left")
 
 func _on_dish_add() -> void:
 	if _selected_dish != "":
-		_d_add.text = "Dishes travel with you already" # single dish store (no transfer) — parity note
+		_d_add.text = tr("Dishes travel with you already") # single dish store (no transfer) — parity note
 
 # --- shared / transfer ---
 func _apply_swatch(panel: Panel, color: Color) -> void:

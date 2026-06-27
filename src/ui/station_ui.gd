@@ -23,7 +23,7 @@ var _slot_nodes: Array = []
 
 func setup(station_id: StringName, display_name: String) -> void:
 	_station_id = station_id
-	_title.text = display_name
+	_title.text = tr(display_name)
 	_slots.resize(SLOT_COUNT)
 	_slots.fill(&"")
 	for i in SLOT_COUNT:
@@ -47,10 +47,10 @@ func _on_hotbar_item_selected(item_id: String) -> void:
 		return
 	var free := _slots.find(&"")
 	if free == -1:
-		_set_feedback("Slots are full.")
+		_set_feedback(tr("Slots are full."))
 		return
 	if GameState.get_item_count(id) <= 0:
-		_set_feedback("No more %s to add." % Database.get_display_name(id))
+		_set_feedback(tr("No more %s to add.") % tr(Database.get_display_name(id)))
 		return
 	GameState.remove_item(id, 1) # real deduction → inventory_changed → hotbar drops instantly
 	_slots[free] = id
@@ -70,7 +70,7 @@ func _on_confirm_pressed() -> void:
 		if s != &"":
 			slotted.append(s)
 	if slotted.is_empty():
-		_set_feedback("Add some ingredients first.")
+		_set_feedback(tr("Add some ingredients first."))
 		return
 
 	if _station_id == &"prep":
@@ -81,7 +81,7 @@ func _on_confirm_pressed() -> void:
 	if result.is_empty():
 		GameState.add_item(&"dubious_food", 1) # slotted items were consumed into this
 		AudioManager.play_sfx(&"cook_fail")
-		_set_feedback("That didn't come together... Dubious Food.")
+		_set_feedback(tr("That didn't come together... Dubious Food."))
 	else:
 		var recipe: StationRecipe = result["recipe"]
 		if recipe.is_terminal:
@@ -96,7 +96,7 @@ func _on_confirm_pressed() -> void:
 			if is_new:
 				SignalBus.recipe_discovered.emit(String(recipe_id))
 			AudioManager.play_sfx(&"recipe_new" if is_new else &"cook_success")
-			_set_feedback("You cooked %s!" % Database.get_display_name(recipe_id))
+			_set_feedback(tr("You cooked %s!") % tr(Database.get_display_name(recipe_id)))
 			UIManager.show_cook_result({
 				"recipe_id": recipe_id, "tier": tier, "is_new": is_new,
 				"base_stars": Cooking.BASE_TIER,
@@ -105,7 +105,7 @@ func _on_confirm_pressed() -> void:
 		else:
 			GameState.add_item(recipe.output_item_id, 1)
 			AudioManager.play_sfx(&"cook_step")
-			_set_feedback("Made %s." % Database.get_display_name(recipe.output_item_id))
+			_set_feedback(tr("Made %s.") % tr(Database.get_display_name(recipe.output_item_id)))
 
 	_slots.fill(&"") # finalized — nothing left to refund
 	_refresh_slots()
@@ -124,15 +124,15 @@ func _confirm_prep(slotted: Array[StringName]) -> void:
 		GameState.add_item(out, 1) # produce the mid-stage product
 		produced[out] = int(produced.get(out, 0)) + 1
 	if produced.is_empty():
-		_set_feedback("Nothing here can be prepped.")
+		_set_feedback(tr("Nothing here can be prepped."))
 	else:
 		AudioManager.play_sfx(&"cook_step")
 		var parts: Array = []
 		for out_id in produced:
-			parts.append("%d ×%s" % [produced[out_id], Database.get_display_name(out_id)])
-		var msg := "Prepped " + ", ".join(parts)
+			parts.append("%d ×%s" % [produced[out_id], tr(Database.get_display_name(out_id))])
+		var msg := tr("Prepped ") + ", ".join(parts)
 		if skipped > 0:
-			msg += "  (%d couldn't be prepped)" % skipped
+			msg += tr("  (%d couldn't be prepped)") % skipped
 		_set_feedback(msg)
 	_slots.fill(&"")
 	_refresh_slots()
@@ -149,7 +149,7 @@ func _refresh_slots() -> void:
 		if id == &"":
 			_slot_nodes[i].set_item(&"", 0, "", false) # empty cell
 		else:
-			_slot_nodes[i].set_item(id, 1, Database.get_display_name(id), true) # count 1 → no number
+			_slot_nodes[i].set_item(id, 1, tr(Database.get_display_name(id)), true) # count 1 → no number
 
 # --- refund catch-all: fires on Close, E-toggle, AND Leave-Kitchen-mid-cook ---
 func _refund_all_slots() -> void:

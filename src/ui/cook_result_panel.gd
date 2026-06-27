@@ -17,27 +17,27 @@ signal dismissed
 
 func setup(info: Dictionary) -> void:
 	_new_banner.visible = bool(info.get("is_new", false))
-	_dish_name.text = Database.get_display_name(info["recipe_id"])
+	_dish_name.text = tr(Database.get_display_name(info["recipe_id"]))
 	var tier := int(info["tier"])
 	_star_label.text = _stars(tier)
 	var base := int(info.get("base_stars", 2))
 	var counted: Array = info.get("counted", [])
 	var set_aside: Array = info.get("set_aside", [])
 	var cap := int(info.get("cap", 5))
-	_breakdown_base.text = "Base & execution: %s" % _stars(base)
+	_breakdown_base.text = tr("Base & execution: %s") % _stars(base)
 	if counted.size() > 0:
-		_breakdown_enh.text = "Compatible spices (×%d): +%s" % [counted.size(), _stars(counted.size())]
+		_breakdown_enh.text = tr("Compatible spices (×%d): +%s") % [counted.size(), _stars(counted.size())]
 	else:
-		_breakdown_enh.text = "Spices: — (add a compatible spice for more stars)"
+		_breakdown_enh.text = tr("Spices: — (add a compatible spice for more stars)")
 	var total := "= %s  (%s)" % [_stars(tier), _tier_name(tier)]
 	if tier >= cap:
-		total += "  — best this dish can be"
+		total += tr("  — best this dish can be")
 	_breakdown_total.text = total
 	if set_aside.size() > 0:
 		var names: Array = []
 		for sid in set_aside:
-			names.append(Database.get_display_name(sid))
-		_set_aside_label.text = "Set aside (didn't suit this dish): %s" % ", ".join(names)
+			names.append(tr(Database.get_display_name(sid)))
+		_set_aside_label.text = tr("Set aside (didn't suit this dish): %s") % ", ".join(names)
 		_set_aside_label.visible = true
 	else:
 		_set_aside_label.visible = false
@@ -49,8 +49,8 @@ func _stars(n: int) -> String:
 
 func _tier_name(tier: int) -> String:
 	match tier:
-		1: return "Dubious"
-		2: return "Plain"
-		3: return "Good"
-		4: return "Great"
-		_: return "Perfect"
+		1: return tr("Dubious")
+		2: return tr("Plain")
+		3: return tr("Good")
+		4: return tr("Great")
+		_: return tr("Perfect")

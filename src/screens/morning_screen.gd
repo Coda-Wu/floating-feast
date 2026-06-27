@@ -7,8 +7,8 @@ extends Control
 @onready var _stay_button: Button = $Center/VBox/Buttons/StayButton
 
 func _ready() -> void:
-	_day_label.text = "Day %d" % GameState.day
+	_day_label.text = tr("Day %d") % GameState.day
 	var weather := Database.get_weather(StringName(GameState.weather_id))
-	_weather_label.text = "Weather: %s" % (weather.display_name if weather else "—")
+	_weather_label.text = tr("Weather: %s") % (tr(weather.display_name) if weather else "—")
 	_sail_button.pressed.connect(GameManager.request_sail)
 	_stay_button.pressed.connect(GameManager.request_stay)

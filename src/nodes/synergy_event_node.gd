@@ -16,29 +16,29 @@ const YIELD_MULT := 2
 
 func _run() -> void:
 	if GameState.has_run_buff():
-		_body.text = "The spirits have already blessed your voyage today."
+		_body.text = tr("The spirits have already blessed your voyage today.")
 		_coin_button.hide(); _fuel_button.hide()
-		_decline_button.text = "Move on"
-		_decline_button.pressed.connect(func() -> void: complete({}, "Already blessed."))
+		_decline_button.text = tr("Move on")
+		_decline_button.pressed.connect(func() -> void: complete({}, tr("Already blessed.")))
 		return
-	_body.text = "A shrine hums with promise. Make an offering, and today's harvest turns bountiful (×%d fungible yields)." % YIELD_MULT
-	_coin_button.text = "Offer %d coins" % COIN_COST
+	_body.text = tr("A shrine hums with promise. Make an offering, and today's harvest turns bountiful (×%d fungible yields).") % YIELD_MULT
+	_coin_button.text = tr("Offer %d coins") % COIN_COST
 	_coin_button.disabled = GameState.coins < COIN_COST
 	_coin_button.pressed.connect(_take_coins)
-	_fuel_button.text = "Burn %d fuel" % FUEL_COST
+	_fuel_button.text = tr("Burn %d fuel") % FUEL_COST
 	_fuel_button.disabled = GameState.fuel_current < FUEL_COST
 	_fuel_button.pressed.connect(_take_fuel)
-	_decline_button.text = "Decline"
-	_decline_button.pressed.connect(func() -> void: complete({}, "You leave the shrine untouched."))
+	_decline_button.text = tr("Decline")
+	_decline_button.pressed.connect(func() -> void: complete({}, tr("You leave the shrine untouched.")))
 
 func _take_coins() -> void:
 	GameState.spend_coins(COIN_COST) # swap if your coin-spend method differs (must emit coins_changed)
-	_grant("offered coins")
+	_grant(tr("offered coins"))
 
 func _take_fuel() -> void:
 	GameState.spend_fuel(FUEL_COST)
-	_grant("burned fuel")
+	_grant(tr("burned fuel"))
 
 func _grant(how: String) -> void:
-	GameState.apply_run_buff({"fungible_yield_mult": YIELD_MULT, "label": "Bountiful Harvest (×%d)" % YIELD_MULT})
-	complete({}, "You %s — a Bountiful Harvest blessing settles over the voyage!" % how)
+	GameState.apply_run_buff({"fungible_yield_mult": YIELD_MULT, "label": tr("Bountiful Harvest (×%d)") % YIELD_MULT})
+	complete({}, tr("You %s — a Bountiful Harvest blessing settles over the voyage!") % how)

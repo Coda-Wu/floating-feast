@@ -35,7 +35,7 @@ func _run() -> void:
 	_setup_spirit_view()
 	_well_fed_bar.max_value = _spirit.well_fed_max
 	_well_fed_bar.value = 0
-	_give_up_button.text = "Give Up"
+	_give_up_button.text = tr("Give Up")
 	_give_up_button.pressed.connect(_on_give_up)
 	_refresh_cue()
 	_refresh_dots()
@@ -51,7 +51,7 @@ func _pick_spirit() -> SpiritData:
 	return Database.get_spirit(pool[randi() % pool.size()])
 
 func _setup_spirit_view() -> void:
-	_spirit_name.text = _spirit.display_name
+	_spirit_name.text = tr(_spirit.display_name)
 	if _spirit.sprite_frames != null: # Week-3 path
 		_spirit_sprite.sprite_frames = _spirit.sprite_frames
 		_spirit_sprite.visible = true
@@ -126,17 +126,17 @@ func _succeed() -> void:
 		if not GameState.captured_spirits.has(String(_spirit.id)):
 			GameState.captured_spirits.append(String(_spirit.id))
 		SignalBus.spirit_tamed.emit(_spirit)
-		complete({}, "You befriended the %s!" % _spirit.display_name)
+		complete({}, tr("You befriended the %s!") % tr(_spirit.display_name))
 	else:
 		var drops := _drops()
 		SignalBus.spirit_fled.emit(_spirit, drops)
-		complete(drops, "The %s happily shared a gift before drifting off." % _spirit.display_name)
+		complete(drops, tr("The %s happily shared a gift before drifting off.") % tr(_spirit.display_name))
 
 func _flee() -> void:
 	_resolved = true
 	var drops := _drops()
 	SignalBus.spirit_fled.emit(_spirit, drops)
-	complete(drops, "The %s slipped away, leaving a little behind." % _spirit.display_name)
+	complete(drops, tr("The %s slipped away, leaving a little behind.") % tr(_spirit.display_name))
 
 func _drops() -> Dictionary:
 	var out := {}
@@ -147,14 +147,14 @@ func _drops() -> Dictionary:
 # --- UI refresh ---
 func _refresh_cue() -> void:
 	if _spirit.required_tier > 0:
-		_cue_label.text = "I'm craving a %s dish... (Tier %d+)" % [_humanize_preferred(_spirit.preferred_food), _spirit.required_tier]
+		_cue_label.text = tr("I'm craving a %s dish... (Tier %d+)") % [_humanize_preferred(_spirit.preferred_food), _spirit.required_tier]
 	else:
-		_cue_label.text = "I'm craving %s..." % _humanize_preferred(_spirit.preferred_food)
+		_cue_label.text = tr("I'm craving %s...") % _humanize_preferred(_spirit.preferred_food)
 
 func _humanize_preferred(pref: StringName) -> String:
 	var ing := Database.get_ingredient(pref)
 	if ing != null:
-		return ing.display_name
+		return tr(ing.display_name)
 	return String(pref).capitalize() # a tag/family like "roasted" -> "Roasted"
 
 func _refresh_dots() -> void:
@@ -183,8 +183,8 @@ func _refresh_feed_list() -> void:
 			if ing == null or ing.tags.has(&"intermediate"): # locked: working items aren't food
 				continue
 			var btn := Button.new()
-			var likes := "  (likes!)" if _is_preferred_raw(ing) else ""
-			btn.text = "%s ×%d   (+%d%s)" % [ing.display_name, count, _fullness_for_item(ing), likes]
+			var likes := tr("  (likes!)") if _is_preferred_raw(ing) else ""
+			btn.text = tr("%s ×%d   (+%d%s)") % [tr(ing.display_name), count, _fullness_for_item(ing), likes]
 			btn.pressed.connect(_on_feed_item.bind(item_id))
 			_feed_list.add_child(btn)
 			rows_added += 1
@@ -192,7 +192,7 @@ func _refresh_feed_list() -> void:
 	var entries := GameState.get_dish_entries()
 	if not entries.is_empty():
 		var header := Label.new()
-		header.text = "— Dishes —"
+		header.text = tr("— Dishes —")
 		_feed_list.add_child(header)
 		for e in entries:
 			var recipe := Database.get_recipe(e["recipe_id"])
@@ -203,9 +203,9 @@ func _refresh_feed_list() -> void:
 			var stars := "★".repeat(tier)
 			var btn := Button.new()
 			if _accepts_dish(recipe, tier):
-				btn.text = "%s %s ×%d   (+%d)" % [recipe.display_name, stars, count, _fullness_for_dish(tier)]
+				btn.text = tr("%s %s ×%d   (+%d)") % [tr(recipe.display_name), stars, count, _fullness_for_dish(tier)]
 			else:
-				btn.text = "%s %s ×%d" % [recipe.display_name, stars, count]
+				btn.text = tr("%s %s ×%d") % [tr(recipe.display_name), stars, count]
 				btn.disabled = true
 			btn.pressed.connect(_on_feed_dish.bind(e["recipe_id"], tier))
 			_feed_list.add_child(btn)
@@ -213,7 +213,7 @@ func _refresh_feed_list() -> void:
 	if rows_added == 0:
 		var none := Label.new()
 		if _spirit.required_tier > 0:
-			none.text = "(Cook a %s dish, Tier %d+, to win me over!)" % [_humanize_preferred(_spirit.preferred_food), _spirit.required_tier]
+			none.text = tr("(Cook a %s dish, Tier %d+, to win me over!)") % [_humanize_preferred(_spirit.preferred_food), _spirit.required_tier]
 		else:
-			none.text = "(No food to feed!)"
+			none.text = tr("(No food to feed!)")
 		_feed_list.add_child(none)

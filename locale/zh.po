@@ -1,0 +1,710 @@
+# 简体中文翻译 / Simplified Chinese — floating-feast
+# msgid 必须与游戏里的英文原文完全一致，Godot 会在切换到中文时自动替换。
+# 这里只收录"固定"界面文字；代码动态生成的文字(数字/天数/结果)需另行用 tr() 处理。
+msgid ""
+msgstr ""
+"Project-Id-Version: floating-feast\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh\n"
+
+msgid "Tip"
+msgstr "提示"
+
+msgid "Got it"
+msgstr "知道了"
+
+msgid "Gathered"
+msgstr "已采集"
+
+msgid "Nothing gathered here."
+msgstr "这里什么都没采到。"
+
+msgid "Head Back"
+msgstr "返回"
+
+msgid "Continue"
+msgstr "继续"
+
+msgid "Notice"
+msgstr "通知"
+
+msgid "OK"
+msgstr "确定"
+
+msgid "Garden"
+msgstr "花园"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Overnight"
+msgstr "过夜"
+
+msgid "Nothing brewing tonight."
+msgstr "今晚没有在酝酿的事。"
+
+msgid "Sleep"
+msgstr "睡觉"
+
+msgid "✦ New Recipe! ✦"
+msgstr "✦ 新菜谱！✦"
+
+msgid "Station"
+msgstr "料理台"
+
+msgid "Confirm"
+msgstr "确认"
+
+msgid "Trade Fair"
+msgstr "贸易集市"
+
+msgid "Your dishes — tap to submit:"
+msgstr "你的菜肴 —— 点击提交："
+
+msgid "Submitted:"
+msgstr "已提交："
+
+msgid "Present to Judges"
+msgstr "呈给评委"
+
+msgid "Maybe Later"
+msgstr "下次再说"
+
+msgid "Stay"
+msgstr "留下"
+
+msgid "Retreat"
+msgstr "撤退"
+
+msgid "Aboard the Ship"
+msgstr "在船上"
+
+msgid "[ Enter Kitchen ]"
+msgstr "[ 进入厨房 ]"
+
+msgid "[ Garden — arrives Week 2 ]"
+msgstr "[ 花园 —— 第二周开放 ]"
+
+msgid "End Day  (Sleep)"
+msgstr "结束这一天（睡觉）"
+
+msgid "A new day on the water. Set sail, or stay aboard?"
+msgstr "水上的新一天。是扬帆出海，还是留在船上？"
+
+msgid "Set Sail"
+msgstr "扬帆起航"
+
+msgid "Stay Aboard"
+msgstr "留在船上"
+
+msgid "A Quiet Dock"
+msgstr "静谧的码头"
+
+msgid "Cast off"
+msgstr "起航"
+
+msgid "Islander"
+msgstr "岛民"
+
+msgid "Return to Ship"
+msgstr "返回船上"
+
+msgid "Orchard"
+msgstr "果园"
+
+msgid "Move the basket with your mouse. Catch falling fruit — dodge durians, bombs, and beehives, they cost you time!"
+msgstr "用鼠标移动篮子，接住掉落的水果 —— 躲开榴莲、炸弹和蜂窝，它们会浪费你的时间！"
+
+msgid "Start Catching!"
+msgstr "开始接！"
+
+msgid "Leave Kitchen"
+msgstr "离开厨房"
+
+msgid "A Hidden Shrine"
+msgstr "隐秘的神龛"
+
+msgid "Shop"
+msgstr "商店"
+
+msgid "Leave Shop"
+msgstr "离开商店"
+
+msgid "A Find!"
+msgstr "有发现！"
+
+msgid "Claim"
+msgstr "领取"
+
+msgid "Spirit"
+msgstr "精灵"
+
+msgid "Feed:"
+msgstr "喂食："
+
+msgid "Give Up"
+msgstr "放弃"
+
+# === 第二步（动态文字：节点地图 / HUD / 早晨界面）===
+
+msgid "Start"
+msgstr "起点"
+
+msgid "Forage"
+msgstr "采集"
+
+msgid "Butcher"
+msgstr "肉铺"
+
+msgid "Event"
+msgstr "事件"
+
+msgid "Reward"
+msgstr "奖励"
+
+msgid "Dock"
+msgstr "码头"
+
+msgid "Shrine"
+msgstr "神龛"
+
+msgid "%s — you are here"
+msgstr "%s —— 你在这里"
+
+msgid "%s — %d fuel%s"
+msgstr "%s —— %d 燃料%s"
+
+msgid "  (not enough fuel)"
+msgstr "  （燃料不足）"
+
+msgid "It's 2 AM — you drifted off on the way back. (coin - 25)"
+msgstr "凌晨 2 点了 —— 你在回程路上睡着了。（金币 -25）"
+
+msgid "Wake up"
+msgstr "醒来"
+
+msgid "You reached the day's prize."
+msgstr "你拿到了今天的大奖。"
+
+msgid "Ember's tank is too low to press on."
+msgstr "Ember 的油箱见底，没法再往前了。"
+
+msgid "Set sail home"
+msgstr "扬帆回家"
+
+msgid "Fuel %d/%d"
+msgstr "燃料 %d/%d"
+
+msgid "Day %d"
+msgstr "第 %d 天"
+
+msgid "Rank %d"
+msgstr "等级 %d"
+
+msgid "Coins: %d"
+msgstr "金币：%d"
+
+msgid "AM"
+msgstr "上午"
+
+msgid "PM"
+msgstr "下午"
+
+msgid "Run buff"
+msgstr "本次增益"
+
+msgid "Weather: %s"
+msgstr "天气：%s"
+
+# === 资源名字（岛屿 / 食材 / 菜谱 / 精灵 / 天气 / 委托）===
+# 名字属于"创意翻译"，团队可再润色
+
+msgid "Cat Island"
+msgstr "猫岛"
+
+msgid "Spice Isle"
+msgstr "香料岛"
+
+msgid "Harbor Cook's Request"
+msgstr "港口厨子的委托"
+
+msgid "Sunny"
+msgstr "晴天"
+
+msgid "Rainy"
+msgstr "雨天"
+
+msgid "Foggy"
+msgstr "雾天"
+
+msgid "Tomato Spirit"
+msgstr "番茄精灵"
+
+msgid "Sprout Spirit"
+msgstr "嫩芽精灵"
+
+msgid "Gourmand Spirit"
+msgstr "美食家精灵"
+
+msgid "Chicken Spirit"
+msgstr "小鸡精灵"
+
+msgid "Roasted Tomato"
+msgstr "烤番茄"
+
+msgid "Hummus"
+msgstr "鹰嘴豆泥"
+
+msgid "Roasted Potato"
+msgstr "烤土豆"
+
+msgid "Roasted Eggplant"
+msgstr "烤茄子"
+
+msgid "Classic Rustic Salad"
+msgstr "经典乡村沙拉"
+
+msgid "Mediterranean Roasted Vegetables"
+msgstr "地中海烤时蔬"
+
+msgid "Bell Pepper"
+msgstr "甜椒"
+
+msgid "Dubious Food"
+msgstr "迷之料理"
+
+msgid "Chopped Vegetable"
+msgstr "切好的蔬菜"
+
+msgid "Oiled Vegetable"
+msgstr "刷油的蔬菜"
+
+msgid "Flour"
+msgstr "面粉"
+
+msgid "Eggplant"
+msgstr "茄子"
+
+msgid "Egg"
+msgstr "鸡蛋"
+
+msgid "Chickpeas"
+msgstr "鹰嘴豆"
+
+msgid "Fish"
+msgstr "鱼"
+
+msgid "Fig"
+msgstr "无花果"
+
+msgid "Olive Oil"
+msgstr "橄榄油"
+
+msgid "Onion"
+msgstr "洋葱"
+
+msgid "Rice"
+msgstr "米"
+
+msgid "Salt"
+msgstr "盐"
+
+msgid "Rosemary"
+msgstr "迷迭香"
+
+msgid "Lemon"
+msgstr "柠檬"
+
+msgid "Grape"
+msgstr "葡萄"
+
+msgid "Tomato"
+msgstr "番茄"
+
+msgid "Zucchini"
+msgstr "西葫芦"
+
+msgid "Potato"
+msgstr "土豆"
+
+msgid "Sugar"
+msgstr "糖"
+
+# === 第二步·全量（面板 / 节点 / 集市 / 任务）===
+
+# 冰箱 / 料理台 / 菜谱书 / 花园面板
+msgid "Ingredients"
+msgstr "食材"
+
+msgid "Dishes"
+msgstr "菜肴"
+
+msgid "All"
+msgstr "全部"
+
+msgid "Veg"
+msgstr "蔬菜"
+
+msgid "Meat/Fish"
+msgstr "肉/鱼"
+
+msgid "Grain"
+msgstr "谷物"
+
+msgid "Dairy"
+msgstr "乳制品"
+
+msgid "Spice"
+msgstr "香料"
+
+msgid "In Fridge"
+msgstr "冰箱中"
+
+msgid "Star ★→☆"
+msgstr "星级 ★→☆"
+
+msgid "Method"
+msgstr "做法"
+
+msgid "Dishes you can make:"
+msgstr "你能做的菜："
+
+msgid "Add to Backpack"
+msgstr "加入背包"
+
+msgid "Base ingredients:"
+msgstr "基础食材："
+
+msgid "Spices that raise its tier:"
+msgstr "可提升星级的香料："
+
+msgid "Select an ingredient"
+msgstr "选择一种食材"
+
+msgid "None left in fridge"
+msgstr "冰箱里没有了"
+
+msgid "  (cap %d)"
+msgstr "  （上限 %d）"
+
+msgid " (any)"
+msgstr " （任意）"
+
+msgid "Select a dish"
+msgstr "选择一道菜"
+
+msgid "None of this tier left"
+msgstr "这个星级的没有了"
+
+msgid "Dishes travel with you already"
+msgstr "菜肴会随身携带"
+
+msgid "Base & execution: %s"
+msgstr "基础与火候：%s"
+
+msgid "Compatible spices (×%d): +%s"
+msgstr "可用香料（×%d）：+%s"
+
+msgid "Spices: — (add a compatible spice for more stars)"
+msgstr "香料：— （加入相配的香料可加星）"
+
+msgid "  — best this dish can be"
+msgstr "  —— 这道菜的上限"
+
+msgid "Set aside (didn't suit this dish): %s"
+msgstr "已搁置（不适合这道菜）：%s"
+
+msgid "Dubious"
+msgstr "糟糕"
+
+msgid "Plain"
+msgstr "普通"
+
+msgid "Good"
+msgstr "不错"
+
+msgid "Great"
+msgstr "很棒"
+
+msgid "Perfect"
+msgstr "完美"
+
+msgid "Pot %d: (empty)"
+msgstr "锅 %d：（空）"
+
+msgid "Assign"
+msgstr "指派"
+
+msgid "Pot %d: %s  (%s)"
+msgstr "锅 %d：%s  （%s）"
+
+msgid "Remove"
+msgstr "移除"
+
+msgid "Choose a spirit for Pot %d:"
+msgstr "为锅 %d 选择精灵："
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Remove %s from the garden? It will be gone for good."
+msgstr "把 %s 从花园移除？它将永久消失。"
+
+msgid "Keep"
+msgstr "保留"
+
+msgid "%s ×%d/night"
+msgstr "%s ×%d/晚"
+
+msgid "no yield"
+msgstr "无产出"
+
+msgid "Prep"
+msgstr "备料"
+
+msgid "Mixing Bowl"
+msgstr "搅拌碗"
+
+msgid "Oven"
+msgstr "烤箱"
+
+msgid "Recipes"
+msgstr "菜谱"
+
+msgid "Tier ★→☆"
+msgstr "阶位 ★→☆"
+
+msgid "How to cook it:"
+msgstr "怎么做："
+
+msgid "Spices to raise its tier:"
+msgstr "提升星级的香料："
+
+msgid "No recipes learned yet."
+msgstr "还没学会任何菜谱。"
+
+msgid "  (cap %d★)"
+msgstr "  （上限 %d★）"
+
+msgid "(none)"
+msgstr "（无）"
+
+msgid "Select a recipe"
+msgstr "选择一道菜谱"
+
+msgid "Slots are full."
+msgstr "格子满了。"
+
+msgid "No more %s to add."
+msgstr "没有更多 %s 可加了。"
+
+msgid "Add some ingredients first."
+msgstr "先加点食材。"
+
+msgid "That didn't come together... Dubious Food."
+msgstr "没做成……迷之料理。"
+
+msgid "You cooked %s!"
+msgstr "你做出了 %s！"
+
+msgid "Made %s."
+msgstr "做好了 %s。"
+
+msgid "Nothing here can be prepped."
+msgstr "这里没有可备料的东西。"
+
+msgid "Prepped "
+msgstr "已备料 "
+
+msgid "  (%d couldn't be prepped)"
+msgstr "  （有 %d 个无法备料）"
+
+# 节点：商店 / 精灵 / NPC / 码头 / 事件 / 奖励 / 果园 / 神龛
+msgid "Butchery"
+msgstr "肉铺"
+
+msgid "Island Shop"
+msgstr "岛上商店"
+
+msgid "%s — %d c"
+msgstr "%s —— %d 金"
+
+msgid "Buy"
+msgstr "购买"
+
+msgid "You befriended the %s!"
+msgstr "你和 %s 成为了朋友！"
+
+msgid "The %s happily shared a gift before drifting off."
+msgstr "%s 高兴地送了你一份礼物，然后飘走了。"
+
+msgid "The %s slipped away, leaving a little behind."
+msgstr "%s 悄悄溜走了，留下了一点东西。"
+
+msgid "I'm craving a %s dish... (Tier %d+)"
+msgstr "我想吃一道 %s 菜……（%d 阶以上）"
+
+msgid "I'm craving %s..."
+msgstr "我想吃 %s……"
+
+msgid "  (likes!)"
+msgstr "  （喜欢！）"
+
+msgid "— Dishes —"
+msgstr "—— 菜肴 ——"
+
+msgid "(Cook a %s dish, Tier %d+, to win me over!)"
+msgstr "（做一道 %s 菜，%d 阶以上，来打动我吧！）"
+
+msgid "(No food to feed!)"
+msgstr "（没有食物可喂！）"
+
+msgid "Fair winds today! Caught anything tasty out there?"
+msgstr "今天风向不错！在外头逮到什么好吃的没？"
+
+msgid "Welcome, traveler. The spirits hereabouts are a shy bunch."
+msgstr "欢迎，旅行者。这一带的精灵都挺害羞的。"
+
+msgid "A cook, are you? You'll find good pickings on these isles."
+msgstr "你是厨师吧？这些岛上有不少好东西可采。"
+
+msgid "» %s: %s (have %d/%d)"
+msgstr "» %s：%s （已有 %d/%d）"
+
+msgid "Deliver  (%d dishes)"
+msgstr "交付  （%d 道菜）"
+
+msgid "  (+%d on-time bonus!)"
+msgstr "  （准时奖励 +%d！）"
+
+msgid "Wonderful — exactly what I needed! Here's %d coins.%s"
+msgstr "太好了 —— 正是我需要的！给你 %d 金币。%s"
+
+msgid "Ember refuels: +%d fuel   (tank %d/%d)"
+msgstr "Ember 补充燃料：+%d   （油箱 %d/%d）"
+
+msgid "Refueled at the dock (+%d fuel)."
+msgstr "在码头补充了燃料（+%d 燃料）。"
+
+msgid "The objective updates..."
+msgstr "目标更新了……"
+
+msgid "You sense something has shifted here."
+msgstr "你感到这里有什么变了。"
+
+msgid "Recipe learned: %s"
+msgstr "学会菜谱：%s"
+
+msgid "Found: %s ×%d"
+msgstr "获得：%s ×%d"
+
+msgid "Nothing of note here."
+msgstr "这里没什么特别的。"
+
+msgid "Time: %.1f"
+msgstr "时间：%.1f"
+
+msgid "Basket: 0"
+msgstr "篮子：0"
+
+msgid "The orchard was bare today."
+msgstr "今天果园空空如也。"
+
+msgid "Basket: %d"
+msgstr "篮子：%d"
+
+msgid "Gathered a basketful!"
+msgstr "采了满满一篮！"
+
+msgid "The fruit all slipped past you this time."
+msgstr "这次水果都从你手边溜走了。"
+
+msgid "hazards -%ds"
+msgstr "危险 -%d秒"
+
+msgid "The spirits have already blessed your voyage today."
+msgstr "今天精灵已经祝福过你的航程了。"
+
+msgid "Move on"
+msgstr "继续前行"
+
+msgid "Already blessed."
+msgstr "已受祝福。"
+
+msgid "A shrine hums with promise. Make an offering, and today's harvest turns bountiful (×%d fungible yields)."
+msgstr "神龛散发着允诺的气息。献上供品，今天的收获将变得丰饶（普通产出 ×%d）。"
+
+msgid "Offer %d coins"
+msgstr "献上 %d 金币"
+
+msgid "Burn %d fuel"
+msgstr "燃烧 %d 燃料"
+
+msgid "Decline"
+msgstr "谢绝"
+
+msgid "You leave the shrine untouched."
+msgstr "你没有动那座神龛。"
+
+msgid "offered coins"
+msgstr "献上了金币"
+
+msgid "burned fuel"
+msgstr "燃烧了燃料"
+
+msgid "Bountiful Harvest (×%d)"
+msgstr "丰饶收获（×%d）"
+
+msgid "You %s — a Bountiful Harvest blessing settles over the voyage!"
+msgstr "你%s —— 丰饶收获的祝福笼罩了这趟航程！"
+
+# 集市 / 任务
+msgid "Welcome to the Trade Fair!"
+msgstr "欢迎来到贸易集市！"
+
+msgid "%s %s ×%d   (worth %d)"
+msgstr "%s %s ×%d   （价值 %d）"
+
+msgid "(No dishes to submit — but you can still say hello!)"
+msgstr "（没有可提交的菜 —— 不过你还是可以打个招呼！）"
+
+msgid "(nothing submitted yet)"
+msgstr "（还没提交任何东西）"
+
+msgid "Estimated reward: %d coins"
+msgstr "预计奖励：%d 金币"
+
+msgid "%s You presented %d dish%s and earned %d coins!"
+msgstr "%s 你呈上了 %d 道菜%s，赚得 %d 金币！"
+
+msgid "Wonderful!"
+msgstr "太棒了！"
+
+msgid "Come back when your kitchen's been busy!"
+msgstr "等你厨房忙活起来再来吧！"
+
+msgid "You've reached Explorer League Rank %d!"
+msgstr "你达到了探险家联盟 %d 级！"
+
+msgid "Explored today"
+msgstr "今日已探索"
+
+msgid "Sail out and gather ingredients from the islands."
+msgstr "出海，从岛屿上采集食材。"
+
+msgid "Something's stirring past the reef — go and take a look."
+msgstr "礁石那头有动静 —— 去看看吧。"
+
+msgid "Word of your cooking is spreading. Keep the orders coming."
+msgstr "你的厨艺渐渐传开了。继续接订单吧。"
+
+msgid "Explore the seas."
+msgstr "探索海洋。"
+
+msgid "Already Known"
+msgstr "已掌握"
+
+msgid "Mediterranean"
+msgstr "地中海"

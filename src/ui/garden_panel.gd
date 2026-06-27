@@ -35,35 +35,35 @@ func _slot_row(i: int, spirit_id) -> HBoxContainer:
 	row.add_child(label)
 	var btn := Button.new()
 	if spirit_id == null:
-		label.text = "Pot %d: (empty)" % (i + 1)
-		btn.text = "Assign"
+		label.text = tr("Pot %d: (empty)") % (i + 1)
+		btn.text = tr("Assign")
 		btn.disabled = _available_spirits().is_empty()
 		btn.pressed.connect(func() -> void:
 			_assigning_slot = i
 			_rebuild())
 	else:
 		var spirit := Database.get_spirit(StringName(spirit_id))
-		label.text = "Pot %d: %s  (%s)" % [(i + 1), (spirit.display_name if spirit else String(spirit_id)), _produces_text(spirit)]
-		btn.text = "Remove"
+		label.text = tr("Pot %d: %s  (%s)") % [(i + 1), (tr(spirit.display_name) if spirit else String(spirit_id)), _produces_text(spirit)]
+		btn.text = tr("Remove")
 		btn.pressed.connect(_confirm_remove.bind(i))
 	row.add_child(btn)
 	return row
 
 func _build_picker() -> void:
 	var header := Label.new()
-	header.text = "Choose a spirit for Pot %d:" % (_assigning_slot + 1)
+	header.text = tr("Choose a spirit for Pot %d:") % (_assigning_slot + 1)
 	_body.add_child(header)
 	for spirit_id in _available_spirits():
 		var spirit := Database.get_spirit(StringName(spirit_id))
 		var btn := Button.new()
-		btn.text = "%s  (→ %s)" % [(spirit.display_name if spirit else String(spirit_id)), _produces_text(spirit)]
+		btn.text = "%s  (→ %s)" % [(tr(spirit.display_name) if spirit else String(spirit_id)), _produces_text(spirit)]
 		btn.pressed.connect(func() -> void:
 			GameState.assign_spirit_to_garden(spirit_id, _assigning_slot)
 			_assigning_slot = -1
 			_rebuild())
 		_body.add_child(btn)
 	var cancel := Button.new()
-	cancel.text = "Cancel"
+	cancel.text = tr("Cancel")
 	cancel.pressed.connect(func() -> void:
 		_assigning_slot = -1
 		_rebuild())
@@ -71,13 +71,13 @@ func _build_picker() -> void:
 
 func _confirm_remove(slot: int) -> void:
 	var spirit := Database.get_spirit(StringName(GameState.garden_slots[slot]))
-	var name_txt := spirit.display_name if spirit else String(GameState.garden_slots[slot])
+	var name_txt := tr(spirit.display_name) if spirit else String(GameState.garden_slots[slot])
 	UIManager.show_warning_popup(
-		"Remove %s from the garden? It will be gone for good." % name_txt,
+		tr("Remove %s from the garden? It will be gone for good.") % name_txt,
 		func() -> void:
 			GameState.remove_spirit_from_garden(slot)
 			_rebuild(),
-		"Remove", "Keep")
+		tr("Remove"), tr("Keep"))
 
 func _available_spirits() -> Array:
 	var placed := {}
@@ -92,5 +92,5 @@ func _available_spirits() -> Array:
 
 func _produces_text(spirit) -> String:
 	if spirit and spirit.produces != &"" and spirit.yield_per_night > 0:
-		return "%s ×%d/night" % [Database.get_display_name(spirit.produces), spirit.yield_per_night]
-	return "no yield"
+		return tr("%s ×%d/night") % [tr(Database.get_display_name(spirit.produces)), spirit.yield_per_night]
+	return tr("no yield")

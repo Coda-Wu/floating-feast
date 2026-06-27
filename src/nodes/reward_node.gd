@@ -16,16 +16,16 @@ func _run() -> void:
 		if GameState.mark_recipe_known(rid):
 			SignalBus.recipe_discovered.emit(String(rid))
 		var rec := Database.get_recipe(rid)
-		lines.append("Recipe learned: %s" % (rec.display_name if rec else String(rid)))
+		lines.append(tr("Recipe learned: %s") % (tr(rec.display_name) if rec else String(rid)))
 	if p.has("item_id"):
 		var count := int(p.get("count", 1))
 		rewards[StringName(p["item_id"])] = count
-		lines.append("Found: %s ×%d" % [_item_name(StringName(p["item_id"])), count])
+		lines.append(tr("Found: %s ×%d") % [_item_name(StringName(p["item_id"])), count])
 	if lines.is_empty():
-		lines.append("Nothing of note here.")
+		lines.append(tr("Nothing of note here."))
 	_body.text = "\n".join(lines)
 	_claim.pressed.connect(func() -> void: complete(rewards, _body.text))
 
 func _item_name(id: StringName) -> String:
 	var ing := Database.get_ingredient(id)
-	return ing.display_name if ing != null else String(id).capitalize()
+	return tr(ing.display_name) if ing != null else String(id).capitalize()

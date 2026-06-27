@@ -17,7 +17,7 @@ var _submitted: Array = [] # [{recipe_id, tier}] reserved for submission
 
 func _ready() -> void:
 	_config = Database.get_fair_config(FAIR_CONFIG_ID)
-	_intro.text = _config.intro_line if _config else "Welcome to the Trade Fair!"
+	_intro.text = _config.intro_line if _config else tr("Welcome to the Trade Fair!")
 	_present_button.pressed.connect(_on_present)
 	_leave_button.pressed.connect(GameManager.request_return_to_ship)
 	TutorialManager.try_show("fair")
@@ -38,14 +38,14 @@ func _refresh_dishes() -> void:
 			continue
 		any = true
 		var rec := Database.get_recipe(e["recipe_id"])
-		var disp := rec.display_name if rec else String(e["recipe_id"])
+		var disp := tr(rec.display_name) if rec else String(e["recipe_id"])
 		var btn := Button.new()
-		btn.text = "%s %s ×%d   (worth %d)" % [disp, "★".repeat(tier), avail, _coins_for_tier(tier)]
+		btn.text = tr("%s %s ×%d   (worth %d)") % [disp, "★".repeat(tier), avail, _coins_for_tier(tier)]
 		btn.pressed.connect(_on_submit.bind(e["recipe_id"], tier))
 		_dish_list.add_child(btn)
 	if not any:
 		var none := Label.new()
-		none.text = "(No dishes to submit — but you can still say hello!)"
+		none.text = tr("(No dishes to submit — but you can still say hello!)")
 		_dish_list.add_child(none)
 
 func _refresh_tray() -> void:
@@ -54,12 +54,12 @@ func _refresh_tray() -> void:
 	var total := 0
 	if _submitted.is_empty():
 		var lbl := Label.new()
-		lbl.text = "(nothing submitted yet)"
+		lbl.text = tr("(nothing submitted yet)")
 		_tray_list.add_child(lbl)
 	else:
 		for entry in _submitted:
 			var rec := Database.get_recipe(entry["recipe_id"])
-			var disp := rec.display_name if rec else String(entry["recipe_id"])
+			var disp := tr(rec.display_name) if rec else String(entry["recipe_id"])
 			var tier := int(entry["tier"])
 			total += _coins_for_tier(tier)
 			var row := HBoxContainer.new()
@@ -73,7 +73,7 @@ func _refresh_tray() -> void:
 			row.add_child(name_lbl)
 			row.add_child(remove)
 			_tray_list.add_child(row)
-	_tally.text = "Estimated reward: %d coins" % total
+	_tally.text = tr("Estimated reward: %d coins") % total
 
 func _on_submit(recipe_id: StringName, tier: int) -> void:
 	_submitted.append({"recipe_id": recipe_id, "tier": tier})
@@ -109,15 +109,15 @@ func _on_present() -> void:
 	if total > 0:
 		GameState.add_coins(total)
 	AudioManager.play_sfx(&"fair_fanfare")
-	UIManager.show_notice("Trade Fair", _build_result(n, total, rank_up), GameManager.request_return_to_ship)
+	UIManager.show_notice(tr("Trade Fair"), _build_result(n, total, rank_up), GameManager.request_return_to_ship)
 
 func _build_result(n: int, coins: int, rank_up: bool) -> String:
 	var lines: Array = []
 	if n > 0:
-		lines.append("%s You presented %d dish%s and earned %d coins!" % [
-			(_config.result_line if _config else "Wonderful!"), n, ("es" if n != 1 else ""), coins])
+		lines.append(tr("%s You presented %d dish%s and earned %d coins!") % [
+			(_config.result_line if _config else tr("Wonderful!")), n, ("es" if n != 1 else ""), coins])
 	else:
-		lines.append(_config.empty_line if _config else "Come back when your kitchen's been busy!")
+		lines.append(_config.empty_line if _config else tr("Come back when your kitchen's been busy!"))
 	if rank_up:
-		lines.append("You've reached Explorer League Rank %d!" % GameState.rank)
+		lines.append(tr("You've reached Explorer League Rank %d!") % GameState.rank)
 	return "\n".join(lines)
