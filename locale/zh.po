@@ -206,6 +206,36 @@ msgstr "等级 %d"
 msgid "Coins: %d"
 msgstr "金币：%d"
 
+# 暂停菜单标签 / Pause menu tabs
+msgid "Backpack"
+msgstr "背包"
+
+msgid "Spirits"
+msgstr "精灵"
+
+msgid "NPCs"
+msgstr "角色"
+
+msgid "Quests"
+msgstr "任务"
+
+msgid "Settings"
+msgstr "设置"
+
+msgid "Leave Game"
+msgstr "退出"
+
+
+msgid "Name: %s"
+msgstr "名字：%s"
+
+msgid "Ship: %s"
+msgstr "船名：%s"
+
+msgid "Unranked"
+msgstr "暂无等级"
+
+
 msgid "AM"
 msgstr "上午"
 

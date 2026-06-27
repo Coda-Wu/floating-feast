@@ -104,7 +104,8 @@ Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_invent
 - **`ItemGrid`** (`class_name`) — paged grid of `ItemSlot`s (never scrolls on the selection side).
 - **`BookFrame`** (`class_name`) — hardened open-book chrome, **fixed 512×288**, both-axis-scroll pages, reserved 28px side column, swappable background. Consumers: Fridge, Recipe Book (and a future Backpack/Quest/Map/NPC book — *separate* from the full-screen Pause Menu frame).
 - **`CookingInfo`** (`src/core/`, static helper) — recipe-step queries with demand-propagated counts, base ingredients, compatible spices, dishes-using-an-ingredient.
-- **`UIManager`** modal registry — `register_modal(self)` / `unregister_modal(self)` (in `_exit_tree`) / `is_modal_open()`; `_unhandled_input` routes `Esc` (open pause menu if no modal; close it if it's open; ignore if a dedicated UI owns the screen). PauseMenu `CanvasLayer` is `PROCESS_MODE_ALWAYS`; opening sets `get_tree().paused = true`.
+- **`UIManager`** modal registry — `register_modal(self)` / `unregister_modal(self)` (in `_exit_tree`) / `is_modal_open()`; `_unhandled_input` routes `Esc` (open pause menu if no modal; close it if it's open; ignore if a dedicated UI owns the screen). PauseMenu `CanvasLayer` is `PROCESS_MODE_ALWAYS`; opening sets `get_tree().paused = true` **and hides the HUD + hotbar (restored phase-aware on close)**; the shared `ItemTooltip` is `PROCESS_MODE_ALWAYS` so it floats above the paused menu.
+
 
 ---
 

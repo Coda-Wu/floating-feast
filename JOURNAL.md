@@ -20,6 +20,16 @@
 - **Deferred:** Nothing new; carried the existing deferred-threads list into STATE.md.
 - **Verified:** Transition made on a clean boundary — Pause-Menu **Step 2 done & verified, Step 3 not started.** First local task is the doc seeding itself, then resume at Step 3.
 
+## 2026-06-28 — Pause Menu Step 3: Backpack tab (grid + profile) complete
+
+- **Changed:** Added `GameState.player_name`/`ship_name` as real serialized fields (defaults Saff / "Saff's Ship"; M2 onboarding will overwrite). New `BackpackPanel` scene+script: upper-half 10-col grid of 30 `ItemSlot`s bound to `GameState` slots by index (row 0 = hotbar w/ hotkeys 1–0; refreshes on `inventory_slots_changed`); lower-half profile (gray-box `ColorRect` portrait + Name/Ship/Coins/Rank from the real fields). `pause_menu.gd` swaps its tab-0 placeholder for the panel. Localized the profile strings + all six tab labels in `zh.po` (reused `精灵` for Spirits, `等级`/`金币` for Rank/Coins). Made the menu a proper top modal: `UIManager` hides HUD+hotbar on open and restores them phase-aware on close (+ `hide_item_tooltip`); `ItemTooltip` now `PROCESS_MODE_ALWAYS` so it follows the cursor while paused.
+- **Decided:** HUD/hotbar are hidden while the pause menu is open (Stardew-style top modal) rather than raising the menu's layer. Grid is display-only this step — clicks/selection → Step 4, drag → Step 6. `NPCs` tab localized as `角色` (confirm later if a different term is preferred).
+- **Deferred:** Selection + number-key highlight (Step 4); auto-sort + trash (Step 5); intra-grid drag (Step 6); capacity-full UX (Step 5).
+- **Verified:** Backpack grid mirrors the hotbar; profile reads real fields and localizes; opening the menu hides HUD+hotbar and the tooltip renders above the menu and tracks the cursor (Coda confirmed the pre-fix HUD/hotbar overlap). **Drift corrected:** `PersistentUI` (layer 128) was always above `PauseMenu` (layer 5) — STATE's "menu sits above the tooltip" note was stale; the tooltip was never occluded.
+
+
+
+
 ## 2026-06-27 — Doc reconciliation: i18n system documented; cabin art parked
 
 - **Changed (docs only):** ARCHITECTURE §3 now lists Dialogic (plugin autoload, registered first) + LocaleManager (11th autoload) and corrects the Database filename to `data_base.gd`; added ARCHITECTURE §11 documenting the runtime localization pipeline. STATE: added Localization to Completed systems; parked the orphaned `scenes/cabin/CabinLayout.tscn` under Deferred threads.

@@ -7,6 +7,7 @@ const OFFSET := Vector2(13, 5) # x: right of the cursor; y: gap above it
 @onready var _label: Label = $Label
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS # follow the cursor even while the pause menu pauses the tree
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.10, 0.10, 0.13, 0.94)

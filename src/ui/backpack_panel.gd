@@ -8,6 +8,11 @@ const ITEM_SLOT := preload("res://scenes/ui/ItemSlot.tscn")
 const COLS := 10
 
 @onready var _grid: GridContainer = $Grid
+@onready var _name_label: Label = $Profile/Fields/NameLabel
+@onready var _ship_label: Label = $Profile/Fields/ShipLabel
+@onready var _coins_label: Label = $Profile/Fields/CoinsLabel
+@onready var _rank_label: Label = $Profile/Fields/RankLabel
+
 
 var _slot_nodes: Array = []
 
@@ -21,6 +26,8 @@ func _ready() -> void:
 		_slot_nodes.append(slot)
 	refresh()
 	SignalBus.inventory_slots_changed.connect(refresh)
+	_populate_profile()
+
 
 func refresh() -> void:
 	for i in _slot_nodes.size():
@@ -30,3 +37,11 @@ func refresh() -> void:
 			_slot_nodes[i].set_item(id, int(token["count"]), Database.get_display_name(id), true)
 		else:
 			_slot_nodes[i].set_item(&"", 0, "", false)
+
+func _populate_profile() -> void:
+	# Read once: the menu is rebuilt on each open, and nothing mutates coins/rank while paused.
+	# (If a later step changes coins/rank with the menu open, subscribe to those signals here.)
+	_name_label.text = tr("Name: %s") % GameState.player_name
+	_ship_label.text = tr("Ship: %s") % GameState.ship_name
+	_coins_label.text = tr("Coins: %d") % GameState.coins
+	_rank_label.text = (tr("Rank %d") % GameState.rank) if GameState.rank > 0 else tr("Unranked")

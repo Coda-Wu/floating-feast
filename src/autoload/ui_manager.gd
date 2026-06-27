@@ -230,6 +230,9 @@ func open_pause_menu() -> void:
 	_pause_menu = PAUSE_MENU.instantiate()
 	add_child(_pause_menu)
 	_pause_menu.close_requested.connect(close_pause_menu)
+	hide_hud()
+	if _hotbar:
+		_hotbar.set_active(false)
 	get_tree().paused = true
 
 func close_pause_menu() -> void:
@@ -238,3 +241,7 @@ func close_pause_menu() -> void:
 	get_tree().paused = false
 	_pause_menu.queue_free()
 	_pause_menu = null
+	hide_item_tooltip() # clear any tooltip left from a slot hover at close-time
+	show_hud()
+	if _hotbar:
+		_hotbar.set_active(_is_hotbar_phase(GameManager.current_phase))
