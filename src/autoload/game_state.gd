@@ -6,6 +6,9 @@ extends Node
 # --- Runtime state ---
 var day: int = 1
 var coins: int = 50
+# --- Player identity (player-set at M2 new-game onboarding; placeholders for now, never hardcoded in UI) ---
+var player_name: String = "Saff" # canonical default protagonist name; M2 name-entry overwrites
+var ship_name: String = "Saff's Ship" # throwaway placeholder, NOT canon; M2 onboarding writes the real value
 var inventory: Array = [] # slot-ordered carried items; each cell null OR { kind:StringName, id:StringName, count:int }. Slots 0-9 = hotbar row 0.
 var fridge_storage: Dictionary = {} # ingredient item_id -> count (home storage; parallel to carried inventory)
 var dish_inventory: Dictionary = {} # "recipe_id|tier" -> count (the one Week-2 model extension, §H-1)
@@ -274,6 +277,8 @@ func serialize() -> Dictionary:
 	return {
 		"day": day,
 		"coins": coins,
+		"player_name": player_name,
+		"ship_name": ship_name,
 		"inventory": inventory.duplicate(true),
 		"dish_inventory": dish_inventory.duplicate(true),
 		"known_recipes": known_recipes.duplicate(),
@@ -295,7 +300,8 @@ func serialize() -> Dictionary:
 func deserialize(d: Dictionary) -> void:
 	day = d.get("day", 1)
 	coins = d.get("coins", 50)
-	# inventory = (d.get("inventory", {}) as Dictionary).duplicate(true)
+	player_name = d.get("player_name", "Saff")
+	ship_name = d.get("ship_name", "Saff's Ship")
 	dish_inventory = (d.get("dish_inventory", {}) as Dictionary).duplicate(true)
 	known_recipes.assign(d.get("known_recipes", []))
 	captured_spirits.assign(d.get("captured_spirits", []))

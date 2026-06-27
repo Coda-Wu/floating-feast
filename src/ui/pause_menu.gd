@@ -7,6 +7,7 @@ extends CanvasLayer
 signal close_requested
 
 const TAB_TITLES := ["Backpack", "Spirits", "NPCs", "Quests", "Settings", "Leave Game"]
+const BACKPACK_PANEL := preload("res://scenes/ui/BackpackPanel.tscn")
 
 @onready var _tabs: HBoxContainer = $Root/Center/Frame/Margin/VBox/TopRow/Tabs
 @onready var _close_button: Button = $Root/Center/Frame/Margin/VBox/TopRow/CloseButton
@@ -33,6 +34,8 @@ func _ready() -> void:
 func _make_panel(i: int) -> Control:
 	# Placeholder for every tab in Step 1. Backpack/Spirits/Quests get real content in later steps;
 	# NPCs/Settings/Leave stay stubs until their step.
+	if i == 0: # Backpack — real content (Step 3); the other tabs stay stubs until their step
+		return BACKPACK_PANEL.instantiate()
 	var c := CenterContainer.new()
 	var l := Label.new()
 	l.text = "%s\n(coming soon)" % TAB_TITLES[i]

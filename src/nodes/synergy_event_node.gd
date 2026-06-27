@@ -32,7 +32,7 @@ func _run() -> void:
 	_decline_button.pressed.connect(func() -> void: complete({}, tr("You leave the shrine untouched.")))
 
 func _take_coins() -> void:
-	GameState.spend_coins(COIN_COST) # swap if your coin-spend method differs (must emit coins_changed)
+	GameState.try_spend_coins(COIN_COST) # swap if your coin-spend method differs (must emit coins_changed)
 	_grant(tr("offered coins"))
 
 func _take_fuel() -> void:
