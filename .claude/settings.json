@@ -1,0 +1,39 @@
+// .claude/settings.json
+{
+    "permissions": {
+        "deny": [
+            "Edit",
+            "Write",
+            "MultiEdit",
+            "Bash(rm:*)",
+            "Bash(rmdir:*)",
+            "Bash(mv:*)",
+            "Bash(git push:*)",
+            "Bash(git reset:*)",
+            "Bash(git checkout:*)",
+            "Bash(sudo:*)",
+            "Bash(chmod:*)",
+            "Bash(dd:*)",
+            "Bash(mkfs:*)",
+            "Bash(:*> :*)",
+            "Bash(truncate:*)"
+        ],
+        "ask": [
+            "Bash(git add:*)",
+            "Bash(git commit:*)"
+        ]
+    },
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": ".claude/hooks/guard.sh"
+                    }
+                ]
+            }
+        ]
+    }
+}

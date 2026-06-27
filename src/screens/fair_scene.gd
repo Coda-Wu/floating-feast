@@ -17,7 +17,7 @@ var _submitted: Array = [] # [{recipe_id, tier}] reserved for submission
 
 func _ready() -> void:
 	_config = Database.get_fair_config(FAIR_CONFIG_ID)
-	_intro.text = _config.intro_line if _config else tr("Welcome to the Trade Fair!")
+	_intro.text = tr(_config.intro_line) if _config else tr("Welcome to the Trade Fair!")
 	_present_button.pressed.connect(_on_present)
 	_leave_button.pressed.connect(GameManager.request_return_to_ship)
 	TutorialManager.try_show("fair")
@@ -115,9 +115,9 @@ func _build_result(n: int, coins: int, rank_up: bool) -> String:
 	var lines: Array = []
 	if n > 0:
 		lines.append(tr("%s You presented %d dish%s and earned %d coins!") % [
-			(_config.result_line if _config else tr("Wonderful!")), n, ("es" if n != 1 else ""), coins])
+			(tr(_config.result_line) if _config else tr("Wonderful!")), n, ("es" if n != 1 else ""), coins])
 	else:
-		lines.append(_config.empty_line if _config else tr("Come back when your kitchen's been busy!"))
+		lines.append(tr(_config.empty_line) if _config else tr("Come back when your kitchen's been busy!"))
 	if rank_up:
 		lines.append(tr("You've reached Explorer League Rank %d!") % GameState.rank)
 	return "\n".join(lines)

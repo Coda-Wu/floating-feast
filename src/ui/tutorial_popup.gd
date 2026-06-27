@@ -9,7 +9,7 @@ signal dismissed
 @onready var _got_it_button: Button = $Center/Panel/Margin/VBox/GotItButton
 
 func setup(data: TutorialData) -> void:
-	_text.text = data.text
+	_text.text = tr(data.text)
 	# Image stays hidden in gray-box (TutorialData.image is null until the Week-3 art swap).
 	if data.image != null:
 		_image.texture = data.image

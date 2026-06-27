@@ -56,7 +56,7 @@ func grant_recipe(recipe_id: StringName, substitute_coins: int = 25) -> void:
 	if GameState.mark_recipe_known(recipe_id):
 		SignalBus.recipe_discovered.emit(String(recipe_id))
 		AudioManager.play_sfx(&"recipe_new")
-		UIManager.show_notice(tr("✦ New Recipe! ✦"), "%s\n%s" % [dish_name, (rec.codex_path if rec else "")])
+		UIManager.show_notice(tr("✦ New Recipe! ✦"), "%s\n%s" % [dish_name, (tr(rec.codex_path) if rec else "")])
 	else:
 		GameState.add_coins(substitute_coins)
 		AudioManager.play_sfx(&"cook_success")

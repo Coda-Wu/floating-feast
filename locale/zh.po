@@ -359,6 +359,12 @@ msgstr "乳制品"
 msgid "Spice"
 msgstr "香料"
 
+msgid "Fridge"
+msgstr "冰箱"
+
+msgid "Recipe Book"
+msgstr "菜谱"
+
 msgid "In Fridge"
 msgstr "冰箱中"
 
@@ -708,3 +714,79 @@ msgstr "已掌握"
 
 msgid "Mediterranean"
 msgstr "地中海"
+
+# === 动态文本 / Dynamic Texts & Tutorials ===
+msgid "%s %s ×%d"
+msgstr "%s %s ×%d"
+
+msgid "%s %s ×%d   (+%d)"
+msgstr "%s %s ×%d   (+%d)"
+
+msgid "%s ×%d   (+%d%s)"
+msgstr "%s ×%d   (+%d%s)"
+
+msgid "You already know how to make %s!\nHere are %d coins instead."
+msgstr "你已经知道如何制作 %s 了！\n这里给你 %d 金币代替。"
+
+msgid "×%d"
+msgstr "×%d"
+
+msgid "Bring me 2 roasted dishes, Tier 2 or better — the festival crowd is hungry!"
+msgstr "给我带2份烤制菜肴，星级要在2星或以上 —— 节日人群正饿着呢！"
+
+msgid "Chickpeas + Lemon + Olive Oil → [Mixing Bowl]"
+msgstr "鹰嘴豆 + 柠檬 + 橄榄油 → [搅拌碗]"
+
+msgid "Eggplant → [Oven]"
+msgstr "茄子 → [烤箱]"
+
+msgid "No dishes this time? No worries — come back when your kitchen's been busy!"
+msgstr "这次没带菜来？别担心 —— 厨房忙完了再来吧！"
+
+msgid "Potato → [Oven]"
+msgstr "土豆 → [烤箱]"
+
+msgid "The judges are delighted!"
+msgstr "评委们很高兴！"
+
+msgid "Tomato → [Oven]"
+msgstr "番茄 → [烤箱]"
+
+msgid "Veg → [Prep] ·2 → [Mixing Bowl] +Olive Oil → [Oven]"
+msgstr "蔬菜 → [备料] ·2 → [搅拌碗] +橄榄油 → [烤箱]"
+
+msgid "Veg → [Prep] → [Mixing Bowl] +Olive Oil"
+msgstr "蔬菜 → [备料] → [搅拌碗] +橄榄油"
+
+msgid "Welcome to the Trade Fair! Present your finest dishes for the judges."
+msgstr "欢迎来到贸易集市！向评委们展示你最拿手的菜肴吧。"
+
+msgid "Your recipe codex. Every dish you cook for the first time is recorded here, along with the ingredients and stations it takes to make it."
+msgstr "你的菜谱宝典。每一道你第一次制作的菜肴都会被记录在这里，以及制作它所需的食材和料理台。"
+
+msgid "Assign a tamed spirit to a pot and it'll grow crops while you sleep, collected each morning. Careful: removing a spirit from a pot sends it away for good."
+msgstr "将驯服的精灵放入锅中，它就会在你睡觉时种植作物，并在每天早上收集。注意：从锅中移除精灵会使其永久消失。"
+
+msgid "At the Trade Fair, submit your dishes to the judges — better dishes earn more coins, and you'll climb the Explorer League ranks. No pressure: bring what you've got."
+msgstr "在贸易集市上，向评委提交你的菜肴 —— 更好的菜肴可以赚取更多金币，你也可以提升探险家联盟的等级。别有压力，带上你现有的东西就行。"
+
+msgid "Catch the falling fruit! Dodge durians, bombs, and beehives — getting hit costs you time."
+msgstr "接住掉落的水果！躲避榴莲、炸弹和蜂窝 —— 被击中会扣除你的时间。"
+
+msgid "Click ingredients to fill the slots, then Confirm. The Prep table chops, the Mixing Bowl combines, and the Oven bakes — chain them to build a dish. Add spices to a finished dish for extra stars!"
+msgstr "点击食材填入插槽，然后点击确认。备料区切碎，搅拌碗混合，烤箱烘烤 —— 链式操作以制作菜肴。在做好的菜中加入香料以获得额外的星级！"
+
+msgid "Commissions ask for dishes of a certain kind and quality. There's no deadline — deliver whenever you're ready (a little sooner earns a bonus). Bring the dishes to the NPC who asked."
+msgstr "委托需要特定种类和质量的菜肴。没有截止日期 —— 随时准备好就去交付（稍微提早可以获得奖励）。把菜肴带给提出要求的 NPC 即可。"
+
+msgid "Feed the spirit to fill its Well-Fed meter before its turns run out. Fill it to befriend it — or it'll slip away, leaving a little gift behind."
+msgstr "在回合结束前喂食精灵，填满其饱食度。填满以和它成为朋友 —— 否则它会悄悄溜走，留下一小份礼物。"
+
+msgid "Heading back early? Any nodes you haven't visited on this island are lost — but your remaining Time can still be spent elsewhere."
+msgstr "要提早回去吗？本岛上你未访问的任何节点都将丢失 —— 但你剩余的时间仍可以在其他地方使用。"
+
+msgid "Hover an island to preview its nodes. Click to sail there. Each node you explore spends 1 Time from today's budget."
+msgstr "悬停在一座岛屿上以预览其节点。点击以航行到那里。你探索的每个节点都会消耗今天预算中的 1 点时间。"
+
+msgid "This spirit has refined taste — it only accepts a cooked dish of the right kind and quality (its craving is shown above). Cook one and feed it here to win it over."
+msgstr "这只精灵的口味很挑剔 —— 它只接受特定种类和质量的烹饪菜肴（它的渴望显示在上方）。做一份并在此处喂食以赢得它的好感。"

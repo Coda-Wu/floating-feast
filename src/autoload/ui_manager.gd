@@ -200,7 +200,7 @@ func _refresh_commission_hud() -> void:
 	if c == null:
 		_hud.set_commission("")
 		return
-	_hud.set_commission("◆ %s (%d/%d)" % [c.title, CommissionManager.owned_count(c), c.req_quantity])
+	_hud.set_commission("◆ %s (%d/%d)" % [tr(c.title), CommissionManager.owned_count(c), c.req_quantity])
 
 
 # --- modal registry (gates whether Esc may open the pause menu) ---

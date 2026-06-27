@@ -36,7 +36,7 @@ func _add_commission_ui() -> void:
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD
 	status.custom_minimum_size = Vector2(300, 0)
 	var owned := CommissionManager.owned_count(_commission)
-	status.text = tr("» %s: %s (have %d/%d)") % [_commission.title, _commission.detail, owned, _commission.req_quantity]
+	status.text = tr("» %s: %s (have %d/%d)") % [tr(_commission.title), tr(_commission.detail), owned, _commission.req_quantity]
 	box.add_child(status)
 	box.move_child(status, _continue_button.get_index()) # above Continue
 	if CommissionManager.can_fulfill(_commission):
