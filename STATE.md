@@ -2,7 +2,7 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-28 — Pause Menu Step 4 (selection primitive) complete._
+_Last updated: 2026-06-28 — Pause Menu Step 5 (Auto-Sort + Trash) complete._
 
 ---
 
@@ -10,7 +10,7 @@ _Last updated: 2026-06-28 — Pause Menu Step 4 (selection primitive) complete._
 
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
 - **Active system:** **Universal Pause Menu / Backpack UI** (Stardew-style all-in-one `Esc` menu).
-- **Next step:** **Step 5 — Auto-Sort (by type) + Trash target.**
+- **Next step:** **Step 6 — Intra-grid drag-and-drop (full-stack swap/merge).**
 
 
 ---
@@ -24,9 +24,9 @@ Each item is its own teach-then-code step behind a Verify gate.
 - [x] **3. Backpack tab static layout.** New `BackpackPanel` scene/script: upper-half 10-col grid of 30 `ItemSlot`s bound to `GameState` slots by index (row 0 = hotbar w/ hotkeys 1–0; refreshes on `inventory_slots_changed`) + lower-half profile (gray-box `ColorRect` portrait + Name/Ship/Coins/Rank from real fields). Added `GameState.player_name`/`ship_name` as real serialized fields (defaults Saff / "Saff's Ship"; M2 onboarding overwrites). Localized profile strings + all six tab labels in `zh.po`. **Menu-modal fix:** `UIManager` hides HUD+hotbar on open / restores phase-aware on close; `ItemTooltip` set `PROCESS_MODE_ALWAYS`. *(Drift corrected: `PersistentUI` layer 128 already sits above `PauseMenu` layer 5 — the tooltip was never behind the menu; the real issue was the HUD/hotbar floating over it.)*
 
 - [x] **4. Selection + number keys + red-outline highlight.** `ItemSlot.set_selected(bool)` red-outline visual (stylebox border recolor; reusable). `BackpackPanel` owns a single `_selected_index`: click or number key `1–0` (row-0 slots, reusing `hotbar_*` actions, filled-only) outlines one slot at a time; re-selecting clears it. Menu-local (clears on close via panel rebuild); live hotbar/cooking untouched. Highlight-only groundwork — no action wired yet.
-- [ ] **5. Auto-Sort (by type) + Trash target (drag-drop delete, with confirm).** ← NEXT
+- [x] **5. Auto-Sort (by type) + Trash (select → confirm delete).** Right-aligned `Sort`/`Trash` toolbar in `BackpackPanel` (localized). `GameState.sort_inventory()` merges same-`(kind,id)` stacks, orders by type (`IngredientData.tags[0]` → display name; items before spirits), and compacts all 30 slots (hotbar included). Trash reuses Step-4 selection: `Trash` enables only when a slot is selected → always-processing `WarningPopup` confirm → `GameState.clear_slot(i)` empties that stack. Also fixed the 4b bug (all slots now click-selectable, not just row 0).
+- [ ] **6. Intra-grid drag-and-drop (full-stack swap/merge).** ← NEXT
 
-- [ ] **6. Intra-grid drag-and-drop (full-stack swap/merge).**
 - [ ] **7. External contextual drag (receiver-gated single item).** Retrofit the cook-station slot first as the reference receiver, then garden pot / spirit feed / fountain.
 - [ ] **8. Spirits tab (grid + sort) + spirit-to-garden** via the drag rails (`kind: spirit`).
 - [ ] **9. Quests tab (active list → detail/rewards).**

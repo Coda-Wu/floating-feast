@@ -12,6 +12,8 @@ const COLS := 10
 @onready var _ship_label: Label = $Profile/Fields/ShipLabel
 @onready var _coins_label: Label = $Profile/Fields/CoinsLabel
 @onready var _rank_label: Label = $Profile/Fields/RankLabel
+@onready var _sort_button: Button = $Toolbar/SortButton
+@onready var _trash_button: Button = $Toolbar/TrashButton
 
 
 var _slot_nodes: Array = []
@@ -23,10 +25,19 @@ func _ready() -> void:
 		var slot: ItemSlot = ITEM_SLOT.instantiate()
 		slot.custom_minimum_size = Vector2(46, 38)
 		_grid.add_child(slot)
+		
 		if i < COLS: # row 0 mirrors the hotbar number keys (1..9, then 0)
 			slot.set_hotkey("0" if i == COLS - 1 else str(i + 1))
-			slot.slot_clicked.connect(_on_slot_clicked.bind(i))
+		slot.slot_clicked.connect(_on_slot_clicked.bind(i)) # all slots are selectable
 		_slot_nodes.append(slot)
+
+	_sort_button.focus_mode = Control.FOCUS_NONE
+	_sort_button.pressed.connect(_on_sort_pressed)
+	_trash_button.focus_mode = Control.FOCUS_NONE
+	_trash_button.disabled = true # enabled only when a slot is selected (5c)
+	_trash_button.pressed.connect(_on_trash_pressed)
+
+
 	refresh()
 	SignalBus.inventory_slots_changed.connect(refresh)
 	_populate_profile()
@@ -53,6 +64,7 @@ func _select(index: int) -> void:
 	_selected_index = index
 	if _selected_index >= 0:
 		_slot_nodes[_selected_index].set_selected(true)
+	_trash_button.disabled = _selected_index < 0
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -70,6 +82,25 @@ func _select_from_key(index: int) -> void:
 	if token == null or token.get("kind") != &"item": # filled slots only, like click
 		return
 	_select(-1 if index == _selected_index else index)
+
+
+func _on_sort_pressed() -> void:
+	_select(-1) # positions are about to change — drop the highlight
+	GameState.sort_inventory()
+
+
+func _on_trash_pressed() -> void:
+	var token = GameState.get_slot(_selected_index)
+	if token == null or token.get("kind") != &"item":
+		return
+	var index := _selected_index
+	var id := StringName(token["id"])
+	var msg := tr("Throw away %d × %s?") % [int(token["count"]), tr(Database.get_display_name(id))]
+	UIManager.show_warning_popup(msg, _confirm_trash.bind(index), tr("Throw Away"), tr("Keep"))
+
+func _confirm_trash(index: int) -> void:
+	GameState.clear_slot(index)
+	_select(-1)
 
 
 func _populate_profile() -> void:

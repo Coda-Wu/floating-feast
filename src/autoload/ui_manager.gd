@@ -163,6 +163,7 @@ func hide_resolution_panel() -> void:
 # --- Voluntary-exit warning (layers over the resolution panel) ---
 func show_warning_popup(message: String, on_confirm: Callable, confirm_label: String = "", cancel_label: String = "") -> void:
 	var popup = load("res://scenes/ui/WarningPopup.tscn").instantiate()
+	popup.process_mode = Node.PROCESS_MODE_ALWAYS # stay clickable even if the tree is paused (trash confirm over the pause menu)
 	_persistent_ui.add_child(popup)
 	popup.setup(message, confirm_label, cancel_label)
 	popup.confirmed.connect(func() -> void:

@@ -108,6 +108,68 @@ func get_item_count(item_id: StringName) -> int:
 	return total
 
 
+# --- Auto-sort: merge same-id stacks, order by type, compact to the front (Step 5) ---
+func sort_inventory() -> void:
+	var merged: Dictionary = {} # "kind|id" -> {kind, id, count}
+	var order: Array = [] # first-seen key order (stable before the sort)
+	for slot in inventory:
+		if slot == null:
+			continue
+		var key := "%s|%s" % [slot["kind"], slot["id"]]
+		if merged.has(key):
+			merged[key]["count"] += int(slot["count"])
+		else:
+			merged[key] = {"kind": slot["kind"], "id": slot["id"], "count": int(slot["count"])}
+			order.append(key)
+	var tokens: Array = []
+	for key in order:
+		tokens.append(merged[key])
+	tokens.sort_custom(_sort_token_lt)
+	var cells: Array = [] # split any over-cap stack (M1 never will, but stay correct)
+	for t in tokens:
+		var remaining := int(t["count"])
+		while remaining > 0:
+			var n := mini(STACK_MAX, remaining)
+			cells.append({"kind": t["kind"], "id": t["id"], "count": n})
+			remaining -= n
+	inventory = []
+	_ensure_inventory_size()
+	for i in mini(cells.size(), inventory.size()):
+		inventory[i] = cells[i]
+	SignalBus.inventory_slots_changed.emit()
+
+func _sort_token_lt(a, b) -> bool:
+	var ka := _sort_key(a)
+	var kb := _sort_key(b)
+	for i in ka.size():
+		if ka[i] != kb[i]:
+			return ka[i] < kb[i]
+	return false
+
+func _sort_key(token) -> Array:
+	var id := StringName(token["id"])
+	var category := ""
+	var name := String(id)
+	if token["kind"] == &"item":
+		var ing := Database.get_ingredient(id)
+		if ing != null:
+			category = String(ing.tags[0]) if ing.tags.size() > 0 else ""
+			name = ing.display_name
+	return [String(token["kind"]), category, name, String(id)]
+
+
+# --- Trash: empty exactly one slot (whole stack); Step 5 ---
+func clear_slot(index: int) -> void:
+	if index < 0 or index >= inventory.size() or inventory[index] == null:
+		return
+	var token = inventory[index]
+	inventory[index] = null
+	if token.get("kind") == &"item":
+		_emit_inventory_changed(StringName(token["id"])) # emits both ID + slots signals
+	else:
+		SignalBus.inventory_slots_changed.emit() # non-item kinds: positional only
+
+
 func apply_run_buff(buff: Dictionary) -> void:
 	run_buff = buff.duplicate(true)
 	SignalBus.run_buff_applied.emit(run_buff)

@@ -225,6 +225,23 @@ msgstr "设置"
 msgid "Leave Game"
 msgstr "退出"
 
+msgid "Sort"
+msgstr "整理"
+
+msgid "Trash"
+msgstr "丢弃"
+
+msgid "Throw away %d × %s?"
+msgstr "丢弃 %d × %s？"
+
+msgid "Throw Away"
+msgstr "丢弃"
+
+msgid "Keep"
+msgstr "保留"
+
+
+
 
 msgid "Name: %s"
 msgstr "名字：%s"

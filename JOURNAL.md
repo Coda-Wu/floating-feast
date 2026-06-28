@@ -13,6 +13,14 @@
 
 ---
 
+## 2026-06-28 — Pause Menu Step 5: Auto-Sort + Trash complete
+
+- **Changed:** Added a right-aligned `Sort`/`Trash` toolbar to `BackpackPanel` (localized 整理/丢弃). New `GameState.sort_inventory()` — merges same-`(kind,id)` stacks, orders by type (`tags[0]` then display name, items before spirits), splits over-`STACK_MAX` stacks, and compacts all 30 slots. New `GameState.clear_slot(i)` (emits via `_emit_inventory_changed`). Trash flow reuses the Step-4 selection: button enables only when a slot is selected → confirm → delete. Made the shared `WarningPopup` `PROCESS_MODE_ALWAYS` so the confirm stays clickable over the paused menu. Fixed the latent 4b bug (the `slot_clicked` connect was inside the row-0 `if` block — now all slots are selectable).
+- **Decided:** Auto-Sort reorganizes **all 30 slots** (hotbar included; re-curate via drag in Step 6). Trash is **select + button + confirm** — no drag this step; a drag-onto-trash target can come with Step 6/7.
+- **Deferred:** Drag (Step 6); a drag-to-trash drop target; capacity-full *auto-notify* (Trash now gives manual relief; 30 slots still won't fill in M1).
+- **Verified:** Sort merges/reorders/compacts and is idempotent; backpack-row items are now selectable; Trash greys until selection, confirm renders above the paused menu and is clickable, deletion persists across reload; all strings localize; the island voluntary-exit confirm still works.
+
+
 ## 2026-06-28 — Pause Menu Step 4: selection primitive complete
 
 - **Changed:** Added `ItemSlot.set_selected(bool)` (promoted the slot's gray-box `StyleBoxFlat` to a member `_panel_style`; `BORDER_DEFAULT`/`BORDER_SELECTED` consts; red 2px outline on select). `BackpackPanel` now tracks a single `_selected_index` via a `_select()` helper — click (`slot_clicked`) or number keys `1–0` (row-0 slots, reusing the `hotbar_*` input actions, `visible`-gated to the active tab) outline one slot at a time; re-selecting toggles it off; both inputs share the same state.
