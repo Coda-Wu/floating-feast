@@ -2,15 +2,15 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-28 — Pause Menu Step 6 (intra-grid drag) complete._
+_Last updated: 2026-06-28 — Spirit Garden epic scoped (GARDEN.md); Pause-Menu track paused._
 
 ---
 
 ## Current focus
 
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
-- **Active system:** **Universal Pause Menu / Backpack UI** (Stardew-style all-in-one `Esc` menu).
-- **Next step:** **Step 7 — External contextual drag (receiver-gated single item).**
+- **Active system:** **Spirit Garden epic** — walkable garden + spirits-as-entities + tools (canon: GARDEN.md). *(Pause Menu paused after Step 6; Step 7 deferred to M2; Steps 9–10 pending.)*
+- **Next step:** **G1 — spirit-as-entity migration.**
 
 
 
@@ -28,13 +28,34 @@ Each item is its own teach-then-code step behind a Verify gate.
 - [x] **4. Selection + number keys + red-outline highlight.** `ItemSlot.set_selected(bool)` red-outline visual (stylebox border recolor; reusable). `BackpackPanel` owns a single `_selected_index`: click or number key `1–0` (row-0 slots, reusing `hotbar_*` actions, filled-only) outlines one slot at a time; re-selecting clears it. Menu-local (clears on close via panel rebuild); live hotbar/cooking untouched. Highlight-only groundwork — no action wired yet.
 - [x] **5. Auto-Sort (by type) + Trash (select → confirm delete).** Right-aligned `Sort`/`Trash` toolbar in `BackpackPanel` (localized). `GameState.sort_inventory()` merges same-`(kind,id)` stacks, orders by type (`IngredientData.tags[0]` → display name; items before spirits), and compacts all 30 slots (hotbar included). Trash reuses Step-4 selection: `Trash` enables only when a slot is selected → always-processing `WarningPopup` confirm → `GameState.clear_slot(i)` empties that stack. Also fixed the 4b bug (all slots now click-selectable, not just row 0).
 - [x] **6. Intra-grid drag-and-drop (full-stack swap/merge).** Godot built-in drag on `ItemSlot` (opt-in `drag_enabled`, carries `_slot_index`, `slot_dropped` signal, gray-box preview); click fires on release only for draggable slots (stations/hotbar keep instant press-fire). `GameState.move_slot(from,to)`: empty→move, same item→merge (overflow stays in source), different→swap. `BackpackPanel` enables drag on all 30 slots and routes drops; works across the hotbar↔backpack boundary; selection clears after a move.
+
+_PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spirit Garden epic._
+
 - [ ] **7. External contextual drag (receiver-gated single item).** Retrofit the cook-station slot first as the reference receiver, then garden pot / spirit feed / fountain. ← NEXT
 
-- [ ] **8. Spirits tab (grid + sort) + spirit-to-garden** via the drag rails (`kind: spirit`).
+- [→] **8. Spirits tab — SUPERSEDED.** Reframed as a read-only **compendium** and folded into the Spirit Garden epic (G7); spirit→garden moved to the walkable garden scene (G3). See GARDEN.md.
+
 - [ ] **9. Quests tab (active list → detail/rewards).**
 - [ ] **10. Stubs wired: NPCs, Settings, Leave Game (Return to Title / Quit).**
 
 **Step-3 deferred-but-flagged carryovers:** capacity-full UX (Step 5 Trash/notify; 30 slots won't fill in M1); cooking refund position-shift (last-of-stack then cancel re-places in first empty slot); items beyond slot 9 aren't hotbar-cookable until drag (Step 6).
+
+
+## Active build order — Spirit Garden epic
+
+Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate.
+
+- [ ] **G1. Spirit-as-entity migration.** Befriending writes a `kind: spirit` token to the carried inventory (unique, non-stacking); tools (`kind: tool`: shovel, watering can) granted at new-game start; `sort_inventory` orders the new kinds; Trash blocks tools (spirits trashable with confirm). ← NEXT
+- [ ] **G2. Walkable garden scene.** Side-scroller scene, single-row 3-pot rack, player actor, ship-hub entry.
+- [ ] **G3. Planting drag.** Drag a spirit token from the hotbar onto an empty pot (receiver takes one; 1 pot = 1 spirit).
+- [ ] **G4. Tools + cursor-tool mode.** Selecting a hotbar tool sets a cursor mode (water/dig) instead of staging.
+- [ ] **G5. Watering & yield.** Watering-can spray; daily-water state; yield every 1–2 days; unwatered = paused (never dead).
+- [ ] **G6. Removal — shovel hold-to-confirm.** Hover dims the spirit; hold LMB ~1s (radial UI + SFX); release cancels; complete = permanent delete (no refund).
+- [ ] **G7. Spirits compendium tab** (Pause Menu): codex grid + detail (Liked Food / Native Island / Production / Yield). Needs `SpiritData.native_island` + cadence.
+- [ ] **G8. Rewire + cleanup:** ship-hub Garden button → the scene; discard the temporary `garden_panel`.
+
+
+
 
 ---
 

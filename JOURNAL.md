@@ -13,6 +13,15 @@
 
 ---
 
+## 2026-06-28 — Spirit Garden epic scoped; Pause-Menu Step 8 reframed
+
+- **Changed (design):** Authored GARDEN.md — canon for the spirit-garden loop, spirits-as-entities, and tools. Updated DESIGN.md §5 (garden), §7 (inventory kinds), §9 (locked list) to point to it.
+- **Decided:** Spirits become `kind: spirit` carried tokens (unique, non-stacking). The garden is a walkable 2D side-scroller scene (pulled forward from M2); planting = hotbar→pot drag; yield every 1–2 days gated by daily watering, a forgiving pause (spirits never die). Removal is permanent (no refund) via a shovel hold-to-confirm gesture (preserving §9's outcome). Tools are a new `kind: tool` (shovel + watering can; granted at start, non-stacking, trash-protected, cursor-mode on select). The Pause-Menu Spirits tab is now a read-only compendium — the original Step 8 is superseded and folded into the epic (G7); spirit→garden drag moves to the garden scene (G3).
+- **Deferred:** Rack upgrades / walls-of-pots (M2); Pause-Menu Steps 9–10 (Quests, stubs) resume after the epic; external item-drag (Step 7) stays M2.
+- **Verified:** GARDEN.md committed; design grounded against the existing spirit model (`captured_spirits`, `garden_slots`, `SpiritData`) and the §7 token model.
+
+
+
 ## 2026-06-28 — Pause Menu Step 6: intra-grid drag-and-drop complete
 
 - **Changed:** Made `ItemSlot` drag-capable via Godot's built-in drag (`_get_drag_data`/`_can_drop_data`/`_drop_data`), gated behind an opt-in `drag_enabled`; each slot carries `_slot_index`, emits `slot_dropped(from,to)`, and shows a gray-box `ColorRect` preview. Click now fires on **release** for draggable slots only (non-draggable stations/hotbar keep instant **press**-fire). Child swatch/labels set `mouse_filter = IGNORE` so the Panel owns mouse/drop across the whole cell. New `GameState.move_slot(from,to)` — empty→move, same `(kind,id)`→merge (overflow stays in source), different→swap; emits `inventory_slots_changed` only (totals unchanged). `BackpackPanel` enables drag on all 30 slots, stamps indices, and routes drops; selection clears after a move.

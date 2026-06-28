@@ -83,10 +83,14 @@ Replaced the original procedural-island system. The macro-loop is now Fuel/Time-
 
 ## 5. Spirits & garden
 
-- Food-spirits are tamed in `spirit_encounter` nodes (feed raw ingredients to easygoing spirits; tougher ones have requirements).
-- Tamed spirits are **assigned to garden pots** to produce ingredients **overnight** (the grind-automation pillar).
-- **Removing a spirit from a pot permanently consumes it** (gone from the roster, not returned).
+> The spirit-garden system has its own canon: **GARDEN.md**. Summary below; that file governs.
+
+- Food-spirits are tamed in `spirit_encounter` nodes (feed raw ingredients to easygoing spirits; tougher ones have requirements). A befriended spirit becomes a **`kind: spirit` carried token** (entity item), unique and non-stacking.
+- The garden is a **walkable 2D side-scroller scene**. Spirits are **planted by dragging from the hotbar into a pot** (1 pot = 1 spirit) and yield ingredients **every 1–2 days, gated by daily watering** (the grind-automation pillar).
+- **Watering is forgiving:** miss a day and the yield cycle **pauses** — the spirit never dies — resuming when watered. The watering can is a **hotbar tool item** (infinite). See GARDEN.md.
+- **Removing a spirit from a pot permanently consumes it** (no refund), via the **shovel hold-to-confirm** gesture (release cancels). The outcome is unchanged canon; the interaction is forgiving.
 - The **food → Ember firewall:** food never refuels Ember. If mining/fishing are later added as free on-ship activities, their rewards stay consumable-tier; nothing there feeds the hearth-spirit. This keeps fuel a pure exploration resource.
+
 
 ---
 
@@ -100,7 +104,7 @@ Every exit path preserves collected loot. The 2 AM faint is capped at a small co
 
 - A persistent **10-slot Quick Access hotbar** is the primary cooking-ingredient surface (Ship + Kitchen only). It is **row 0 of the carried inventory.**
 - A **Universal Pause Menu** (Stardew-style, `Esc`-opened) is the all-in-one screen: Backpack (inventory + player profile), Spirits, NPCs, Quests, Settings, Leave Game. **No map tab.**
-- The carried inventory is a **slot-ordered, content-agnostic** model: slots will eventually hold ingredients, dishes, spirits, ore, geodes, and furniture — not just ingredients.
+- The carried inventory is a **slot-ordered, content-agnostic** model. Live kinds: `item` (ingredients), `spirit` (befriended entities — GARDEN.md), and `tool` (shovel, watering can — granted at start, non-stacking, trash-protected). Future kinds (ore/geode/furniture) drop in with no model change.
 - **Player Name & Ship Name are player-set at the start of a new game** (Stardew-style onboarding, planned for M2). They are real fields the menu reads — **never hardcoded.**
 - Drag model: **default = full stack** (rearrange); **contextual = receiver-gated single item** (dropping onto a cook station / garden pot / spirit / fountain takes exactly one; the "only one" rule lives in each *receiver*).
 
@@ -120,7 +124,9 @@ Every exit path preserves collected loot. The 2 AM faint is capped at a small co
 - Cooking tier = spice-compatibility formula (§3).
 - Slots reserve→deduct-on-slot / refund-on-exit (cooking stations).
 - Commission deadlines additive-only (never gate).
-- Garden removal permanently consumes the spirit.
+- Garden removal permanently consumes the spirit (no refund) — via the **shovel hold-to-confirm** (GARDEN.md).
+- **Spirit garden (GARDEN.md):** spirits are `kind: spirit` carried tokens (unique, non-stacking); the garden is a **walkable side-scroller scene**; planting is **hotbar→pot drag** (1 pot = 1 spirit); watering is a **forgiving pause** (never death), yield every 1–2 days; tools are `kind: tool` (granted at start, non-stacking, **trash-protected**, cursor-mode on select); the Spirits Pause-Menu tab is a **compendium**, not a management surface; the temporary garden panel retires once the scene ships.
+
 - Kitchen is top-down forever (any side-scroller art is throwaway).
 - Single dish store (no carried/stored split; dishes "travel with you").
 - Modular docs (new systems → standalone files).
