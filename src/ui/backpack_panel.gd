@@ -15,6 +15,8 @@ const COLS := 10
 
 
 var _slot_nodes: Array = []
+var _selected_index := -1 # menu-local selection; -1 = none (Step 4)
+
 
 func _ready() -> void:
 	for i in GameState.slot_count():
@@ -23,6 +25,7 @@ func _ready() -> void:
 		_grid.add_child(slot)
 		if i < COLS: # row 0 mirrors the hotbar number keys (1..9, then 0)
 			slot.set_hotkey("0" if i == COLS - 1 else str(i + 1))
+			slot.slot_clicked.connect(_on_slot_clicked.bind(i))
 		_slot_nodes.append(slot)
 	refresh()
 	SignalBus.inventory_slots_changed.connect(refresh)
@@ -37,6 +40,37 @@ func refresh() -> void:
 			_slot_nodes[i].set_item(id, int(token["count"]), Database.get_display_name(id), true)
 		else:
 			_slot_nodes[i].set_item(&"", 0, "", false)
+
+
+func _on_slot_clicked(_item_id: String, index: int) -> void:
+	_select(-1 if index == _selected_index else index) # click the selected slot again to clear
+
+func _select(index: int) -> void:
+	if index == _selected_index:
+		return
+	if _selected_index >= 0:
+		_slot_nodes[_selected_index].set_selected(false)
+	_selected_index = index
+	if _selected_index >= 0:
+		_slot_nodes[_selected_index].set_selected(true)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible: # only the active Backpack tab reacts to number keys
+		return
+	for i in COLS:
+		var action := "hotbar_0" if i == COLS - 1 else "hotbar_%d" % (i + 1)
+		if event.is_action_pressed(action):
+			_select_from_key(i)
+			get_viewport().set_input_as_handled()
+			return
+
+func _select_from_key(index: int) -> void:
+	var token = GameState.get_slot(index)
+	if token == null or token.get("kind") != &"item": # filled slots only, like click
+		return
+	_select(-1 if index == _selected_index else index)
+
 
 func _populate_profile() -> void:
 	# Read once: the menu is rebuilt on each open, and nothing mutates coins/rank while paused.

@@ -5,6 +5,8 @@ class_name ItemSlot extends Panel
 ## hotbar and every Fridge grid. Dumb view; emits slot_clicked with its item id. (Inventory-UX polish)
 
 signal slot_clicked(item_id: String)
+const BORDER_DEFAULT := Color(0.42, 0.42, 0.48)
+const BORDER_SELECTED := Color(0.95, 0.3, 0.3) # red selection outline (Step 4)
 
 @onready var _swatch: ColorRect = $Swatch
 @onready var _count: Label = $CountLabel
@@ -16,16 +18,19 @@ var _item_name: String = ""
 var _clickable: bool = true
 var _hovered: bool = false
 var _count_val := 1
+var _panel_style: StyleBoxFlat = null # the slot's own gray-box border; recolored red when selected
+
 var _hotkey_val := ""
 var _stars_val := 0
 
 func _ready() -> void:
-	var sb := StyleBoxFlat.new() # gray-box cell background; real art is a Week-3 swap
-	sb.bg_color = Color(0.20, 0.20, 0.24, 0.85)
-	sb.set_corner_radius_all(4)
-	sb.set_border_width_all(1)
-	sb.border_color = Color(0.42, 0.42, 0.48)
-	add_theme_stylebox_override("panel", sb)
+	_panel_style = StyleBoxFlat.new() # gray-box cell background; real art is a Week-3 swap
+	_panel_style.bg_color = Color(0.20, 0.20, 0.24, 0.85)
+	_panel_style.set_corner_radius_all(4)
+	_panel_style.set_border_width_all(1)
+	_panel_style.border_color = BORDER_DEFAULT
+	add_theme_stylebox_override("panel", _panel_style)
+
 	for lbl in [_count, _hotkey, _star]: # corner labels: small, white, dark outline for legibility
 		lbl.add_theme_font_size_override("font_size", 11)
 		lbl.add_theme_color_override("font_color", Color.WHITE)
@@ -75,6 +80,13 @@ func set_stars(tier: int) -> void:
 		return
 	_star.text = "★".repeat(maxi(tier, 0)) if tier > 0 else ""
 	_star.visible = tier > 0
+
+func set_selected(selected: bool) -> void:
+	if _panel_style == null:
+		return
+	_panel_style.set_border_width_all(2 if selected else 1)
+	_panel_style.border_color = BORDER_SELECTED if selected else BORDER_DEFAULT
+
 
 func _gui_input(event: InputEvent) -> void:
 	if not _clickable or _item_id == &"":

@@ -13,12 +13,14 @@
 
 ---
 
-## 2026-06-27 — Workspace seeded; transitioned from web chat to Claude Code
+## 2026-06-28 — Pause Menu Step 4: selection primitive complete
 
-- **Changed:** Created the five-file doc set (CLAUDE.md, DESIGN.md, ARCHITECTURE.md, STATE.md, JOURNAL.md) to move project state out of a long, degrading web-chat into version-controlled files. Established **tutor / read-only** enforcement (permission denylist + `PreToolUse` guard hook + CLAUDE.md role) and safety hooks (no destructive commands, no editing outside the project folder).
-- **Decided:** The AI operates as a mentor only — it reads/inspects and hands Coda snippets to apply by hand; it never writes project files. Stateful workflow: read STATE.md at session start, update STATE.md + append here after every milestone.
-- **Deferred:** Nothing new; carried the existing deferred-threads list into STATE.md.
-- **Verified:** Transition made on a clean boundary — Pause-Menu **Step 2 done & verified, Step 3 not started.** First local task is the doc seeding itself, then resume at Step 3.
+- **Changed:** Added `ItemSlot.set_selected(bool)` (promoted the slot's gray-box `StyleBoxFlat` to a member `_panel_style`; `BORDER_DEFAULT`/`BORDER_SELECTED` consts; red 2px outline on select). `BackpackPanel` now tracks a single `_selected_index` via a `_select()` helper — click (`slot_clicked`) or number keys `1–0` (row-0 slots, reusing the `hotbar_*` input actions, `visible`-gated to the active tab) outline one slot at a time; re-selecting toggles it off; both inputs share the same state.
+- **Decided:** Selection is **highlight-only groundwork** and **menu-local** — it clears on menu close (panel is rebuilt per open) and the live hotbar→cooking staging is untouched. Filled slots only (empty cells become selectable when they're drop targets in Step 6).
+- **Deferred:** Auto-sort + trash (Step 5); intra-grid drag swap/merge (Step 6); clearing selection when the selected slot empties (relevant once Step 6 mutations land).
+- **Verified:** Click and number keys both drive a single red outline; toggling, tab-gating, and keys-while-paused all confirmed working; cooking number-keys still work after closing the menu.
+
+
 
 ## 2026-06-28 — Pause Menu Step 3: Backpack tab (grid + profile) complete
 
@@ -28,14 +30,23 @@
 - **Verified:** Backpack grid mirrors the hotbar; profile reads real fields and localizes; opening the menu hides HUD+hotbar and the tooltip renders above the menu and tracks the cursor (Coda confirmed the pre-fix HUD/hotbar overlap). **Drift corrected:** `PersistentUI` (layer 128) was always above `PauseMenu` (layer 5) — STATE's "menu sits above the tooltip" note was stale; the tooltip was never occluded.
 
 
-
-
 ## 2026-06-27 — Doc reconciliation: i18n system documented; cabin art parked
 
 - **Changed (docs only):** ARCHITECTURE §3 now lists Dialogic (plugin autoload, registered first) + LocaleManager (11th autoload) and corrects the Database filename to `data_base.gd`; added ARCHITECTURE §11 documenting the runtime localization pipeline. STATE: added Localization to Completed systems; parked the orphaned `scenes/cabin/CabinLayout.tscn` under Deferred threads.
 - **Decided:** the i18n system (LocaleManager + zh.po + TranslationServer + ZCOOLKuaiLe font) is canon and matches CLAUDE.md's strict-L10n standard. The cabin art drop stays parked M2 — it does NOT override "kitchen top-down forever" or "walkable ship = M2".
 - **Deferred:** wiring the cabin interior; Dialogic narrative (M2).
 - **Verified:** code is the source of truth — both autoloads confirmed in project.godot; cabin scene confirmed orphaned (no references). No code changed.
+
+
+## 2026-06-27 — Workspace seeded; transitioned from web chat to Claude Code
+
+- **Changed:** Created the five-file doc set (CLAUDE.md, DESIGN.md, ARCHITECTURE.md, STATE.md, JOURNAL.md) to move project state out of a long, degrading web-chat into version-controlled files. Established **tutor / read-only** enforcement (permission denylist + `PreToolUse` guard hook + CLAUDE.md role) and safety hooks (no destructive commands, no editing outside the project folder).
+- **Decided:** The AI operates as a mentor only — it reads/inspects and hands Coda snippets to apply by hand; it never writes project files. Stateful workflow: read STATE.md at session start, update STATE.md + append here after every milestone.
+- **Deferred:** Nothing new; carried the existing deferred-threads list into STATE.md.
+- **Verified:** Transition made on a clean boundary — Pause-Menu **Step 2 done & verified, Step 3 not started.** First local task is the doc seeding itself, then resume at Step 3.
+
+
+
 ---
 
 ## (reconstructed) — Project history to date
