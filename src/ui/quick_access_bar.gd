@@ -17,6 +17,9 @@ func _ready() -> void:
 		var slot: ItemSlot = ITEM_SLOT.instantiate()
 		slot.custom_minimum_size = Vector2(52, 40)
 		_slots_row.add_child(slot)
+		slot.drag_enabled = true
+		slot.set_slot_index(i)
+
 		slot.set_hotkey("0" if i == HOTBAR_SLOTS - 1 else str(i + 1))
 		slot.slot_clicked.connect(_on_slot_clicked.bind(i))
 		_slot_nodes.append(slot)

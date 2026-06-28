@@ -18,14 +18,6 @@ func _ready() -> void:
 	GameState.add_dish(&"classic_rustic_salad", 4, 1)
 	GameState.add_dish(&"hummus", 2, 1)
 	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
-	# TEMP 2a — print unlock states at current quest_phase
-	_verify_step2()
-
-func _verify_step2() -> void:
-	print("[v2] slots=", GameState.slot_count(), " (expect 30)")
-	GameState.add_item(&"tomato", 3); GameState.add_item(&"potato", 1); GameState.add_item(&"tomato", 2)
-	print("[v2] tomato=", GameState.get_item_count(&"tomato"), " (expect 5)  slot0=", GameState.get_slot(0))
-	print("[v2] removed4=", GameState.remove_item(&"tomato", 4), " tomato=", GameState.get_item_count(&"tomato"), " (expect true,1)")
-	print("[v2] ids=", GameState.get_carried_item_ids())
-	var saved := GameState.serialize(); GameState.inventory = []; GameState.deserialize(saved)
-	print("[v2] round-trip tomato=", GameState.get_item_count(&"tomato"), " slot0=", GameState.get_slot(0))
+	# TEMP G3 — a spirit in the hotbar to drag-plant; remove after testing
+	GameState.inventory[0] = {"kind": &"spirit", "id": &"spirit_tomato", "count": 1}
+	SignalBus.inventory_slots_changed.emit()

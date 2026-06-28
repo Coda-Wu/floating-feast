@@ -8,6 +8,11 @@ const RIM_COLOR := Color(0.42, 0.27, 0.18)
 
 var _spirit_id: StringName = &"" # empty = no spirit
 
+var pot_index := -1
+
+signal spirit_dropped(pot_index: int, from_slot: int)
+
+
 func _ready() -> void:
 	custom_minimum_size = SIZE
 	queue_redraw()
@@ -18,6 +23,18 @@ func set_spirit(spirit_id: StringName) -> void:
 
 func is_empty() -> bool:
 	return _spirit_id == &""
+
+func _can_drop_data(_at_position: Vector2, data) -> bool:
+	if not is_empty():
+		return false # one spirit per pot
+	if not (data is Dictionary and data.has("from")):
+		return false
+	var token = GameState.get_slot(int(data["from"]))
+	return token != null and token.get("kind") == &"spirit"
+
+func _drop_data(_at_position: Vector2, data) -> void:
+	spirit_dropped.emit(pot_index, int(data["from"]))
+
 
 func _draw() -> void:
 	var w := size.x

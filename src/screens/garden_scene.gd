@@ -12,9 +12,24 @@ const RACK_COLOR := Color(0.5, 0.36, 0.22)
 
 @onready var _leave_button: Button = $UI/LeaveButton
 
+@onready var _pots: Array = $UI/Pots.get_children()
+
 func _ready() -> void:
 	_leave_button.pressed.connect(GameManager.request_return_to_ship)
+	for i in _pots.size():
+		_pots[i].pot_index = i
+		_pots[i].spirit_dropped.connect(_on_spirit_dropped)
+		_refresh_pot(i)
 	queue_redraw()
+
+func _on_spirit_dropped(pot_index: int, from_slot: int) -> void:
+	if GameState.plant_spirit(from_slot, pot_index):
+		_refresh_pot(pot_index)
+
+func _refresh_pot(i: int) -> void:
+	var sid = GameState.garden_slots[i]
+	_pots[i].set_spirit(StringName(sid) if sid != null else &"")
+
 
 func _draw() -> void:
 	draw_rect(Rect2(0, 0, 640, 360), SKY_COLOR) # gray-box backdrop (Week-3 art swap)

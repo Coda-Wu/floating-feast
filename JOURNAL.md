@@ -13,6 +13,13 @@
 
 ---
 
+## 2026-06-28 — Spirit Garden G3: planting drag complete
+
+- **Changed:** Decoupled `ItemSlot.click_on_release` from `drag_enabled` — the hotbar is now a drag *source* while keeping instant press-staging (cooking unaffected); the Backpack sets `click_on_release = true` to stay drag-safe. `GardenPot` implements `_can_drop_data`/`_drop_data` (accepts a `kind: spirit` token onto an empty pot) and emits `spirit_dropped`. New `GameState.plant_spirit(from_slot, pot_index)` moves the spirit bag→pot (clears the inventory token, sets `garden_slots`, emits `inventory_slots_changed`). `garden_scene` assigns pot indices, plants on drop, and refreshes pots on entry.
+- **Decided:** This is DESIGN §7's "receiver decides, take one" contract, realized for the first time (pot is the receiver). `plant_spirit` leaves `captured_spirits` untouched (the ledger; the token is the holding).
+- **Deferred:** Watering/yield (G5), shovel removal (G6) — both need G4's cursor-tool mode first.
+- **Verified:** Drag a hotbar spirit onto an empty pot → plants (pot fills, hotbar slot empties); occupied pot / non-spirit refused; persists across re-entry; cooking still stages on press. (Tested via a temp hotbar spirit, since removed.)
+
 ## 2026-06-28 — Spirit Garden G2: walkable garden scene complete
 
 - **Changed:** Added `DayPhase.GARDEN` (+ `request_enter_garden`, `_PHASE_SCREENS` entry, `_is_hotbar_phase` includes it); rewired the ship-hub Garden button to enter the scene. New `GardenScene` (gray-box sky/ground/rack, Leave→ship; zh.po 离开花园). New reusable **`PlayerCharacter`** (CharacterBody2D with `move_mode` side-scroll/top-down, per-scene SpriteFrames, flip walk/idle, `CollisionShape2D`) — instanced as side-scroll Saff (`chr_saff_walk_r`). New `GardenPot` Control (gray-box pot, `set_spirit`/`is_empty`) ×3 on the rack.

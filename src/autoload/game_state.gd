@@ -453,6 +453,21 @@ func remove_spirit_from_garden(slot: int) -> void:
 		captured_spirits.erase(spirit_id)
 
 
+# --- Plant a carried spirit token into a pot (bag → pot; GARDEN.md / G3) ---
+func plant_spirit(from_slot: int, pot_index: int) -> bool:
+	if pot_index < 0 or pot_index >= garden_slots.size():
+		return false
+	if garden_slots[pot_index] != null:
+		return false # one spirit per pot
+	var token = get_slot(from_slot)
+	if token == null or token.get("kind") != &"spirit":
+		return false
+	garden_slots[pot_index] = String(token["id"]) # the spirit moves bag → pot
+	inventory[from_slot] = null
+	SignalBus.inventory_slots_changed.emit() # hotbar drops the spirit
+	return true
+
+
 # --- Explorer League rank (increases at Fair completion) ---
 func set_rank(new_rank: int) -> void:
 	if new_rank > rank:

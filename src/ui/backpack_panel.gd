@@ -26,6 +26,7 @@ func _ready() -> void:
 		slot.custom_minimum_size = Vector2(46, 38)
 		_grid.add_child(slot)
 		slot.drag_enabled = true
+		slot.click_on_release = true # release-fire so a press-drag doesn't also select
 		slot.set_slot_index(i)
 		slot.slot_dropped.connect(_on_slot_dropped)
 		

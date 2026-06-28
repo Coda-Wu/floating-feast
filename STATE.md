@@ -2,7 +2,8 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-28 — Spirit Garden G2 (walkable garden scene) complete._
+_Last updated: 2026-06-28 — Spirit Garden G3 (planting drag) complete._
+
 
 
 
@@ -49,9 +50,9 @@ Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate
 
 - [x] **G1. Spirit-as-entity migration.** Befriending writes a `kind: spirit` token (`add_spirit`, unique/non-stacking); `grant_starting_tools` seeds shovel + watering can (`kind: tool`) at new-game; both the hotbar and Backpack render all kinds; `Database.get_display_name` resolves spirits + a `tr()` fallback for tools (zh.po: 浇水壶/铲子); Trash blocks tools (spirits trashable).
 - [x] **G2. Walkable garden scene.** `DayPhase.GARDEN` + `request_enter_garden` (ship Garden button rewired; hotbar shows here). `GardenScene` (gray-box room + rack, Leave→ship). New reusable **`PlayerCharacter`** (CharacterBody2D, side-scroll/top-down modes, flip walk/idle, collision shape) instanced as side-scroll Saff. `GardenPot` Control (gray-box, `set_spirit`) ×3 on the rack.
-- [ ] **G3. Planting drag.** Drag a spirit token from the hotbar onto an empty pot (receiver takes one; 1 pot = 1 spirit). ← NEXT
+- [x] **G3. Planting drag.** Hotbar is now a drag source (`drag_enabled` decoupled from a new `click_on_release` flag, so cooking keeps instant press-staging). `GardenPot` is a receiver (`_can_drop_data`/`_drop_data`): drag a `kind: spirit` token onto an empty pot → `GameState.plant_spirit` moves it bag→pot (1 per pot). Persists across re-entry.
+- [ ] **G4. Tools + cursor-tool mode.** Selecting a hotbar tool sets a cursor mode (water/dig) instead of staging. ← NEXT
 
-- [ ] **G4. Tools + cursor-tool mode.** Selecting a hotbar tool sets a cursor mode (water/dig) instead of staging.
 - [ ] **G5. Watering & yield.** Watering-can spray; daily-water state; yield every 1–2 days; unwatered = paused (never dead).
 - [ ] **G6. Removal — shovel hold-to-confirm.** Hover dims the spirit; hold LMB ~1s (radial UI + SFX); release cancels; complete = permanent delete (no refund).
 - [ ] **G7. Spirits compendium tab** (Pause Menu): codex grid + detail (Liked Food / Native Island / Production / Yield). Needs `SpiritData.native_island` + cadence.

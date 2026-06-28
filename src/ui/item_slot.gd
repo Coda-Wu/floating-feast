@@ -23,6 +23,8 @@ var _count_val := 1
 var _panel_style: StyleBoxFlat = null # the slot's own gray-box border; recolored red when selected
 
 var drag_enabled := false # opt-in per context; only the Backpack enables drag (Step 6)
+var click_on_release := false # backpack uses release (drag-safe); stations/hotbar stay instant-press
+
 var _slot_index := -1 # this slot's index in GameState.inventory (set by the owning grid)
 
 
@@ -104,7 +106,7 @@ func _gui_input(event: InputEvent) -> void:
 		var mouse_event := event as InputEventMouseButton
 		# Draggable slots fire on RELEASE (so a press that becomes a drag doesn't also select);
 		# non-draggable slots fire on PRESS for instant feedback (cook stations, hotbar staging).
-		var fire := (not mouse_event.pressed) if drag_enabled else mouse_event.pressed
+		var fire := (not mouse_event.pressed) if click_on_release else mouse_event.pressed
 		if fire:
 			slot_clicked.emit(String(_item_id))
 			accept_event()
