@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byxvbhj7fslbg"
-path="res://.godot/imported/wall_tile.png-0e975fda3438412dfa2170b84f7dba8a.ctex"
+uid="uid://4yd16wukj5kw"
+path="res://.godot/imported/bg_cabin_floor.png-16725e6b117f20759d208936b3b4a107.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/wall_tile.png"
-dest_files=["res://.godot/imported/wall_tile.png-0e975fda3438412dfa2170b84f7dba8a.ctex"]
+source_file="res://assets/art/scenes/cabin/bg_cabin_floor.png"
+dest_files=["res://.godot/imported/bg_cabin_floor.png-16725e6b117f20759d208936b3b4a107.ctex"]
 
 [params]
 

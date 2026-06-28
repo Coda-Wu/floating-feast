@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkejvk75hgcby"
-path="res://.godot/imported/wall_wood.png-dd3e5cb8b52be1ce0231264095ff7f30.ctex"
+path="res://.godot/imported/bg_cabin_wall_wood.png-0b8aeeacf5a499be68de7bea9447a119.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/wall_wood.png"
-dest_files=["res://.godot/imported/wall_wood.png-dd3e5cb8b52be1ce0231264095ff7f30.ctex"]
+source_file="res://assets/art/scenes/cabin/bg_cabin_wall_wood.png"
+dest_files=["res://.godot/imported/bg_cabin_wall_wood.png-0b8aeeacf5a499be68de7bea9447a119.ctex"]
 
 [params]
 

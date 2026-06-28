@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq0g10gg2kpls"
-path="res://.godot/imported/rudder.png-d19c4c7a3dae44536c067a0bee210c0e.ctex"
+uid="uid://o6hg3ie3j7b8"
+path="res://.godot/imported/prop_door.png-b677c70aa8a033991d380d15f5acd9b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/rudder.png"
-dest_files=["res://.godot/imported/rudder.png-d19c4c7a3dae44536c067a0bee210c0e.ctex"]
+source_file="res://assets/art/scenes/cabin/prop_door.png"
+dest_files=["res://.godot/imported/prop_door.png-b677c70aa8a033991d380d15f5acd9b2.ctex"]
 
 [params]
 

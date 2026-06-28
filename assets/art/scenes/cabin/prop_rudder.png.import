@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmhdeu567gyse"
-path="res://.godot/imported/wood_box.png-443c2032b451905c22a2d9ba7bc14f50.ctex"
+uid="uid://dq0g10gg2kpls"
+path="res://.godot/imported/prop_rudder.png-995e3bc1a47a47442ed44aa5f5001e1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/wood_box.png"
-dest_files=["res://.godot/imported/wood_box.png-443c2032b451905c22a2d9ba7bc14f50.ctex"]
+source_file="res://assets/art/scenes/cabin/prop_rudder.png"
+dest_files=["res://.godot/imported/prop_rudder.png-995e3bc1a47a47442ed44aa5f5001e1d.ctex"]
 
 [params]
 

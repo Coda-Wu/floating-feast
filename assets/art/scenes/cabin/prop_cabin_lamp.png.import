@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o6hg3ie3j7b8"
-path="res://.godot/imported/door.png-2f570dc247f47c3ab69afc3ee3e7342a.ctex"
+uid="uid://ha6sub2ymhju"
+path="res://.godot/imported/prop_cabin_lamp.png-b10ca05dbf16b72b7992f27d0c1608d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/door.png"
-dest_files=["res://.godot/imported/door.png-2f570dc247f47c3ab69afc3ee3e7342a.ctex"]
+source_file="res://assets/art/scenes/cabin/prop_cabin_lamp.png"
+dest_files=["res://.godot/imported/prop_cabin_lamp.png-b10ca05dbf16b72b7992f27d0c1608d0.ctex"]
 
 [params]
 

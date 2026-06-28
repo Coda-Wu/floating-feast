@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbm7byyjpuviy"
-path="res://.godot/imported/carpet.png-f84edfe1f8128bc4e551b71e23fb4581.ctex"
+uid="uid://dqnd42orjt80s"
+path="res://.godot/imported/prop_bed.png-49b3a366b71202105d66f9c61ee4e8e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/carpet.png"
-dest_files=["res://.godot/imported/carpet.png-f84edfe1f8128bc4e551b71e23fb4581.ctex"]
+source_file="res://assets/art/scenes/cabin/prop_bed.png"
+dest_files=["res://.godot/imported/prop_bed.png-49b3a366b71202105d66f9c61ee4e8e7.ctex"]
 
 [params]
 

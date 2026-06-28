@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bc07m1et6qcca"
-path="res://.godot/imported/mixer.png-2df12951790b476b5ba0195f13f76662.ctex"
+uid="uid://cfsfekjeeac6w"
+path="res://.godot/imported/prop_cabin_window.png-c1c4401757524d1989de878c05d698de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/mixer.png"
-dest_files=["res://.godot/imported/mixer.png-2df12951790b476b5ba0195f13f76662.ctex"]
+source_file="res://assets/art/scenes/cabin/prop_cabin_window.png"
+dest_files=["res://.godot/imported/prop_cabin_window.png-c1c4401757524d1989de878c05d698de.ctex"]
 
 [params]
 
