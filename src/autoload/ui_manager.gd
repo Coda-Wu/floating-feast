@@ -236,13 +236,6 @@ func show_notice(title: String, message: String, on_dismiss: Callable = func(): 
 		panel.queue_free()
 		on_dismiss.call())
 
-# --- Garden panel (opened from the ship hub) ---
-func show_garden_panel() -> void:
-	var panel = load("res://scenes/ui/GardenPanel.tscn").instantiate()
-	_persistent_ui.add_child(panel)
-	panel.setup()
-	panel.close_requested.connect(func() -> void: panel.queue_free())
-
 
 # --- Commission HUD (updated when an NPC asks for something, or when you cook) ---
 func _on_commission_changed(_a = null, _b = null) -> void:

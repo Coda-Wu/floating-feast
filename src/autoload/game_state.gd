@@ -434,26 +434,6 @@ func deserialize(d: Dictionary) -> void:
 	island_depletion = (d.get("island_depletion", {}) as Dictionary).duplicate(true)
 	_load_inventory(d.get("inventory", []))
 
-# --- Garden (assign captured spirits to pots; remove permanently consumes) ---
-func assign_spirit_to_garden(spirit_id: String, slot: int) -> bool:
-	if slot < 0 or slot >= garden_slots.size():
-		return false
-	if garden_slots[slot] != null or garden_slots.has(spirit_id):
-		return false # slot taken, or this spirit already potted
-	if not captured_spirits.has(spirit_id):
-		return false
-	garden_slots[slot] = spirit_id
-	return true
-
-func remove_spirit_from_garden(slot: int) -> void:
-	# Removing PERMANENTLY consumes the spirit — gone from the roster, not returned.
-	if slot < 0 or slot >= garden_slots.size():
-		return
-	var spirit_id = garden_slots[slot]
-	garden_slots[slot] = null
-	if spirit_id != null:
-		captured_spirits.erase(spirit_id)
-
 
 # --- Plant a carried spirit token into a pot (bag → pot; GARDEN.md / G3) ---
 func plant_spirit(from_slot: int, pot_index: int) -> bool:

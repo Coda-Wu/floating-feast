@@ -12,6 +12,13 @@
 ```
 
 ---
+## 2026-06-29 — Spirit Garden G8 + epic complete
+
+- **Changed:** Deleted the superseded temp garden — `garden_panel.gd`, `GardenPanel.tscn`, `UIManager.show_garden_panel`, and `GameState.assign_spirit_to_garden` / `remove_spirit_from_garden` (verified orphaned; only our epic referenced them). The ship Garden button (rewired in G2a) drives the walkable `GardenScene`.
+- **Decided:** Spirit Garden epic (G1–G8) is closed; the Universal Pause Menu track resumes (Steps 9–10).
+- **Deferred:** `SpiritData.native_island` per-`.tres`; dig `AudioCue`; rewire the `"garden"` tutorial from `GardenScene`; Kitchen → `PlayerCharacter` migration; edge-collision room transitions; pot/player z-layering; rack upgrades & 2-day cadences (M2).
+- **Verified:** Project compiles; ship→Garden works; plant/water/yield/shovel + Spirits compendium all functional; zero references to the deleted symbols; console clean.
+
 ## 2026-06-29 — Spirit Garden G7: Spirits compendium tab complete
 
 - **Changed:** New `SpiritsPanel` (grid + detail) replaces the Spirits-tab placeholder, built from `captured_spirits`. Grid reuses `ItemSlot` (swatch / hover name / red-outline select); detail pane shows Name, Liked Food (`preferred_food`), Native Island, Production (`yield_interval_days`, singular/plural), Yield (`produces × yield_per_night`) — all localized. Added `SpiritData.native_island` (shows "—" until set per-`.tres`). Empty state: "No spirits discovered yet."

@@ -2,7 +2,8 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-29 — Spirit Garden G7 (Spirits compendium tab) complete._
+_Last updated: 2026-06-29 — Spirit Garden epic COMPLETE (G1–G8). Pause Menu track resumes._
+
 
 
 
@@ -15,8 +16,8 @@ _Last updated: 2026-06-29 — Spirit Garden G7 (Spirits compendium tab) complete
 ## Current focus
 
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
-- **Active system:** **Spirit Garden epic** — walkable garden + spirits-as-entities + tools (canon: GARDEN.md). *(Pause Menu paused after Step 6; Step 7 deferred to M2; Steps 9–10 pending.)*
-- **Next step:** **G1 — spirit-as-entity migration.**
+- **Active system:** **Universal Pause Menu** (resumed) — Steps 9–10 remain (Step 7 deferred to M2).
+- **Next step:** **Pause Menu Step 9 — Quests tab.** *(Or redirect — see "what's next" below.)*
 
 
 
@@ -37,18 +38,18 @@ Each item is its own teach-then-code step behind a Verify gate.
 
 _PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spirit Garden epic._
 
-- [ ] **7. External contextual drag (receiver-gated single item).** Retrofit the cook-station slot first as the reference receiver, then garden pot / spirit feed / fountain. ← NEXT
+- [x] **7. External contextual drag (receiver-gated single item).** Retrofit the cook-station slot first as the reference receiver, then garden pot / spirit feed / fountain.
 
-- [→] **8. Spirits tab — SUPERSEDED.** Reframed as a read-only **compendium** and folded into the Spirit Garden epic (G7); spirit→garden moved to the walkable garden scene (G3). See GARDEN.md.
+- [x] **8. Spirits tab — SUPERSEDED.** Reframed as a read-only **compendium** and folded into the Spirit Garden epic (G7); spirit→garden moved to the walkable garden scene (G3). See GARDEN.md.
 
-- [ ] **9. Quests tab (active list → detail/rewards).**
+- [ ] **9. Quests tab (active list → detail/rewards).** ← NEXT
 - [ ] **10. Stubs wired: NPCs, Settings, Leave Game (Return to Title / Quit).**
 
 **Step-3 deferred-but-flagged carryovers:** capacity-full UX (Step 5 Trash/notify; 30 slots won't fill in M1); cooking refund position-shift (last-of-stack then cancel re-places in first empty slot); items beyond slot 9 aren't hotbar-cookable until drag (Step 6).
 
 
 ## Active build order — Spirit Garden epic
-
+_COMPLETE (G1–G8)._ 
 Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate.
 
 - [x] **G1. Spirit-as-entity migration.** Befriending writes a `kind: spirit` token (`add_spirit`, unique/non-stacking); `grant_starting_tools` seeds shovel + watering can (`kind: tool`) at new-game; both the hotbar and Backpack render all kinds; `Database.get_display_name` resolves spirits + a `tr()` fallback for tools (zh.po: 浇水壶/铲子); Trash blocks tools (spirits trashable).
@@ -58,7 +59,9 @@ Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate
 - [x] **G5. Watering & yield.** `garden_slots` is now per-pot `{spirit, watered, progress}`. Watering-can spray (hold-LMB over pots) → `GameState.water_pot` (gray-box droplet). Day-end yield is gated: a watered pot banks `progress`; at `SpiritData.yield_interval_days` it produces (`produces × yield_per_night`) and resets; unwatered = paused (never dead); `watered` resets each day.
 - [x] **G6. Removal — shovel hold-to-confirm.** With the shovel active, hovering a pot dims its spirit; `_process` accumulates a hold (~1s radial) that resets on release/move-off; completing calls `GameState.remove_potted_spirit` — permanent, no refund, `captured_spirits` untouched (stays depleted).
 - [x] **G7. Spirits compendium tab.** `SpiritsPanel` (grid + detail) wired into the Pause-Menu Spirits tab, built from the `captured_spirits` ledger. Grid = `ItemSlot` cells (swatch + name + select outline); detail shows Name / Liked Food / Native Island / Production (cadence) / Yield, localized. Added `SpiritData.native_island`.
-- [ ] **G8. Rewire + cleanup.** Ship Garden button already routes to the scene (done in G2a); delete the orphaned `garden_panel` (+ `show_garden_panel`) and the dead `assign_spirit_to_garden` / `remove_spirit_from_garden`. ← NEXT
+- [x] **G8. Rewire + cleanup.** Ship Garden button routes to the scene (G2a); deleted the orphaned `garden_panel.gd` + `GardenPanel.tscn`, `UIManager.show_garden_panel`, and the dead `assign_spirit_to_garden` / `remove_spirit_from_garden`.
+
+- **Spirit Garden epic (G1–G8):** spirits are `kind: spirit` carried tokens (+ `kind: tool` shovel/watering-can, granted at start, trash-protected). Reusable `PlayerCharacter` (CharacterBody2D) drives the walkable side-scroller `GardenScene`; plant by dragging a spirit hotbar→pot; cursor-tool mode (water/dig) via `UIManager.active_tool`; watering (forgiving pause) gates day-end yield at `SpiritData.yield_interval_days`; shovel hold-to-confirm removes permanently. Pause-Menu **Spirits compendium** tab. Temp garden panel retired. Canon: GARDEN.md.
 
 
 
