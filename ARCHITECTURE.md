@@ -46,7 +46,8 @@ All inter-system events flow through `SignalBus`. Key signals (non-exhaustive):
 - Inventory: `inventory_changed(id, count)` (ID consumers) · `inventory_slots_changed()` (positional consumers — hotbar/backpack) · `fridge_changed()` · `dish_inventory_changed()`.
 - Economy/progress: `coins_changed(coins)` · `rank_changed(rank)` · `recipe_discovered(id)`.
 - Exploration: `fuel_changed(cur, max)` · `time_changed(minutes)` · `day_auto_returned(reason)` · `run_buff_applied(buff)` · `node_started(def)` · `node_resolved(def, rewards)` · `island_exited()`.
-- UI/flow: `day_started(day)` · `station_ui_opened()` / `station_ui_closed()` · `hotbar_item_selected(id)`.
+- UI/flow: `day_started(day)` · `station_ui_opened()` / `station_ui_closed()` · `hotbar_item_selected(id)`. `tool_selected(tool_id)` (cursor-tool mode; &"" = cleared).
+
 
 > `island_entered(island)` is a **dead declaration** (zero consumers after the exploration rework) — harmless; left in place.
 
@@ -108,10 +109,9 @@ Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_invent
 - **`ItemGrid`** (`class_name`) — paged grid of `ItemSlot`s (never scrolls on the selection side).
 - **`PlayerCharacter`** (`src/core/`, `class_name`, `CharacterBody2D`) — the reusable Saff avatar for every walkable scene: `move_mode` (SIDE_SCROLL / TOP_DOWN), per-scene `SpriteFrames` (swap rule), flip + walk/idle, `bounds` clamp, `CollisionShape2D` (for future room-edge `Area2D` transitions). Used by `GardenScene` now; intended to supersede `TopDownActor` for new walkable scenes (Kitchen migration deferred).
 - **`GardenScene`** (`src/screens/`) + **`GardenPot`** (`src/screens/`, `Control`) — the side-scroller garden room and its gray-box pots (`set_spirit`/`is_empty`); pots are UI-layer Controls so planting uses Godot drag-and-drop (G3). Pots receive a hotbar-dragged `kind: spirit` token via Godot drag-and-drop; `GameState.plant_spirit(from_slot, pot_index)` moves it bag→pot. `ItemSlot.click_on_release` decouples drag-source from click-timing (hotbar = draggable + instant press; Backpack = release-fire).
-
 - **`BookFrame`** (`class_name`) — hardened open-book chrome, **fixed 512×288**, both-axis-scroll pages, reserved 28px side column, swappable background. Consumers: Fridge, Recipe Book (and a future Backpack/Quest/Map/NPC book — *separate* from the full-screen Pause Menu frame).
 - **`CookingInfo`** (`src/core/`, static helper) — recipe-step queries with demand-propagated counts, base ingredients, compatible spices, dishes-using-an-ingredient.
-- **`UIManager`** modal registry — `register_modal(self)` / `unregister_modal(self)` (in `_exit_tree`) / `is_modal_open()`; `_unhandled_input` routes `Esc` (open pause menu if no modal; close it if it's open; ignore if a dedicated UI owns the screen). PauseMenu `CanvasLayer` is `PROCESS_MODE_ALWAYS`; opening sets `get_tree().paused = true` **and hides the HUD + hotbar (restored phase-aware on close)**; the shared `ItemTooltip` is `PROCESS_MODE_ALWAYS` so it floats above the paused menu.
+- **`UIManager`** modal registry — `register_modal(self)` / `unregister_modal(self)` (in `_exit_tree`) / `is_modal_open()`; `_unhandled_input` routes `Esc` (open pause menu if no modal; close it if it's open; ignore if a dedicated UI owns the screen). PauseMenu `CanvasLayer` is `PROCESS_MODE_ALWAYS`; opening sets `get_tree().paused = true` **and hides the HUD + hotbar (restored phase-aware on close)**; the shared `ItemTooltip` is `PROCESS_MODE_ALWAYS` so it floats above the paused menu. Also owns the **cursor-tool mode**: holds `active_tool`, shows a follow-cursor indicator, and clears it on phase change / pause / right-click. The garden reads `active_tool` to water/dig.
 
 
 ---

@@ -12,6 +12,7 @@ signal coins_changed(amount: int)
 signal phase_changed(phase: int)
 signal hotbar_item_selected(item_id: String)
 signal fridge_changed()
+signal tool_selected(tool_id: StringName) # &"" = cleared; else watering_can / shovel (GARDEN.md)
 
 # --- Ocean Map / islands ---
 signal island_entered(island_instance) ## runtime island object

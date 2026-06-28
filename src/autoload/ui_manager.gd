@@ -13,9 +13,32 @@ var _item_tooltip: Control = null
 var _resolution_panel: Control = null # IslandScreen controls its lifecycle via hide_resolution_panel()
 var _open_modals: Array = [] # dedicated modals currently open (Fridge, Recipe Book, ...)
 var _pause_menu: CanvasLayer = null
+var active_tool: StringName = &"" # current cursor-tool (GARDEN.md); &"" = none
+var _tool_cursor: PanelContainer = null
+var _tool_cursor_swatch: ColorRect = null
+var _tool_cursor_label: Label = null
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS # still hear Esc to close the menu while the tree is paused
+	SignalBus.tool_selected.connect(_on_tool_selected)
+
+func _process(_delta: float) -> void:
+	if _tool_cursor != null and _tool_cursor.visible:
+		_tool_cursor.reset_size()
+		_tool_cursor.position = _tool_cursor.get_viewport().get_mouse_position() + Vector2(12, 12)
+
+
+func _on_tool_selected(tool_id: StringName) -> void:
+	active_tool = tool_id
+	if _tool_cursor == null:
+		return
+	if tool_id == &"":
+		_tool_cursor.visible = false
+	else:
+		_tool_cursor_swatch.color = ItemSlot.color_for(tool_id)
+		_tool_cursor_label.text = Database.get_display_name(tool_id)
+		_tool_cursor.visible = true
 
 
 func create_persistent_ui(parent: Node) -> void:
@@ -30,6 +53,8 @@ func create_persistent_ui(parent: Node) -> void:
 	_sync_hud_now()
 	_hotbar = _persistent_ui.get_hotbar()
 	_item_tooltip = _persistent_ui.get_item_tooltip()
+	_build_tool_cursor()
+
 	SignalBus.phase_changed.connect(_on_phase_changed)
 	#SignalBus.inventory_changed.connect(_on_inventory_changed)
 	_hotbar.set_active(_is_hotbar_phase(GameManager.current_phase)) # initial sync
@@ -37,6 +62,31 @@ func create_persistent_ui(parent: Node) -> void:
 
 func get_persistent_ui() -> CanvasLayer:
 	return _persistent_ui
+
+
+func _build_tool_cursor() -> void:
+	_tool_cursor = PanelContainer.new()
+	_tool_cursor.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tool_cursor.visible = false
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.10, 0.10, 0.13, 0.92)
+	sb.set_corner_radius_all(3)
+	sb.content_margin_left = 5
+	sb.content_margin_right = 5
+	sb.content_margin_top = 2
+	sb.content_margin_bottom = 2
+	_tool_cursor.add_theme_stylebox_override("panel", sb)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+	_tool_cursor.add_child(row)
+	_tool_cursor_swatch = ColorRect.new()
+	_tool_cursor_swatch.custom_minimum_size = Vector2(10, 10)
+	row.add_child(_tool_cursor_swatch)
+	_tool_cursor_label = Label.new()
+	_tool_cursor_label.add_theme_font_size_override("font_size", 11)
+	row.add_child(_tool_cursor_label)
+	_persistent_ui.add_child(_tool_cursor)
+
 
 # --- HUD ---
 func _connect_hud_signals() -> void:
@@ -100,6 +150,9 @@ func _is_hotbar_phase(phase: int) -> bool:
 
 func _on_phase_changed(phase: int) -> void:
 	_hotbar.set_active(_is_hotbar_phase(phase))
+	if active_tool != &"":
+		SignalBus.tool_selected.emit(&"")
+
 
 # func _on_inventory_changed(_item_id: String, _count: int) -> void:
 # 	_hotbar.refresh()
@@ -219,6 +272,13 @@ func is_modal_open() -> bool:
 
 # --- pause menu ---
 func _unhandled_input(event: InputEvent) -> void:
+	if active_tool != &"" and event is InputEventMouseButton \
+			and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_RIGHT \
+			and (event as InputEventMouseButton).pressed:
+		SignalBus.tool_selected.emit(&"")
+		get_viewport().set_input_as_handled()
+		return
+
 	if event.is_action_pressed("ui_cancel"):
 		if _pause_menu != null:
 			close_pause_menu()
@@ -236,6 +296,9 @@ func open_pause_menu() -> void:
 	hide_hud()
 	if _hotbar:
 		_hotbar.set_active(false)
+	if active_tool != &"":
+		SignalBus.tool_selected.emit(&"")
+
 	get_tree().paused = true
 
 func close_pause_menu() -> void:

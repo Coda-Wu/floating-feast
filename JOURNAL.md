@@ -12,6 +12,12 @@
 ```
 
 ---
+## 2026-06-28 — Spirit Garden G4: cursor-tool mode complete
+
+- **Changed:** New `SignalBus.tool_selected(tool_id)`. `quick_access_bar._on_slot_clicked` now branches by kind — tool → toggle `tool_selected`; ingredient → clear tool + stage; spirit → clear tool. `UIManager` holds `active_tool`, builds a code-only gray-box cursor indicator (swatch + localized name) parented to PersistentUI, repositions it in `_process`, and clears the tool on phase change, pause-open, and right-click.
+- **Decided:** Cursor visual is a gray-box follow-indicator (Week-3 swaps a real cursor); deselect = right-click / toggle / auto-clear. Tool state is global on `UIManager`; the garden will read `active_tool` for water (G5) / dig (G6).
+- **Deferred:** The actual water/dig world actions (G5/G6).
+- **Verified:** Selecting watering can / shovel shows the rider indicator and switches/toggles; right-click, ingredient-click, leaving the garden, and opening the menu all clear it; names localize; cooking + planting still work.
 
 ## 2026-06-28 — Spirit Garden G3: planting drag complete
 

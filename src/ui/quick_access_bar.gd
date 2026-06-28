@@ -44,8 +44,18 @@ func refresh() -> void:
 
 func _on_slot_clicked(_item_id: String, i: int) -> void:
 	var token = GameState.get_slot(i)
-	if token != null and token.get("kind") == &"item":
-		SignalBus.hotbar_item_selected.emit(String(token["id"]))
+	if token == null:
+		return
+	var kind = token.get("kind")
+	if kind == &"tool":
+		var tid := StringName(token["id"])
+		SignalBus.tool_selected.emit(&"" if UIManager.active_tool == tid else tid) # toggle
+	else:
+		if UIManager.active_tool != &"":
+			SignalBus.tool_selected.emit(&"") # any non-tool click exits tool mode
+		if kind == &"item":
+			SignalBus.hotbar_item_selected.emit(String(token["id"]))
+
 
 func _input(event: InputEvent) -> void:
 	if not visible or not _station_open:
