@@ -2,7 +2,8 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-28 — Spirit Garden G6 (shovel removal) complete; all garden mechanics done._
+_Last updated: 2026-06-29 — Spirit Garden G7 (Spirits compendium tab) complete._
+
 
 
 
@@ -56,9 +57,9 @@ Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate
 - [x] **G4. Tools + cursor-tool mode.** Clicking a hotbar tool toggles `SignalBus.tool_selected`; `UIManager.active_tool` holds it, shows a gray-box follow-cursor indicator (swatch + name), and auto-clears on phase change / pause-open. Right-click cancels; clicking an ingredient clears + stages. Cooking/planting unaffected.
 - [x] **G5. Watering & yield.** `garden_slots` is now per-pot `{spirit, watered, progress}`. Watering-can spray (hold-LMB over pots) → `GameState.water_pot` (gray-box droplet). Day-end yield is gated: a watered pot banks `progress`; at `SpiritData.yield_interval_days` it produces (`produces × yield_per_night`) and resets; unwatered = paused (never dead); `watered` resets each day.
 - [x] **G6. Removal — shovel hold-to-confirm.** With the shovel active, hovering a pot dims its spirit; `_process` accumulates a hold (~1s radial) that resets on release/move-off; completing calls `GameState.remove_potted_spirit` — permanent, no refund, `captured_spirits` untouched (stays depleted).
-- [ ] **G7. Spirits compendium tab** (Pause Menu): codex grid + detail (Liked Food / Native Island / Production / Yield). Needs `SpiritData.native_island` + cadence. ← NEXT
+- [x] **G7. Spirits compendium tab.** `SpiritsPanel` (grid + detail) wired into the Pause-Menu Spirits tab, built from the `captured_spirits` ledger. Grid = `ItemSlot` cells (swatch + name + select outline); detail shows Name / Liked Food / Native Island / Production (cadence) / Yield, localized. Added `SpiritData.native_island`.
+- [ ] **G8. Rewire + cleanup.** Ship Garden button already routes to the scene (done in G2a); delete the orphaned `garden_panel` (+ `show_garden_panel`) and the dead `assign_spirit_to_garden` / `remove_spirit_from_garden`. ← NEXT
 
-- [ ] **G8. Rewire + cleanup:** ship-hub Garden button → the scene; discard the temporary `garden_panel`.
 
 
 

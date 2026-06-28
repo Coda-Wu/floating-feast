@@ -12,6 +12,12 @@
 ```
 
 ---
+## 2026-06-29 — Spirit Garden G7: Spirits compendium tab complete
+
+- **Changed:** New `SpiritsPanel` (grid + detail) replaces the Spirits-tab placeholder, built from `captured_spirits`. Grid reuses `ItemSlot` (swatch / hover name / red-outline select); detail pane shows Name, Liked Food (`preferred_food`), Native Island, Production (`yield_interval_days`, singular/plural), Yield (`produces × yield_per_night`) — all localized. Added `SpiritData.native_island` (shows "—" until set per-`.tres`). Empty state: "No spirits discovered yet."
+- **Decided:** Discovered-only dex (the persistent `captured_spirits` ledger — survives planting/removal); grid+detail built into the tab (not the `BookFrame` chrome).
+- **Deferred:** Populating `native_island` in the spirit `.tres` (data tuning); full-dex "???" locked entries (a later polish).
+- **Verified:** Spirits tab lists captured spirits; selecting one shows its full detail and moves the outline; labels localize; empty state shows; console clean. (Temp captured spirits, since removed.)
 
 ## 2026-06-28 — Spirit Garden G6: shovel removal complete (all garden mechanics done)
 

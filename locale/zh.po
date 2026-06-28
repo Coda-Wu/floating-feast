@@ -251,6 +251,26 @@ msgstr "铲子"
 msgid "Leave Garden"
 msgstr "离开花园"
 
+msgid "No spirits discovered yet."
+msgstr "还没有发现精灵。"
+msgid "Liked Food: %s"
+msgstr "喜欢的食物：%s"
+
+msgid "Native Island: %s"
+msgstr "原生岛屿：%s"
+
+msgid "Production: %s"
+msgstr "产出周期：%s"
+
+msgid "Yield: %s"
+msgstr "产出：%s"
+
+msgid "every day"
+msgstr "每天"
+
+msgid "every %d days"
+msgstr "每 %d 天"
+
 
 msgid "Name: %s"
 msgstr "名字：%s"

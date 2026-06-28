@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bqqd8bqrckf0x"]
+
+[ext_resource type="Script" uid="uid://bkdxh7pygjfy" path="res://src/ui/spirits_panel.gd" id="1_2r4nh"]
+
+[node name="SpiritsPanel" type="HBoxContainer" unique_id=500494268]
+script = ExtResource("1_2r4nh")
+
+[node name="Grid" type="GridContainer" parent="." unique_id=500494269]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 3
+columns = 4
+
+[node name="Detail" type="VBoxContainer" parent="." unique_id=500494270]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="Detail" unique_id=500494271]
+layout_mode = 2
+
+[node name="LikedLabel" type="Label" parent="Detail" unique_id=500494272]
+layout_mode = 2
+
+[node name="IslandLabel" type="Label" parent="Detail" unique_id=500494273]
+layout_mode = 2
+
+[node name="ProductionLabel" type="Label" parent="Detail" unique_id=500494274]
+layout_mode = 2
+
+[node name="YieldLabel" type="Label" parent="Detail" unique_id=500494275]
+layout_mode = 2
+

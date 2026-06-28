@@ -8,6 +8,8 @@ signal close_requested
 
 const TAB_TITLES := ["Backpack", "Spirits", "NPCs", "Quests", "Settings", "Leave Game"]
 const BACKPACK_PANEL := preload("res://scenes/ui/BackpackPanel.tscn")
+const SPIRITS_PANEL := preload("res://scenes/ui/SpiritsPanel.tscn")
+
 
 @onready var _tabs: HBoxContainer = $Root/Center/Frame/Margin/VBox/TopRow/Tabs
 @onready var _close_button: Button = $Root/Center/Frame/Margin/VBox/TopRow/CloseButton
@@ -36,6 +38,9 @@ func _make_panel(i: int) -> Control:
 	# NPCs/Settings/Leave stay stubs until their step.
 	if i == 0: # Backpack — real content (Step 3); the other tabs stay stubs until their step
 		return BACKPACK_PANEL.instantiate()
+	if i == 1: # Spirits — compendium (G7)
+		return SPIRITS_PANEL.instantiate()
+
 	var c := CenterContainer.new()
 	var l := Label.new()
 	l.text = "%s\n(coming soon)" % TAB_TITLES[i]

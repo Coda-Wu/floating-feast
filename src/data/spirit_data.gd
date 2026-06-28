@@ -13,3 +13,4 @@ class_name SpiritData extends Resource
 @export var produces: StringName = &"" # garden: ingredient id this spirit yields overnight
 @export var yield_per_night: int = 0
 @export var yield_interval_days: int = 1 ## watered-days between yields (GARDEN.md "Production Speed"); 1 = every watered day
+@export var native_island: StringName ## WorldIslandData id this spirit hails from (compendium); &"" = unknown
