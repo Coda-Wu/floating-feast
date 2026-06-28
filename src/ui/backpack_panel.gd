@@ -25,6 +25,9 @@ func _ready() -> void:
 		var slot: ItemSlot = ITEM_SLOT.instantiate()
 		slot.custom_minimum_size = Vector2(46, 38)
 		_grid.add_child(slot)
+		slot.drag_enabled = true
+		slot.set_slot_index(i)
+		slot.slot_dropped.connect(_on_slot_dropped)
 		
 		if i < COLS: # row 0 mirrors the hotbar number keys (1..9, then 0)
 			slot.set_hotkey("0" if i == COLS - 1 else str(i + 1))
@@ -101,6 +104,11 @@ func _on_trash_pressed() -> void:
 func _confirm_trash(index: int) -> void:
 	GameState.clear_slot(index)
 	_select(-1)
+
+
+func _on_slot_dropped(from_index: int, to_index: int) -> void:
+	_select(-1) # positions change — drop the highlight
+	GameState.move_slot(from_index, to_index)
 
 
 func _populate_profile() -> void:

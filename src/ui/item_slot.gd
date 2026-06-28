@@ -5,6 +5,8 @@ class_name ItemSlot extends Panel
 ## hotbar and every Fridge grid. Dumb view; emits slot_clicked with its item id. (Inventory-UX polish)
 
 signal slot_clicked(item_id: String)
+signal slot_dropped(from_index: int, to_index: int) # built-in drag: source slot → this slot (Step 6)
+
 const BORDER_DEFAULT := Color(0.42, 0.42, 0.48)
 const BORDER_SELECTED := Color(0.95, 0.3, 0.3) # red selection outline (Step 4)
 
@@ -19,6 +21,10 @@ var _clickable: bool = true
 var _hovered: bool = false
 var _count_val := 1
 var _panel_style: StyleBoxFlat = null # the slot's own gray-box border; recolored red when selected
+
+var drag_enabled := false # opt-in per context; only the Backpack enables drag (Step 6)
+var _slot_index := -1 # this slot's index in GameState.inventory (set by the owning grid)
+
 
 var _hotkey_val := ""
 var _stars_val := 0
@@ -36,6 +42,9 @@ func _ready() -> void:
 		lbl.add_theme_color_override("font_color", Color.WHITE)
 		lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
 		lbl.add_theme_constant_override("outline_size", 4)
+	for child in [_swatch, _count, _hotkey, _star]: # Panel owns mouse/drop across the whole cell
+		child.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	_star.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
@@ -91,9 +100,41 @@ func set_selected(selected: bool) -> void:
 func _gui_input(event: InputEvent) -> void:
 	if not _clickable or _item_id == &"":
 		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		slot_clicked.emit(String(_item_id))
-		accept_event()
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		var mouse_event := event as InputEventMouseButton
+		# Draggable slots fire on RELEASE (so a press that becomes a drag doesn't also select);
+		# non-draggable slots fire on PRESS for instant feedback (cook stations, hotbar staging).
+		var fire := (not mouse_event.pressed) if drag_enabled else mouse_event.pressed
+		if fire:
+			slot_clicked.emit(String(_item_id))
+			accept_event()
+
+
+func set_slot_index(i: int) -> void:
+	_slot_index = i
+
+func _get_drag_data(_at_position: Vector2):
+	if not drag_enabled or _item_id == &"":
+		return null
+	set_drag_preview(_make_drag_preview())
+	return {"from": _slot_index}
+
+func _can_drop_data(_at_position: Vector2, data) -> bool:
+	return drag_enabled and data is Dictionary and data.has("from")
+
+func _drop_data(_at_position: Vector2, data) -> void:
+	slot_dropped.emit(int(data["from"]), _slot_index)
+
+func _make_drag_preview() -> Control:
+	var wrap := Control.new()
+	var p := ColorRect.new()
+	p.color = color_for(_item_id)
+	p.size = Vector2(40, 32)
+	p.position = -p.size * 0.5 # center on the cursor
+	p.modulate.a = 0.8
+	wrap.add_child(p)
+	return wrap
+
 
 func _on_mouse_entered() -> void:
 	_hovered = true

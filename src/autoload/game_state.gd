@@ -183,6 +183,34 @@ func clear_run_buff() -> void:
 func has_run_buff() -> bool:
 	return not run_buff.is_empty()
 
+
+# --- Drag move: empty→move, same item→merge (overflow stays in source), different→swap (Step 6) ---
+func move_slot(from: int, to: int) -> void:
+	if from == to:
+		return
+	if from < 0 or from >= inventory.size() or to < 0 or to >= inventory.size():
+		return
+	var src = inventory[from]
+	if src == null:
+		return
+	var dst = inventory[to]
+	if dst == null:
+		inventory[to] = src
+		inventory[from] = null
+	elif dst["kind"] == src["kind"] and StringName(dst["id"]) == StringName(src["id"]):
+		var space := STACK_MAX - int(dst["count"]) # merge; overflow stays behind
+		var moved := mini(space, int(src["count"]))
+		if moved > 0:
+			dst["count"] += moved
+			src["count"] -= moved
+			if int(src["count"]) <= 0:
+				inventory[from] = null
+	else:
+		inventory[from] = dst
+		inventory[to] = src
+	SignalBus.inventory_slots_changed.emit()
+
+
 # --- Coins (now emit coins_changed; consumed by the HUD + later payouts) ---
 func add_coins(amount: int) -> void:
 	if amount > 0:

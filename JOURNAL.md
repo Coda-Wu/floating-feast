@@ -13,6 +13,14 @@
 
 ---
 
+## 2026-06-28 — Pause Menu Step 6: intra-grid drag-and-drop complete
+
+- **Changed:** Made `ItemSlot` drag-capable via Godot's built-in drag (`_get_drag_data`/`_can_drop_data`/`_drop_data`), gated behind an opt-in `drag_enabled`; each slot carries `_slot_index`, emits `slot_dropped(from,to)`, and shows a gray-box `ColorRect` preview. Click now fires on **release** for draggable slots only (non-draggable stations/hotbar keep instant **press**-fire). Child swatch/labels set `mouse_filter = IGNORE` so the Panel owns mouse/drop across the whole cell. New `GameState.move_slot(from,to)` — empty→move, same `(kind,id)`→merge (overflow stays in source), different→swap; emits `inventory_slots_changed` only (totals unchanged). `BackpackPanel` enables drag on all 30 slots, stamps indices, and routes drops; selection clears after a move.
+- **Decided:** Built-in drag over a manual implementation; release-fire **gated to draggable slots** (stations need instant press feedback); drag works across the hotbar↔backpack boundary (consistent with sort-all-30).
+- **Deferred:** External contextual drag onto receivers (Step 7); a drag-onto-trash target.
+- **Verified:** Move/swap/merge all correct, cross-boundary drag works, plain click still selects (on release), selection clears post-drag, live hotbar reflects the new row-0 layout on close, layout persists across reload; station/hotbar press-clicks unchanged.
+
+
 ## 2026-06-28 — Pause Menu Step 5: Auto-Sort + Trash complete
 
 - **Changed:** Added a right-aligned `Sort`/`Trash` toolbar to `BackpackPanel` (localized 整理/丢弃). New `GameState.sort_inventory()` — merges same-`(kind,id)` stacks, orders by type (`tags[0]` then display name, items before spirits), splits over-`STACK_MAX` stacks, and compacts all 30 slots. New `GameState.clear_slot(i)` (emits via `_emit_inventory_changed`). Trash flow reuses the Step-4 selection: button enables only when a slot is selected → confirm → delete. Made the shared `WarningPopup` `PROCESS_MODE_ALWAYS` so the confirm stays clickable over the paused menu. Fixed the latent 4b bug (the `slot_clicked` connect was inside the row-0 `if` block — now all slots are selectable).

@@ -2,7 +2,7 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-28 — Pause Menu Step 5 (Auto-Sort + Trash) complete._
+_Last updated: 2026-06-28 — Pause Menu Step 6 (intra-grid drag) complete._
 
 ---
 
@@ -10,7 +10,9 @@ _Last updated: 2026-06-28 — Pause Menu Step 5 (Auto-Sort + Trash) complete._
 
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
 - **Active system:** **Universal Pause Menu / Backpack UI** (Stardew-style all-in-one `Esc` menu).
-- **Next step:** **Step 6 — Intra-grid drag-and-drop (full-stack swap/merge).**
+- **Next step:** **Step 7 — External contextual drag (receiver-gated single item).**
+
+
 
 
 ---
@@ -25,9 +27,9 @@ Each item is its own teach-then-code step behind a Verify gate.
 
 - [x] **4. Selection + number keys + red-outline highlight.** `ItemSlot.set_selected(bool)` red-outline visual (stylebox border recolor; reusable). `BackpackPanel` owns a single `_selected_index`: click or number key `1–0` (row-0 slots, reusing `hotbar_*` actions, filled-only) outlines one slot at a time; re-selecting clears it. Menu-local (clears on close via panel rebuild); live hotbar/cooking untouched. Highlight-only groundwork — no action wired yet.
 - [x] **5. Auto-Sort (by type) + Trash (select → confirm delete).** Right-aligned `Sort`/`Trash` toolbar in `BackpackPanel` (localized). `GameState.sort_inventory()` merges same-`(kind,id)` stacks, orders by type (`IngredientData.tags[0]` → display name; items before spirits), and compacts all 30 slots (hotbar included). Trash reuses Step-4 selection: `Trash` enables only when a slot is selected → always-processing `WarningPopup` confirm → `GameState.clear_slot(i)` empties that stack. Also fixed the 4b bug (all slots now click-selectable, not just row 0).
-- [ ] **6. Intra-grid drag-and-drop (full-stack swap/merge).** ← NEXT
+- [x] **6. Intra-grid drag-and-drop (full-stack swap/merge).** Godot built-in drag on `ItemSlot` (opt-in `drag_enabled`, carries `_slot_index`, `slot_dropped` signal, gray-box preview); click fires on release only for draggable slots (stations/hotbar keep instant press-fire). `GameState.move_slot(from,to)`: empty→move, same item→merge (overflow stays in source), different→swap. `BackpackPanel` enables drag on all 30 slots and routes drops; works across the hotbar↔backpack boundary; selection clears after a move.
+- [ ] **7. External contextual drag (receiver-gated single item).** Retrofit the cook-station slot first as the reference receiver, then garden pot / spirit feed / fountain. ← NEXT
 
-- [ ] **7. External contextual drag (receiver-gated single item).** Retrofit the cook-station slot first as the reference receiver, then garden pot / spirit feed / fountain.
 - [ ] **8. Spirits tab (grid + sort) + spirit-to-garden** via the drag rails (`kind: spirit`).
 - [ ] **9. Quests tab (active list → detail/rewards).**
 - [ ] **10. Stubs wired: NPCs, Settings, Leave Game (Return to Title / Quit).**
