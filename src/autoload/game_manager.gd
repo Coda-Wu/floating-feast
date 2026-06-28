@@ -37,8 +37,8 @@ func _seed_new_game() -> void:
 	# this is initial model state, not a gameplay event.
 	GameState._load_inventory({&"flour": 3, &"sugar": 2, &"olive_oil": 2, &"rice": 2, &"potato": 3, &"tomato": 3, &"eggplant": 1, &"salt": 5, &"rosemary": 1, &"onion": 1})
 	GameState.known_recipes.assign([&"roasted_tomato"]) # tutorial's guaranteed recipe; rest are discoverable
+	GameState.grant_starting_tools() # shovel + watering can (kind: tool); GARDEN.md
 	
-
 func start_day() -> void:
 	GameState.day_seed = _roll_day_seed()
 	GameState.weather_id = _roll_weather(GameState.day_seed)

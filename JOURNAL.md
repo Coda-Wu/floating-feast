@@ -13,6 +13,14 @@
 
 ---
 
+## 2026-06-28 — Spirit Garden G1: entity-token migration complete
+
+- **Changed:** `GameState` gained `add_spirit(id)` and `grant_starting_tools()` over a shared `_add_unique_token(kind,id,emit)` (unique, non-stacking). `GameManager._seed_new_game` grants `watering_can` + `shovel` (`kind: tool`). `spirit_encounter._succeed` writes a `kind: spirit` token on first capture (alongside the `captured_spirits` ledger). Both `quick_access_bar.refresh` and `backpack_panel.refresh` now render any token kind. `Database.get_display_name` resolves spirits and falls back to a `tr()`-able capitalized id (covers tools); zh.po got 浇水壶/铲子. Backpack Trash is gated by `_can_trash` (blocks `kind: tool`; spirits/items allowed).
+- **Decided:** `captured_spirits` stays the permanent "ever-caught" depletion ledger; the spirit *token* is the physical holding (trashing/removing a spirit is permanent — the ledger keeps the species depleted). Starting tools land in the backpack (hotbar is full of seeded ingredients) — curate later if needed.
+- **Deferred:** Cursor-tool mode (G4) — clicking a tool in the hotbar currently does nothing (station rejects non-ingredients).
+- **Verified:** Tools render in the backpack (names localize); Sort clusters item→spirit→tool; tools can't be trashed, spirits can; capture wiring mirrors the G1a-tested `add_spirit`.
+
+
 ## 2026-06-28 — Spirit Garden epic scoped; Pause-Menu Step 8 reframed
 
 - **Changed (design):** Authored GARDEN.md — canon for the spirit-garden loop, spirits-as-entities, and tools. Updated DESIGN.md §5 (garden), §7 (inventory kinds), §9 (locked list) to point to it.

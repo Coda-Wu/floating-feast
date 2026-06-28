@@ -2,7 +2,8 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-28 — Spirit Garden epic scoped (GARDEN.md); Pause-Menu track paused._
+_Last updated: 2026-06-28 — Spirit Garden G1 (spirit/tool entity migration) complete._
+
 
 ---
 
@@ -45,8 +46,9 @@ _PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spir
 
 Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate.
 
-- [ ] **G1. Spirit-as-entity migration.** Befriending writes a `kind: spirit` token to the carried inventory (unique, non-stacking); tools (`kind: tool`: shovel, watering can) granted at new-game start; `sort_inventory` orders the new kinds; Trash blocks tools (spirits trashable with confirm). ← NEXT
-- [ ] **G2. Walkable garden scene.** Side-scroller scene, single-row 3-pot rack, player actor, ship-hub entry.
+- [x] **G1. Spirit-as-entity migration.** Befriending writes a `kind: spirit` token (`add_spirit`, unique/non-stacking); `grant_starting_tools` seeds shovel + watering can (`kind: tool`) at new-game; both the hotbar and Backpack render all kinds; `Database.get_display_name` resolves spirits + a `tr()` fallback for tools (zh.po: 浇水壶/铲子); Trash blocks tools (spirits trashable).
+- [ ] **G2. Walkable garden scene.** Side-scroller scene, single-row 3-pot rack, player actor, ship-hub entry. ← NEXT
+
 - [ ] **G3. Planting drag.** Drag a spirit token from the hotbar onto an empty pot (receiver takes one; 1 pot = 1 spirit).
 - [ ] **G4. Tools + cursor-tool mode.** Selecting a hotbar tool sets a cursor mode (water/dig) instead of staging.
 - [ ] **G5. Watering & yield.** Watering-can spray; daily-water state; yield every 1–2 days; unwatered = paused (never dead).

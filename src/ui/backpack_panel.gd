@@ -49,7 +49,7 @@ func _ready() -> void:
 func refresh() -> void:
 	for i in _slot_nodes.size():
 		var token = GameState.get_slot(i)
-		if token != null and token.get("kind") == &"item":
+		if token != null:
 			var id := StringName(token["id"])
 			_slot_nodes[i].set_item(id, int(token["count"]), Database.get_display_name(id), true)
 		else:
@@ -67,7 +67,7 @@ func _select(index: int) -> void:
 	_selected_index = index
 	if _selected_index >= 0:
 		_slot_nodes[_selected_index].set_selected(true)
-	_trash_button.disabled = _selected_index < 0
+	_trash_button.disabled = not _can_trash(_selected_index)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -93,13 +93,21 @@ func _on_sort_pressed() -> void:
 
 
 func _on_trash_pressed() -> void:
-	var token = GameState.get_slot(_selected_index)
-	if token == null or token.get("kind") != &"item":
+	if not _can_trash(_selected_index):
 		return
+	var token = GameState.get_slot(_selected_index)
 	var index := _selected_index
 	var id := StringName(token["id"])
 	var msg := tr("Throw away %d × %s?") % [int(token["count"]), tr(Database.get_display_name(id))]
 	UIManager.show_warning_popup(msg, _confirm_trash.bind(index), tr("Throw Away"), tr("Keep"))
+
+
+func _can_trash(index: int) -> bool:
+	if index < 0:
+		return false
+	var token = GameState.get_slot(index)
+	return token != null and token.get("kind") != &"tool" # tools are protected (GARDEN.md)
+
 
 func _confirm_trash(index: int) -> void:
 	GameState.clear_slot(index)

@@ -241,6 +241,11 @@ msgid "Keep"
 msgstr "保留"
 
 
+msgid "Watering Can"
+msgstr "水壶"
+
+msgid "Shovel"
+msgstr "铲子"
 
 
 msgid "Name: %s"

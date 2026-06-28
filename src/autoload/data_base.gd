@@ -139,7 +139,11 @@ func get_display_name(id: StringName) -> String:
 	var rec := get_recipe(id)
 	if rec != null:
 		return tr(rec.display_name)
-	return String(id).capitalize()
+	var spirit := get_spirit(id)
+	if spirit != null:
+		return tr(spirit.display_name)
+	return tr(String(id).capitalize()) # tools / unknowns: tr-able fallback (e.g. "Watering Can")
+
 
 # World islands
 

@@ -37,6 +37,7 @@ const HOTBAR_SLOTS := 10
 const SLOTS_PER_ROW := 10
 const BACKPACK_ROWS := 2 # active backpack rows below the hotbar (upgradable later, +1 row of 10 each)
 const STACK_MAX := 999
+const STARTING_TOOLS: Array[StringName] = [&"watering_can", &"shovel"] # granted at new-game start (GARDEN.md)
 
 
 func _ready() -> void:
@@ -106,6 +107,28 @@ func get_item_count(item_id: StringName) -> int:
 		if _is_item_slot(slot, item_id):
 			total += int(slot["count"])
 	return total
+
+
+# --- Spirit & tool entity tokens (unique, non-stacking; GARDEN.md) ---
+func add_spirit(spirit_id: StringName) -> bool:
+	return _add_unique_token(&"spirit", spirit_id, true) # gameplay event → emits
+
+func grant_starting_tools() -> void:
+	for tool_id in STARTING_TOOLS:
+		_add_unique_token(&"tool", tool_id, false) # seed-time → silent (no UI yet)
+
+func _add_unique_token(kind: StringName, id: StringName, emit: bool) -> bool:
+	for slot in inventory:
+		if slot != null and slot.get("kind") == kind and StringName(slot.get("id")) == id:
+			return false # already held (unique)
+	for i in inventory.size():
+		if inventory[i] == null:
+			inventory[i] = {"kind": kind, "id": id, "count": 1}
+			if emit:
+				SignalBus.inventory_slots_changed.emit()
+			return true
+	push_warning("No room for %s %s" % [kind, id])
+	return false
 
 
 # --- Auto-sort: merge same-id stacks, order by type, compact to the front (Step 5) ---

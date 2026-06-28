@@ -78,7 +78,8 @@ assets/        # placeholder/ + final/ mirror; final-first resolver in Database
 
 `GameState.inventory` is a **fixed-length `Array`** of tagged tokens:
 - Each cell is `null` (empty) **or** `{ kind: StringName, id: StringName, count: int }`.
-- `kind` is `&"item"` today; `&"spirit"` and future kinds (ore/geode/furniture) drop in with **no model change** (content-agnostic by design).
+- `kind` is one of `&"item"` (ingredients), `&"spirit"` (befriended entities — `add_spirit`, unique/non-stacking), or `&"tool"` (shovel/watering can — granted at new-game by `grant_starting_tools`, non-stacking, trash-protected). Further kinds (ore/geode/furniture) drop in with **no model change** (content-agnostic by design). See GARDEN.md.
+
 - Length = `HOTBAR_SLOTS(10) + BACKPACK_ROWS(2)×SLOTS_PER_ROW(10)` = **30**. `STACK_MAX = 999`.
 - **Slots 0–9 = hotbar row 0.** The on-screen `QuickAccessBar` renders those exact indices (no pagination), so slot positions are stable — the prerequisite for drag.
 
@@ -87,6 +88,9 @@ assets/        # placeholder/ + final/ mirror; final-first resolver in Database
 - `remove_item(id, count) -> bool` — remove across slots, clearing emptied cells.
 - `get_item_count(id) -> int` — sum across slots.
 - Positional accessors: `get_slot(i)`, `slot_count()`, `get_carried_item_ids()`.
+- Positional mutators: `sort_inventory()` (merge+order by kind/type, compact), `move_slot(from,to)` (move/swap/merge), `clear_slot(i)`, `add_spirit(id)`, `grant_starting_tools()` — all emit `inventory_slots_changed`.
+- `Database.get_display_name(id)` resolves ingredient → recipe → spirit → `tr()`-able capitalized fallback (tool/unknown names).
+
 - `serialize`/`deserialize` round-trip the array; `deserialize` also migrates legacy `{id:count}` saves.
 
 Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_inventory` (`"recipe_id|tier" -> count`, the single dish store — dishes travel with the player).

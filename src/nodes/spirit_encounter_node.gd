@@ -124,7 +124,8 @@ func _succeed() -> void:
 	_resolved = true
 	if _spirit.tameable:
 		if not GameState.captured_spirits.has(String(_spirit.id)):
-			GameState.captured_spirits.append(String(_spirit.id))
+			GameState.captured_spirits.append(String(_spirit.id)) # permanent "ever-caught" ledger (gates regen)
+			GameState.add_spirit(_spirit.id) # befriended → carried entity token (GARDEN.md)
 		SignalBus.spirit_tamed.emit(_spirit)
 		complete({}, tr("You befriended the %s!") % tr(_spirit.display_name))
 	else:

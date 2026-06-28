@@ -33,7 +33,7 @@ func set_active(active: bool) -> void:
 func refresh() -> void:
 	for i in _slot_nodes.size():
 		var token = GameState.get_slot(i)
-		if token != null and token.get("kind") == &"item":
+		if token != null:
 			var id := StringName(token["id"])
 			_slot_nodes[i].set_item(id, int(token["count"]), Database.get_display_name(id), true)
 		else:
