@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b8vcm4qyn7lgw"]
+
+[ext_resource type="Script" uid="uid://ddxuibwod01x2" path="res://src/screens/garden_pot.gd" id="1_etlil"]
+
+[node name="GardenPot" type="Control" unique_id=1595745235]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_etlil")

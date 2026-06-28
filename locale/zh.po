@@ -248,6 +248,10 @@ msgid "Shovel"
 msgstr "铲子"
 
 
+msgid "Leave Garden"
+msgstr "离开花园"
+
+
 msgid "Name: %s"
 msgstr "名字：%s"
 

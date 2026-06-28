@@ -106,6 +106,9 @@ Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_invent
 - **`WorldIslandData`** (`Resource`) — `id`, `display_name`, `cuisine`, `unlock_phase`, `map_position`, `shallow_pool` / `mid_pool` / `deep_pool` (each `{type, params, weight?, fuel_cost?}`), `tier_s_caps`, `standard_terminal_reward`.
 - **`ItemSlot`** (`src/ui/`, `class_name`) — reusable gray-box slot: center swatch (`color_for(id)`, Week-3 sprite target), count bottom-right (hidden at 1), optional hotkey bottom-left, optional star overlay. Signals `slot_clicked(item_id)`.
 - **`ItemGrid`** (`class_name`) — paged grid of `ItemSlot`s (never scrolls on the selection side).
+- **`PlayerCharacter`** (`src/core/`, `class_name`, `CharacterBody2D`) — the reusable Saff avatar for every walkable scene: `move_mode` (SIDE_SCROLL / TOP_DOWN), per-scene `SpriteFrames` (swap rule), flip + walk/idle, `bounds` clamp, `CollisionShape2D` (for future room-edge `Area2D` transitions). Used by `GardenScene` now; intended to supersede `TopDownActor` for new walkable scenes (Kitchen migration deferred).
+- **`GardenScene`** (`src/screens/`) + **`GardenPot`** (`src/screens/`, `Control`) — the side-scroller garden room and its gray-box pots (`set_spirit`/`is_empty`); pots are UI-layer Controls so planting uses Godot drag-and-drop (G3).
+
 - **`BookFrame`** (`class_name`) — hardened open-book chrome, **fixed 512×288**, both-axis-scroll pages, reserved 28px side column, swappable background. Consumers: Fridge, Recipe Book (and a future Backpack/Quest/Map/NPC book — *separate* from the full-screen Pause Menu frame).
 - **`CookingInfo`** (`src/core/`, static helper) — recipe-step queries with demand-propagated counts, base ingredients, compatible spices, dishes-using-an-ingredient.
 - **`UIManager`** modal registry — `register_modal(self)` / `unregister_modal(self)` (in `_exit_tree`) / `is_modal_open()`; `_unhandled_input` routes `Esc` (open pause menu if no modal; close it if it's open; ignore if a dedicated UI owns the screen). PauseMenu `CanvasLayer` is `PROCESS_MODE_ALWAYS`; opening sets `get_tree().paused = true` **and hides the HUD + hotbar (restored phase-aware on close)**; the shared `ItemTooltip` is `PROCESS_MODE_ALWAYS` so it floats above the paused menu.
@@ -115,9 +118,13 @@ Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_invent
 
 ## 8. Day-phase machine (`GameManager`)
 
-`DayPhase`: MORNING → OCEAN_MAP → ISLAND → SHIP → KITCHEN → FAIR → DAY_END. `change_phase` emits `phase_changed` and loads the screen. `start_day()` rolls seed/weather, **refuels Ember to full + resets the clock to 6 AM**, clears `islands_explored_today`. `enter_world_island(wi)` sets `current_world_island` + builds `run_graph` via `RunGraphGenerator`, → ISLAND. **All run exits return to the ship.**
+`DayPhase`: MORNING → OCEAN_MAP → ISLAND → SHIP → KITCHEN → FAIR → DAY_END, plus **GARDEN** (appended; reached from the ship hub via `request_enter_garden`, returns to ship, and counts as a hotbar phase). The Garden is the walkable spirit-garden scene — see GARDEN.md.
+
 
 > Removed in the exploration rework (do not resurrect): the budget system, `IslandArranger`, `TravelRoute`, `NodeChainGenerator`, `Island`, `IslandMarker`, and procedural day-island generation. `IslandTemplate` + `_gen_islands` survive as unused-but-harmless (still Database-indexed); broader cleanup deferred.
+
+
+
 
 ---
 

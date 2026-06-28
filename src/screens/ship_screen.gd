@@ -8,7 +8,7 @@ extends Control
 
 func _ready() -> void:
 	_kitchen_button.pressed.connect(GameManager.request_enter_kitchen)
-	_garden_button.pressed.connect(UIManager.show_garden_panel)
+	_garden_button.pressed.connect(GameManager.request_enter_garden)
 	_fair_button.pressed.connect(GameManager.request_enter_fair)
 	_fair_button.visible = QuestManager.is_fair_unlocked() # appears once the quest reaches the Fair phase
 	_end_day_button.pressed.connect(GameManager.request_end_day)

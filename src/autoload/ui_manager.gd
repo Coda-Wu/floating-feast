@@ -94,7 +94,9 @@ func hide_hud() -> void:
 
 # --- Quick Access hotbar (visible on Ship + Kitchen; mirrors carried inventory) ---
 func _is_hotbar_phase(phase: int) -> bool:
-	return phase == GameManager.DayPhase.SHIP or phase == GameManager.DayPhase.KITCHEN
+	return phase == GameManager.DayPhase.SHIP or phase == GameManager.DayPhase.KITCHEN \
+		or phase == GameManager.DayPhase.GARDEN
+
 
 func _on_phase_changed(phase: int) -> void:
 	_hotbar.set_active(_is_hotbar_phase(phase))

@@ -4,7 +4,8 @@ extends Node
 ## Travel lines accumulate per island ENTERED; budget is spent per node RESOLVED (Step 5) —
 ## two separate systems (§13). (§5, §6)
 
-enum DayPhase {MORNING, OCEAN_MAP, ISLAND, SHIP, KITCHEN, FAIR, DAY_END}
+enum DayPhase {MORNING, OCEAN_MAP, ISLAND, SHIP, KITCHEN, FAIR, DAY_END, GARDEN}
+
 
 var current_phase: DayPhase = DayPhase.MORNING
 
@@ -26,6 +27,7 @@ const _PHASE_SCREENS := {
 	DayPhase.SHIP: "res://scenes/screens/ShipScreen.tscn",
 	DayPhase.KITCHEN: "res://scenes/screens/KitchenScene.tscn",
 	DayPhase.FAIR: "res://scenes/screens/FairScene.tscn",
+	DayPhase.GARDEN: "res://scenes/screens/GardenScene.tscn",
 }
 
 func _ready() -> void:
@@ -68,6 +70,10 @@ func request_return_to_ship() -> void: # Ocean Map "Return to Ship": end explora
 
 func request_enter_kitchen() -> void:
 	change_phase(DayPhase.KITCHEN)
+
+func request_enter_garden() -> void:
+	change_phase(DayPhase.GARDEN)
+
 
 func request_enter_fair() -> void:
 	change_phase(DayPhase.FAIR)
@@ -122,7 +128,7 @@ func _roll_day_seed() -> int:
 	return hash(str(GameState.day) + "_floating_feast")
 
 func _roll_weather(seed: int) -> String:
-	var ids := ["weather_sunny", "weather_rainy", "weather_foggy"]
+	var ids := ["weather_sunny", "weather_rainy"]
 	return ids[abs(seed) % ids.size()]
 
 

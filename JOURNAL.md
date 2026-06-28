@@ -13,6 +13,14 @@
 
 ---
 
+## 2026-06-28 — Spirit Garden G2: walkable garden scene complete
+
+- **Changed:** Added `DayPhase.GARDEN` (+ `request_enter_garden`, `_PHASE_SCREENS` entry, `_is_hotbar_phase` includes it); rewired the ship-hub Garden button to enter the scene. New `GardenScene` (gray-box sky/ground/rack, Leave→ship; zh.po 离开花园). New reusable **`PlayerCharacter`** (CharacterBody2D with `move_mode` side-scroll/top-down, per-scene SpriteFrames, flip walk/idle, `CollisionShape2D`) — instanced as side-scroll Saff (`chr_saff_walk_r`). New `GardenPot` Control (gray-box pot, `set_spirit`/`is_empty`) ×3 on the rack.
+- **Decided:** One reusable Saff actor (`CharacterBody2D`, for future room-edge `Area2D` transitions) across all walkable scenes; pots are `Control`s (in the UI layer) so G3's planting can use Godot drag-and-drop directly.
+- **Deferred:** Edge-collision room transitions (own step); migrating the Kitchen from `TopDownActor` to `PlayerCharacter`; `InteractionDetector` on `PlayerCharacter`; pot/player z-layering polish; the orphaned `garden_panel` (deleted in G8).
+- **Verified:** Ship→Garden enters/leaves; Saff walks/flips/clamps and freezes when paused; 3 empty pots render on the rack; no `CharacterBody2D` warning; console clean.
+
+
 ## 2026-06-28 — Spirit Garden G1: entity-token migration complete
 
 - **Changed:** `GameState` gained `add_spirit(id)` and `grant_starting_tools()` over a shared `_add_unique_token(kind,id,emit)` (unique, non-stacking). `GameManager._seed_new_game` grants `watering_can` + `shovel` (`kind: tool`). `spirit_encounter._succeed` writes a `kind: spirit` token on first capture (alongside the `captured_spirits` ledger). Both `quick_access_bar.refresh` and `backpack_panel.refresh` now render any token kind. `Database.get_display_name` resolves spirits and falls back to a `tr()`-able capitalized id (covers tools); zh.po got 浇水壶/铲子. Backpack Trash is gated by `_can_trash` (blocks `kind: tool`; spirits/items allowed).
