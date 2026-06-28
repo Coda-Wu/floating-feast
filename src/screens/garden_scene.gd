@@ -20,6 +20,8 @@ func _ready() -> void:
 		_pots[i].pot_index = i
 		_pots[i].spirit_dropped.connect(_on_spirit_dropped)
 		_refresh_pot(i)
+		_pots[i].water_requested.connect(_on_water_requested)
+
 	queue_redraw()
 
 func _on_spirit_dropped(pot_index: int, from_slot: int) -> void:
@@ -27,8 +29,17 @@ func _on_spirit_dropped(pot_index: int, from_slot: int) -> void:
 		_refresh_pot(pot_index)
 
 func _refresh_pot(i: int) -> void:
-	var sid = GameState.garden_slots[i]
-	_pots[i].set_spirit(StringName(sid) if sid != null else &"")
+	var pot = GameState.garden_slots[i]
+	if pot == null:
+		_pots[i].set_spirit(&"")
+		_pots[i].set_watered(false)
+	else:
+		_pots[i].set_spirit(StringName(pot["spirit"]))
+		_pots[i].set_watered(bool(pot.get("watered", false)))
+
+func _on_water_requested(pot_index: int) -> void:
+	if GameState.water_pot(pot_index):
+		_refresh_pot(pot_index) # show the droplet (splash polish later)
 
 
 func _draw() -> void:

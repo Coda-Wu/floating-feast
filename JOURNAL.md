@@ -12,6 +12,15 @@
 ```
 
 ---
+
+
+## 2026-06-28 — Spirit Garden G5: watering & yield complete
+
+- **Changed:** `garden_slots` entries became per-pot dicts `{spirit, watered, progress}` (planting, `garden_scene._refresh_pot`, and serialize deep-copy updated). New `GameState.water_pot(i)` (transition-only). `GardenPot` draws a watered droplet and sprays on hold-LMB while the watering tool is active (`water_requested`). New `SpiritData.yield_interval_days` (default 1). `GameManager._resolve_overnight_yields` rewritten: watered → `progress += 1` → at the interval, produce + reset; unwatered pauses; `watered` clears each day.
+- **Decided:** One watering per day counts; yield stays in the existing day-end `DayEndPanel` flow; forgiving pause (spirits never die when unwatered).
+- **Deferred:** Shovel removal (G6); splash polish; per-spirit 2-day cadences (data tuning).
+- **Verified:** Plant → water → End Day → DayEndPanel shows the produce, added to inventory, droplet resets; don't water → no yield, spirit stays. (Temp `spirit_tomato`, since removed.)
+
 ## 2026-06-28 — Spirit Garden G4: cursor-tool mode complete
 
 - **Changed:** New `SignalBus.tool_selected(tool_id)`. `quick_access_bar._on_slot_clicked` now branches by kind — tool → toggle `tool_selected`; ingredient → clear tool + stage; spirit → clear tool. `UIManager` holds `active_tool`, builds a code-only gray-box cursor indicator (swatch + localized name) parented to PersistentUI, repositions it in `_process`, and clears the tool on phase change, pause-open, and right-click.

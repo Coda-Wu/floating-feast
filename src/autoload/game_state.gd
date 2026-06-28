@@ -14,7 +14,9 @@ var fridge_storage: Dictionary = {} # ingredient item_id -> count (home storage;
 var dish_inventory: Dictionary = {} # "recipe_id|tier" -> count (the one Week-2 model extension, §H-1)
 var known_recipes: Array[StringName] = [] # recipe ids the player has learned (codex)
 var captured_spirits: Array[String] = []
-var garden_slots: Array = [null, null, null] # per-slot: spirit id (String) or null; small pot count for M1
+
+var garden_slots: Array = [null, null, null] # per pot: null OR {spirit:String, watered:bool, progress:int} (GARDEN.md)
+
 var seen_tutorials: Dictionary = {}
 var weather_id: String = ""
 var day_seed: int = 0
@@ -400,7 +402,7 @@ func serialize() -> Dictionary:
 		"weather_id": weather_id,
 		"day_seed": day_seed,
 		"quest_phase": quest_phase,
-		"garden_slots": garden_slots.duplicate(),
+		"garden_slots": garden_slots.duplicate(true),
 		"active_commissions": active_commissions.duplicate(),
 		"rank": rank,
 		"fridge_storage": fridge_storage.duplicate(true),
@@ -422,7 +424,7 @@ func deserialize(d: Dictionary) -> void:
 	weather_id = d.get("weather_id", "")
 	day_seed = d.get("day_seed", 0)
 	quest_phase = d.get("quest_phase", 0)
-	garden_slots = (d.get("garden_slots", [null, null, null]) as Array).duplicate()
+	garden_slots = (d.get("garden_slots", [null, null, null]) as Array).duplicate(true)
 	active_commissions = (d.get("active_commissions", []) as Array).duplicate()
 	rank = d.get("rank", 0)
 	fridge_storage = (d.get("fridge_storage", {}) as Dictionary).duplicate(true)
@@ -462,9 +464,21 @@ func plant_spirit(from_slot: int, pot_index: int) -> bool:
 	var token = get_slot(from_slot)
 	if token == null or token.get("kind") != &"spirit":
 		return false
-	garden_slots[pot_index] = String(token["id"]) # the spirit moves bag → pot
+	garden_slots[pot_index] = {"spirit": String(token["id"]), "watered": false, "progress": 0} # bag → pot
+
 	inventory[from_slot] = null
 	SignalBus.inventory_slots_changed.emit() # hotbar drops the spirit
+	return true
+
+
+# --- Watering (GARDEN.md / G5): mark a potted spirit watered for today ---
+func water_pot(pot_index: int) -> bool:
+	if pot_index < 0 or pot_index >= garden_slots.size():
+		return false
+	var pot = garden_slots[pot_index]
+	if pot == null or pot.get("watered", false):
+		return false # empty, or already watered today — no change
+	pot["watered"] = true
 	return true
 
 

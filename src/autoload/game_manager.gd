@@ -104,21 +104,29 @@ func _on_day_end_confirmed(overnight_yields: Array) -> void:
 
 
 func _resolve_overnight_yields() -> Array:
-	# Sum each potted spirit's overnight produce → [{ item_id, count }] for the DayEndPanel + inventory.
+	# Per potted spirit: a watered pot advances toward its yield interval; on reaching it the spirit
+	# produces and the counter resets. Unwatered pots pause (no progress). watered resets each day.
 	var totals := {}
-	for spirit_id in GameState.garden_slots:
-		if spirit_id == null:
+	for pot in GameState.garden_slots:
+		if pot == null:
 			continue
-		var spirit := Database.get_spirit(StringName(spirit_id))
-		if spirit == null or spirit.produces == &"" or spirit.yield_per_night <= 0:
+		var spirit := Database.get_spirit(StringName(pot["spirit"]))
+		if spirit == null:
+			pot["watered"] = false
 			continue
-		totals[spirit.produces] = int(totals.get(spirit.produces, 0)) + spirit.yield_per_night
+		if pot.get("watered", false):
+			pot["progress"] = int(pot.get("progress", 0)) + 1
+			if pot["progress"] >= maxi(1, spirit.yield_interval_days):
+				if spirit.produces != &"" and spirit.yield_per_night > 0:
+					totals[spirit.produces] = int(totals.get(spirit.produces, 0)) + spirit.yield_per_night
+				pot["progress"] = 0
+		pot["watered"] = false # new day → must water again
 	var out: Array = []
 	for item_id in totals:
 		out.append({"item_id": item_id, "count": int(totals[item_id])})
 	return out
 
-	
+
 func _save_in_memory() -> void:
 	_last_save = GameState.serialize()
 	print("[GameManager] saved (in-memory) at end of day ", _last_save.get("day"))

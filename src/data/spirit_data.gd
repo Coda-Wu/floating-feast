@@ -12,3 +12,4 @@ class_name SpiritData extends Resource
 @export var drop_table: Dictionary = {} ## { item_id(StringName): count(int) } on flee
 @export var produces: StringName = &"" # garden: ingredient id this spirit yields overnight
 @export var yield_per_night: int = 0
+@export var yield_interval_days: int = 1 ## watered-days between yields (GARDEN.md "Production Speed"); 1 = every watered day
