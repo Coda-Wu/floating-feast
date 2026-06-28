@@ -95,7 +95,8 @@ assets/        # placeholder/ + final/ mirror; final-first resolver in Database
 - `serialize`/`deserialize` round-trip the array; `deserialize` also migrates legacy `{id:count}` saves.
 
 Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_inventory` (`"recipe_id|tier" -> count`, the single dish store — dishes travel with the player).
-`garden_slots` is a fixed array of per-pot state — `null` or `{spirit:String, watered:bool, progress:int}`; watering (`water_pot`) and the gated day-end yield (`GameManager._resolve_overnight_yields`, cadence = `SpiritData.yield_interval_days`) read/mutate it. See GARDEN.md.
+`garden_slots` is a fixed array of per-pot state — `null` or `{spirit:String, watered:bool, progress:int}`; watering (`water_pot`) and the gated day-end yield (`GameManager._resolve_overnight_yields`, cadence = `SpiritData.yield_interval_days`) read/mutate it. See GARDEN.md.  Planting (`plant_spirit`), watering (`water_pot`), and shovel removal (`remove_potted_spirit`, permanent — leaves `captured_spirits` depleted) all act on it.
+
 
 
 ---

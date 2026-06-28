@@ -481,6 +481,15 @@ func water_pot(pot_index: int) -> bool:
 	pot["watered"] = true
 	return true
 
+# --- Shovel removal (GARDEN.md / G6): permanent, no refund; captured_spirits stays depleted ---
+func remove_potted_spirit(pot_index: int) -> bool:
+	if pot_index < 0 or pot_index >= garden_slots.size():
+		return false
+	if garden_slots[pot_index] == null:
+		return false
+	garden_slots[pot_index] = null
+	return true
+
 
 # --- Explorer League rank (increases at Fair completion) ---
 func set_rank(new_rank: int) -> void:

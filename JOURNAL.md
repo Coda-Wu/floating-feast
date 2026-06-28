@@ -13,6 +13,12 @@
 
 ---
 
+## 2026-06-28 — Spirit Garden G6: shovel removal complete (all garden mechanics done)
+
+- **Changed:** `GardenPot` now handles the shovel via `_process` — dims the targeted spirit, accumulates a hold-LMB radial (`DIG_TIME` 1s, draws a filling arc), resets on release/move-off, and emits `remove_requested` on completion. New `GameState.remove_potted_spirit(i)` nulls the pot **without** touching `captured_spirits` (permanent, no refund, stays depleted). `garden_scene` wires it.
+- **Decided:** Radial draws on the pot (cursor is over it); dig SFX deferred until a dig `AudioCue` exists (hook marked in code).
+- **Deferred:** Dig SFX/asset; splash polish. Remaining epic: G7 (compendium tab), G8 (rewire ship button + delete temp `garden_panel`).
+- **Verified:** Shovel-hover dims; hold ~1s removes the spirit (gone, no backpack refund, won't regenerate); early release cancels; console clean. (Temp `spirit_tomato`, since removed.)
 
 ## 2026-06-28 — Spirit Garden G5: watering & yield complete
 

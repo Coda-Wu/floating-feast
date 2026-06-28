@@ -21,6 +21,8 @@ func _ready() -> void:
 		_pots[i].spirit_dropped.connect(_on_spirit_dropped)
 		_refresh_pot(i)
 		_pots[i].water_requested.connect(_on_water_requested)
+		_pots[i].remove_requested.connect(_on_remove_requested)
+
 
 	queue_redraw()
 
@@ -41,6 +43,9 @@ func _on_water_requested(pot_index: int) -> void:
 	if GameState.water_pot(pot_index):
 		_refresh_pot(pot_index) # show the droplet (splash polish later)
 
+func _on_remove_requested(pot_index: int) -> void:
+	if GameState.remove_potted_spirit(pot_index):
+		_refresh_pot(pot_index)
 
 func _draw() -> void:
 	draw_rect(Rect2(0, 0, 640, 360), SKY_COLOR) # gray-box backdrop (Week-3 art swap)
