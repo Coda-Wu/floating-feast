@@ -9,12 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://bwvvwjcipm67h" path="res://assets/art/scenes/cabin/prop_fridge.png" id="8_fridge"]
 [ext_resource type="Texture2D" uid="uid://b2xdku1ktfob2" path="res://assets/art/scenes/cabin/prop_cook_station_oven.png" id="9_oven"]
 [ext_resource type="Texture2D" uid="uid://bqaxxqcuhs508" path="res://assets/art/scenes/cabin/prop_cabin_cabinet_01.png" id="10_cab1"]
-[ext_resource type="Texture2D" uid="uid://87qheg2i32ah" path="res://assets/art/scenes/cabin/prop_cabin_cabinet_02.png" id="11_cab2"]
+[ext_resource type="Texture2D" uid="uid://87qheg2i32ah" path="res://assets/art/scenes/cabin/prop_cook_station_prep.png" id="11_cab2"]
 [ext_resource type="Texture2D" uid="uid://bc07m1et6qcca" path="res://assets/art/scenes/cabin/prop_cook_station_mix_bowl.png" id="12_mixer"]
 [ext_resource type="Texture2D" uid="uid://cfsfekjeeac6w" path="res://assets/art/scenes/cabin/prop_cabin_window.png" id="13_window"]
 [ext_resource type="Texture2D" uid="uid://o6hg3ie3j7b8" path="res://assets/art/scenes/cabin/prop_door.png" id="14_door"]
 [ext_resource type="Texture2D" uid="uid://dmhdeu567gyse" path="res://assets/art/scenes/cabin/prop_cabin_wood_box.png" id="15_woodbox"]
-[ext_resource type="Texture2D" uid="uid://dq0g10gg2kpls" path="res://assets/art/scenes/cabin/prop_rudder.png" id="16_rudder"]
+[ext_resource type="Texture2D" uid="uid://dq0g10gg2kpls" path="res://assets/art/scenes/cabin/prop_steering_wheel.png" id="16_rudder"]
 [ext_resource type="Texture2D" uid="uid://ha6sub2ymhju" path="res://assets/art/scenes/cabin/prop_cabin_lamp.png" id="17_lamp"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r4cx6"]
@@ -132,9 +132,9 @@ texture = ExtResource("13_window")
 
 [node name="Door" type="TextureRect" parent="." unique_id=919361203]
 layout_mode = 1
-offset_left = 299.0
+offset_left = 300.0
 offset_top = 70.0
-offset_right = 346.0
+offset_right = 347.0
 offset_bottom = 139.0
 texture = ExtResource("14_door")
 

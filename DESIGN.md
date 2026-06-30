@@ -127,7 +127,8 @@ Every exit path preserves collected loot. The 2 AM faint is capped at a small co
 - Garden removal permanently consumes the spirit (no refund) — via the **shovel hold-to-confirm** (GARDEN.md).
 - **Spirit garden (GARDEN.md):** spirits are `kind: spirit` carried tokens (unique, non-stacking); the garden is a **walkable side-scroller scene**; planting is **hotbar→pot drag** (1 pot = 1 spirit); watering is a **forgiving pause** (never death), yield every 1–2 days; tools are `kind: tool` (granted at start, non-stacking, **trash-protected**, cursor-mode on select); the Spirits Pause-Menu tab is a **compendium**, not a management surface; the temporary garden panel retires once the scene ships.
 
-- Kitchen is top-down forever (any side-scroller art is throwaway).
+- **Ship interior is side-scrolling (walkable); the kitchen lives in the Cabin** — cook stations are walk-up press-E interactables. *(Reverses the former "kitchen top-down forever.")* Canon: SHIP.md.
+
 - Single dish store (no carried/stored split; dishes "travel with you").
 - Modular docs (new systems → standalone files).
 - **Exploration rework complete:** fuel = 6, node-driven time, RunGraph/WorldIslandData, budget system deleted, one-foray-per-day, all-exits-to-ship.

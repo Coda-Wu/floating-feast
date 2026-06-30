@@ -38,3 +38,6 @@ func set_movement_enabled(enabled: bool) -> void:
 	if not enabled:
 		velocity = Vector2.ZERO
 		_animate(Vector2.ZERO)
+
+func get_detector() -> InteractionDetector:
+	return $InteractionDetector

@@ -16,7 +16,8 @@ How the code is wired, so any code you propose **fits this project's conventions
 1. **Systems talk ONLY via the SignalBus + autoloads.** No system reaches into another's nodes.
 2. **One scene per UI / node.** Each screen, panel, and exploration node is its own scene.
 3. **All content lives in `.tres` Resources**, indexed by `Database` at boot.
-4. **Swap-linchpin rule.** No scene/script hard-references final art/audio; assets are assigned at runtime from `Database` (placeholder/final mirror), so Week-3 is a pure asset swap.
+4. **Swap-linchpin rule.** Same name + same shape = clean swap. Assets are **single-copy** (no placeholder/final mirror); gray-box is replaced in place by final art of identical dimensions/grid/pivot. Database-bound icons/sprites resolve by logical key; scene-placed environment art may reference paths directly. See ASSETS.md.
+
 5. **No speculative abstraction.** Build the simplest thing the current step needs.
 6. **Every `GameState` mutator emits its own change signal.** UI subscribes to state-change signals and refreshes passively — never polls.
 
@@ -134,7 +135,8 @@ Parallel stores: `fridge_storage` (`{id:count}`, home overflow) and `dish_invent
 
 ## 9. Asset pipeline
 
-`res://assets/` with a `placeholder/` ↔ `final/` mirror structure. Database's resolver returns final when present, else placeholder. Gray-box-first build order; later weeks are a pure swap. **No scene or script names the final asset directly.**
+`res://assets/` holds a **single (final) copy** of each asset — **no `placeholder/`↔`final/` mirror**. Naming + import conventions live in **ASSETS.md**. Gray-box pieces are replaced in place by same-shape art.
+
 
 ---
 

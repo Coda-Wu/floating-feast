@@ -1,0 +1,44 @@
+# SHIP.md — Floating Feast Ship Interior & Day Loop
+
+Canon for the walkable ship interior (Cabin + Captain's Room), room transitions, and the day loop.
+Design only; wiring in ARCHITECTURE.md, progress in STATE.md. Supersedes the button-based ShipScreen
+and the top-down KitchenScene (DESIGN §9 reversal: the ship interior is side-scrolling).
+
+## 1. Scenes
+- **Cabin (main hub)** — side-scroller. Holds the kitchen (cook stations as walk-up/press-E
+  interactables), two doors, and a right-edge transition zone.
+  - Center door → press E → set sail (daytime exploration on the current island).
+  - Side door → press E → Spirit Garden.
+  - Right edge (collision zone) → Captain's Room.
+- **Captain's Room** — side-scroller. Holds the Bed and the Steering Wheel ; left edge → Cabin.
+
+## 2. Movement & transitions
+- One reusable `PlayerCharacter` (CharacterBody2D) per scene; each room has a Camera2D that follows it.
+- A `Transitions` autoload: fade-out → `change_scene_to_file` → spawn at a named marker → fade-in.
+- Doors transition on E-press; room edges transition by walking into a collision zone.
+
+## 3. Interactables (press-E)
+- Cook stations (prep / mix_bowl / oven) → StationUI (as today). Fridge / Recipe Book → as today.
+- Center door → sail; side door → garden; Steering Wheel → Ocean Map; Bed → end day (with confirm).
+
+## 4. Day loop
+- **Morning:** player spawns directly in the Cabin (no MorningScreen / menu), ready to move.
+- **Time** flows normally inside the ship (rate TBD at build); the 2 AM curfew's interaction with
+  ship time is decided when the loop is built.
+- **Ocean Map** only via the Steering Wheel (DESIGN §4) — no auto-entry at exploration start. Using the map
+  to jump between big islands costs one full in-game day (future).
+- **End of day:** press E on the Bed (confirm) → resolve overnight (garden yields, etc.) → next morning in the Cabin.
+
+## 5. Trade Fair
+- Becomes a daytime-exploration **node** on certain dates (e.g. weekly); not refined yet. The old
+  ShipScreen Fair button is dropped (FairScene temporarily unreachable).
+
+## 6. Locked decisions
+- Ship interior is side-scrolling; kitchen is in the Cabin (reverses "kitchen top-down forever").
+- One reusable `PlayerCharacter`; rooms via `Transitions` autoload + per-room Camera2D + spawn markers.
+- Ocean Map only via the Steering Wheel; Bed ends the day; morning spawns in the Cabin (no menu).
+- No `placeholder/`+`final/` asset mirror — single final copy (see ASSETS.md).
+
+## 7. Deferred / TBD
+- Prep-station art; exact time-flow rate + curfew interaction (Phase 4); map-jump-costs-a-day; Fair node;
+  Z-layering polish (Phase 5); Kitchen→PlayerCharacter migration specifics.

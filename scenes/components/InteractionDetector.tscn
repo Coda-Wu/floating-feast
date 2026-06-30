@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bfty3ptv063cy" path="res://src/core/interaction_detector.gd" id="1_1e0mv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1e0mv"]
-radius = 30.0
+radius = 20.0
 
 [node name="InteractionDetector" type="Area2D" unique_id=2070745079]
 collision_layer = 0

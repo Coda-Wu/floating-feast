@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://87qheg2i32ah"
-path="res://.godot/imported/prop_cabin_cabinet_02.png-3cd25718249f6bafe34fcfd5dcef92ef.ctex"
+path="res://.godot/imported/prop_cook_station_prep.png-0dc91c4dd902f605f64acf6a126ac362.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/scenes/cabin/prop_cabin_cabinet_02.png"
-dest_files=["res://.godot/imported/prop_cabin_cabinet_02.png-3cd25718249f6bafe34fcfd5dcef92ef.ctex"]
+source_file="res://assets/art/scenes/cabin/prop_cook_station_prep.png"
+dest_files=["res://.godot/imported/prop_cook_station_prep.png-0dc91c4dd902f605f64acf6a126ac362.ctex"]
 
 [params]
 

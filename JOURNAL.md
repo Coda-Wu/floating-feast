@@ -12,6 +12,20 @@
 ```
 
 ---
+## 2026-06-29 — Ship Interior Phase 1 complete (asset prep + interaction plumbing)
+
+- **Changed:** Renamed cabin art to conventions (3 cook stations → `prop_cook_station_{prep,mix_bowl,oven}`; `prop_steering_wheel`; props/bg). Added an `InteractionDetector` child + `get_detector()` to the reusable `PlayerCharacter`, reusing the kitchen's interaction components.
+- **Decided:** "Steering Wheel" = the captain's-room wheel (rudder = unseen rear structure). The physics `CollisionShape2D` and the `InteractionDetector` `Area2D` coexist permanently on separate collision layers (the detector self-filters to `Interactable`s; an Area2D never blocks the body). Phase-3 zones will detect the player via `body_entered` + group/class — the `CollisionShape2D` stays.
+- **Verified:** Detector present + compiles; cabin art renamed cleanly.
+
+## 2026-06-29 — Ship Interior & Day-Loop Rework scoped; kitchen reversal
+
+- **Decided:** Ship interior is side-scrolling — reverses DESIGN §9 "kitchen top-down forever"; the kitchen lives in the walkable Cabin (press-E stations). No placeholder/final asset mirror (single final copy). Trade Fair becomes a future exploration node (ShipScreen Fair button dropped; FairScene temporarily unreachable). Ocean Map only via the Steering Wheel (implements DESIGN §4); Bed ends the day; morning spawns in the Cabin (no MorningScreen).
+- **Changed (docs):** New SHIP.md + ASSETS.md; DESIGN §9 kitchen line reversed → SHIP.md; ARCHITECTURE §2/§9 → single-copy assets. Phase 1·1: renamed cabin art to conventions in place.
+- **Deferred:** Prep-station art; time-flow rate + curfew interaction (Phase 4); Fair node; Z-layering (Phase 5).
+- **Verified:** Cabin art renamed cleanly.
+
+
 ## 2026-06-29 — Spirit Garden G8 + epic complete
 
 - **Changed:** Deleted the superseded temp garden — `garden_panel.gd`, `GardenPanel.tscn`, `UIManager.show_garden_panel`, and `GameState.assign_spirit_to_garden` / `remove_spirit_from_garden` (verified orphaned; only our epic referenced them). The ship Garden button (rewired in G2a) drives the walkable `GardenScene`.

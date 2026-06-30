@@ -2,13 +2,7 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-29 — Spirit Garden epic COMPLETE (G1–G8). Pause Menu track resumes._
-
-
-
-
-
-
+_Last updated: 2026-06-29 — Ship Interior & Day-Loop Rework scoped (SHIP.md); cabin art renamed._
 
 
 ---
@@ -16,13 +10,27 @@ _Last updated: 2026-06-29 — Spirit Garden epic COMPLETE (G1–G8). Pause Menu 
 ## Current focus
 
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
-- **Active system:** **Universal Pause Menu** (resumed) — Steps 9–10 remain (Step 7 deferred to M2).
-- **Next step:** **Pause Menu Step 9 — Quests tab.** *(Or redirect — see "what's next" below.)*
-
+- **Active system:** **Ship Interior & Day-Loop Rework** (canon: SHIP.md) — walkable Cabin + Captain's Room, room transitions, day loop. Reverses "kitchen top-down forever."
+- **Next step:** **Phase 1 · Step 2 — kitchen interaction logic on `PlayerCharacter`.**
 
 
 
 ---
+
+## Active build order — Ship Interior & Day-Loop Rework
+
+Canon: SHIP.md.
+
+- **Phase 1 — Asset prep & logic migration:**
+  - [x] **1·1. Rename cabin art** to conventions (in place; prep-station art TBD).
+  - [ ] **1·2. Kitchen interaction on `PlayerCharacter`** (InteractionDetector + press-E). ← NEXT
+- [ ] **Phase 2 — Scenes:** Cabin (kitchen + center/side doors + right-edge zone) & `CaptainRoom` (Bed + Steering Wheel).
+- [ ] **Phase 3 — Transitions:** `Transitions` autoload + per-room Camera2D + spawn markers + fades; Steering Wheel→Ocean Map (no auto-entry).
+- [ ] **Phase 4 — Day loop:** spawn in Cabin, Bed ends day, time flows in ship, map-jump costs a day.
+- [ ] **Phase 5 — Polish:** player/pot/prop Z-layering & sorting.
+
+
+
 
 ## Active build order — Universal Pause Menu
 
@@ -48,7 +56,7 @@ _PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spir
 **Step-3 deferred-but-flagged carryovers:** capacity-full UX (Step 5 Trash/notify; 30 slots won't fill in M1); cooking refund position-shift (last-of-stack then cancel re-places in first empty slot); items beyond slot 9 aren't hotbar-cookable until drag (Step 6).
 
 
-## Active build order — Spirit Garden epic
+## Completed:Spirit Garden epic
 _COMPLETE (G1–G8)._ 
 Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate.
 
@@ -92,7 +100,7 @@ Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate
 - **Mining / fishing** — deferred; open decision whether they become node minigames or free on-ship daytime activities. If free on-ship: rewards stay consumable-tier; food never refuels Ember (the firewall).
 - **M2:** name-entry onboarding (writes `player_name`/`ship_name`), Dialogic narrative slice, walkable ship deck, side-scroller Garden, additional World Islands, non-spirit slot kinds (ore/geode/furniture), Captain's-room steering wheel for the Ocean Map.
 - **Steam roadmap:** Next Fest slot held for the launch run-up (not used early).
-**Ship cabin interior** (`scenes/cabin/CabinLayout.tscn` + cabin art): artist-authored walkable ship-interior layout (rudder/oven/mixer/fridge in one room), currently **orphaned** — referenced by no script or scene. Parked as **M2 art**; does **not** override the locked "kitchen top-down forever" or "walkable ship deck + Captain's-room steering wheel = M2" decisions. Revisit when the M2 ship interior is actually designed.
+**Ship cabin interior** (`scenes/cabin/CabinLayout.tscn` + cabin art): artist-authored walkable ship-interior layout (steering wheel/oven/mixer/fridge in one room), currently **orphaned** — referenced by no script or scene. Parked as **M2 art**; does **not** override the locked "kitchen top-down forever" or "walkable ship deck + Captain's-room steering wheel = M2" decisions. Revisit when the M2 ship interior is actually designed.
 
 ---
 
