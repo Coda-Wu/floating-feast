@@ -88,7 +88,6 @@ offset_top = 5.0
 offset_right = 501.0
 offset_bottom = 163.0
 texture = ExtResource("6_decor")
-metadata/_edit_lock_ = true
 
 [node name="Oven" type="TextureRect" parent="." unique_id=1778732579]
 layout_mode = 1

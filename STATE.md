@@ -2,7 +2,7 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-29 — Ship Interior & Day-Loop Rework scoped (SHIP.md); cabin art renamed._
+_Last updated: 2026-06-29 — Ship Interior Phase 1 (asset prep + interaction plumbing) complete._
 
 
 ---
@@ -22,9 +22,9 @@ _Last updated: 2026-06-29 — Ship Interior & Day-Loop Rework scoped (SHIP.md); 
 Canon: SHIP.md.
 
 - **Phase 1 — Asset prep & logic migration:**
-  - [x] **1·1. Rename cabin art** to conventions (in place; prep-station art TBD).
-  - [ ] **1·2. Kitchen interaction on `PlayerCharacter`** (InteractionDetector + press-E). ← NEXT
-- [ ] **Phase 2 — Scenes:** Cabin (kitchen + center/side doors + right-edge zone) & `CaptainRoom` (Bed + Steering Wheel).
+  - [x] **1·1. Rename cabin art** to conventions (stations → `prop_cook_station_{prep,mix_bowl,oven}`; `prop_steering_wheel`; props/bg).
+  - [x] **1·2. Kitchen interaction on `PlayerCharacter`** — `InteractionDetector` child + `get_detector()`; physics body + interaction sensor coexist on separate collision layers.
+- [ ] **Phase 2 — Scenes:** Cabin (kitchen stations + center/side doors + right-edge zone) & `CaptainRoom` (Bed + Steering Wheel). ← NEXT
 - [ ] **Phase 3 — Transitions:** `Transitions` autoload + per-room Camera2D + spawn markers + fades; Steering Wheel→Ocean Map (no auto-entry).
 - [ ] **Phase 4 — Day loop:** spawn in Cabin, Bed ends day, time flows in ship, map-jump costs a day.
 - [ ] **Phase 5 — Polish:** player/pot/prop Z-layering & sorting.

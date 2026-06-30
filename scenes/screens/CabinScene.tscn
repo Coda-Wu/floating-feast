@@ -1,0 +1,178 @@
+[gd_scene format=3 uid="uid://q38egy0so4fi"]
+
+[ext_resource type="Script" uid="uid://bagvsfn0nnrlo" path="res://src/screens/cabin_scene.gd" id="1_3ipfc"]
+[ext_resource type="Texture2D" uid="uid://byxvbhj7fslbg" path="res://assets/art/scenes/cabin/bg_cabin_wall_tile.png" id="2_apwa4"]
+[ext_resource type="Texture2D" uid="uid://4yd16wukj5kw" path="res://assets/art/scenes/cabin/bg_cabin_floor.png" id="3_kc5ha"]
+[ext_resource type="Texture2D" uid="uid://d1m4ltbnbstr4" path="res://assets/art/scenes/cabin/bg_cabin_ceiling.png" id="4_eknna"]
+[ext_resource type="Texture2D" uid="uid://cbm7byyjpuviy" path="res://assets/art/scenes/cabin/prop_cabin_carpet.png" id="5_kn1wr"]
+[ext_resource type="Texture2D" uid="uid://cfsfekjeeac6w" path="res://assets/art/scenes/cabin/prop_cabin_window.png" id="6_ywubw"]
+[ext_resource type="Texture2D" uid="uid://ha6sub2ymhju" path="res://assets/art/scenes/cabin/prop_cabin_lamp.png" id="7_wucwv"]
+[ext_resource type="PackedScene" uid="uid://uqmmhdpiiamx" path="res://scenes/components/PlayerCharacter.tscn" id="8_apwa4"]
+[ext_resource type="Texture2D" uid="uid://b2xdku1ktfob2" path="res://assets/art/scenes/cabin/prop_cook_station_oven.png" id="8_kc5ha"]
+[ext_resource type="Texture2D" uid="uid://o6hg3ie3j7b8" path="res://assets/art/scenes/cabin/prop_door.png" id="9_kn1wr"]
+[ext_resource type="Texture2D" uid="uid://nnrs81oh40fp" path="res://assets/art/scenes/cabin/prop_cabin_decoration.png" id="10_ywubw"]
+[ext_resource type="PackedScene" uid="uid://b663qm8xo3y2c" path="res://scenes/components/Interactable.tscn" id="12_ywubw"]
+[ext_resource type="Texture2D" uid="uid://bwvvwjcipm67h" path="res://assets/art/scenes/cabin/prop_fridge.png" id="13_25vxt"]
+[ext_resource type="Texture2D" uid="uid://87qheg2i32ah" path="res://assets/art/scenes/cabin/prop_cook_station_prep.png" id="14_hm60h"]
+[ext_resource type="Texture2D" uid="uid://bqaxxqcuhs508" path="res://assets/art/scenes/cabin/prop_cabin_cabinet_01.png" id="15_io7cv"]
+[ext_resource type="Texture2D" uid="uid://bc07m1et6qcca" path="res://assets/art/scenes/cabin/prop_cook_station_mix_bowl.png" id="16_ifq1m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wucwv"]
+atlas = ExtResource("10_ywubw")
+region = Rect2(0, 0, 168, 158)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_apwa4"]
+load_path = "res://.godot/imported/bg_cabin_wall_wood.png-0b8aeeacf5a499be68de7bea9447a119.ctex"
+
+[node name="CabinScene" type="Node2D" unique_id=431381438]
+script = ExtResource("1_3ipfc")
+
+[node name="Background" type="Node2D" parent="." unique_id=182532292]
+
+[node name="WallTile" type="TextureRect" parent="Background" unique_id=202426422]
+offset_right = 500.0
+offset_bottom = 120.0
+scale = Vector2(2, 2)
+texture = ExtResource("2_apwa4")
+stretch_mode = 1
+
+[node name="Decoration" type="TextureRect" parent="Background" unique_id=1657409980]
+offset_top = 5.0
+offset_right = 168.0
+offset_bottom = 163.0
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_wucwv")
+
+[node name="Floor" type="TextureRect" parent="Background" unique_id=1949841102]
+offset_top = 288.0
+offset_right = 500.0
+offset_bottom = 324.0
+scale = Vector2(2, 2)
+texture = ExtResource("3_kc5ha")
+stretch_mode = 1
+
+[node name="WallWood" type="TextureRect" parent="Background" unique_id=1574180508]
+offset_top = 220.0
+offset_right = 500.0
+offset_bottom = 255.0
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_apwa4")
+stretch_mode = 1
+
+[node name="Ceiling" type="TextureRect" parent="Background" unique_id=1228338938]
+offset_right = 500.0
+offset_bottom = 12.0
+scale = Vector2(2, 2)
+texture = ExtResource("4_eknna")
+stretch_mode = 1
+
+[node name="Carpet" type="TextureRect" parent="Background" unique_id=1392195923]
+offset_left = 811.0
+offset_top = 291.00003
+offset_right = 833.0
+offset_bottom = 318.00003
+rotation = 1.5707964
+scale = Vector2(3, 3)
+texture = ExtResource("5_kn1wr")
+
+[node name="Window" type="TextureRect" parent="Background" unique_id=219864162]
+offset_left = 372.57
+offset_top = 91.0
+offset_right = 438.57
+offset_bottom = 139.0
+scale = Vector2(2, 2)
+texture = ExtResource("6_ywubw")
+
+[node name="Lamp" type="TextureRect" parent="Background" unique_id=1184405456]
+offset_left = 553.0
+offset_top = 178.0
+offset_right = 562.0
+offset_bottom = 188.0
+scale = Vector2(2, 2)
+texture = ExtResource("7_wucwv")
+
+[node name="Cabinet1" type="TextureRect" parent="Background" unique_id=921611659]
+offset_left = 164.0
+offset_top = 210.0
+offset_right = 213.0
+offset_bottom = 255.0
+scale = Vector2(2, 2)
+texture = ExtResource("15_io7cv")
+
+[node name="Interactables" type="Node2D" parent="." unique_id=1669288664]
+
+[node name="Oven" parent="Interactables" unique_id=335472078 instance=ExtResource("12_ywubw")]
+position = Vector2(122, 232)
+station_id = &"oven"
+display_name = "Oven"
+gray_box = false
+
+[node name="Oven" type="TextureRect" parent="Interactables/Oven" unique_id=1254863055]
+offset_left = -40.0
+offset_top = -30.0
+offset_right = 2.0
+offset_bottom = 19.0
+scale = Vector2(2, 2)
+texture = ExtResource("8_kc5ha")
+
+[node name="Fridge" parent="Interactables" unique_id=89855541 instance=ExtResource("12_ywubw")]
+position = Vector2(40, 228)
+station_id = &"fridge"
+display_name = "Fridge"
+gray_box = false
+
+[node name="Fridge" type="TextureRect" parent="Interactables/Fridge" unique_id=493993898]
+offset_left = -40.0
+offset_top = -100.0
+offset_right = 1.0
+offset_bottom = -14.0
+scale = Vector2(2, 2)
+texture = ExtResource("13_25vxt")
+
+[node name="Prep Station" parent="Interactables" unique_id=76397705 instance=ExtResource("12_ywubw")]
+position = Vector2(308, 230)
+station_id = &"prep"
+display_name = "Prep Station"
+gray_box = false
+
+[node name="Prep Station" type="TextureRect" parent="Interactables/Prep Station" unique_id=1234040563]
+offset_left = -48.0
+offset_top = -50.0
+offset_right = 1.0
+offset_bottom = 10.0
+scale = Vector2(2, 2)
+texture = ExtResource("14_hm60h")
+
+[node name="Mixing Bowl" parent="Interactables" unique_id=470989084 instance=ExtResource("12_ywubw")]
+position = Vector2(214, 233)
+station_id = &"mix_bowl"
+display_name = "Mixing Bowl"
+gray_box = false
+
+[node name="Mixing Bowl" type="TextureRect" parent="Interactables/Mixing Bowl" unique_id=939092450]
+offset_left = -30.0
+offset_top = -50.0
+offset_right = -1.0
+offset_bottom = -21.0
+scale = Vector2(2, 2)
+texture = ExtResource("16_ifq1m")
+
+[node name="Garden Door" parent="Interactables" unique_id=1564907600 instance=ExtResource("12_ywubw")]
+position = Vector2(640, 233)
+station_id = &"garden_door"
+display_name = "Garden"
+gray_box = false
+
+[node name="Garden Door" type="TextureRect" parent="Interactables/Garden Door" unique_id=519097095]
+offset_left = -46.0
+offset_top = -80.0
+offset_right = 1.0
+offset_bottom = -11.0
+scale = Vector2(2, 2)
+texture = ExtResource("9_kn1wr")
+
+[node name="PlayerCharacter" parent="." unique_id=714829296 instance=ExtResource("8_apwa4")]
+position = Vector2(120, 260)
+bounds = Rect2(16, 0, 794, 360)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=357909003]

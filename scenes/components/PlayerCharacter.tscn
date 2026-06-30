@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cftl03p057v0m" path="res://src/core/player_character.gd" id="1_7kygh"]
 [ext_resource type="Texture2D" uid="uid://doqjs1i8ikn4d" path="res://assets/art/actors/player/por_saff.png" id="2_4no3j"]
 [ext_resource type="Texture2D" uid="uid://bw5hum2hgjclx" path="res://assets/art/actors/player/chr_saff_walk_r.png" id="3_i7ks7"]
+[ext_resource type="PackedScene" uid="uid://7w8bgby6ypnv" path="res://scenes/components/InteractionDetector.tscn" id="4_4no3j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gl8nw"]
 atlas = ExtResource("2_4no3j")
@@ -49,6 +50,7 @@ animations = [{
 radius = 20.0
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=714829296]
+scale = Vector2(2, 2)
 script = ExtResource("1_7kygh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1674219718]
@@ -57,3 +59,5 @@ animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=479037004]
 shape = SubResource("CircleShape2D_loehu")
+
+[node name="InteractionDetector" parent="." unique_id=2070745079 instance=ExtResource("4_4no3j")]

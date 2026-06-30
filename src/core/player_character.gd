@@ -6,7 +6,7 @@ class_name PlayerCharacter extends CharacterBody2D
 enum MoveMode {SIDE_SCROLL, TOP_DOWN}
 
 @export var move_mode: MoveMode = MoveMode.SIDE_SCROLL
-@export var speed: float = 90.0
+@export var speed: float = 300.0
 @export var bounds: Rect2 = Rect2(0, 0, 640, 360) # room clamp (gray-box; edge Area2Ds replace this later)
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D

@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://h2inrd4ce70l"]
+
+[ext_resource type="Script" uid="uid://wseambwxfpve" path="res://src/screens/captain_room.gd" id="1_28nbj"]
+[ext_resource type="Texture2D" uid="uid://byxvbhj7fslbg" path="res://assets/art/scenes/cabin/bg_cabin_wall_tile.png" id="2_54yf0"]
+[ext_resource type="Texture2D" uid="uid://nnrs81oh40fp" path="res://assets/art/scenes/cabin/prop_cabin_decoration.png" id="3_2l7r2"]
+[ext_resource type="Texture2D" uid="uid://4yd16wukj5kw" path="res://assets/art/scenes/cabin/bg_cabin_floor.png" id="4_kxici"]
+[ext_resource type="Texture2D" uid="uid://d1m4ltbnbstr4" path="res://assets/art/scenes/cabin/bg_cabin_ceiling.png" id="5_35ksp"]
+[ext_resource type="Texture2D" uid="uid://cbm7byyjpuviy" path="res://assets/art/scenes/cabin/prop_cabin_carpet.png" id="6_w3tmy"]
+[ext_resource type="Texture2D" uid="uid://cfsfekjeeac6w" path="res://assets/art/scenes/cabin/prop_cabin_window.png" id="7_yt6ju"]
+[ext_resource type="Texture2D" uid="uid://ha6sub2ymhju" path="res://assets/art/scenes/cabin/prop_cabin_lamp.png" id="8_ydg6w"]
+[ext_resource type="PackedScene" uid="uid://uqmmhdpiiamx" path="res://scenes/components/PlayerCharacter.tscn" id="9_3wvhf"]
+[ext_resource type="Texture2D" uid="uid://o6hg3ie3j7b8" path="res://assets/art/scenes/cabin/prop_door.png" id="9_w3tmy"]
+[ext_resource type="PackedScene" uid="uid://b663qm8xo3y2c" path="res://scenes/components/Interactable.tscn" id="10_ydg6w"]
+[ext_resource type="Texture2D" uid="uid://dmhdeu567gyse" path="res://assets/art/scenes/cabin/prop_cabin_wood_box.png" id="10_yt6ju"]
+[ext_resource type="Texture2D" uid="uid://dq0g10gg2kpls" path="res://assets/art/scenes/cabin/prop_steering_wheel.png" id="11_ydg6w"]
+[ext_resource type="Texture2D" uid="uid://dqnd42orjt80s" path="res://assets/art/scenes/cabin/prop_bed.png" id="12_3wvhf"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ij7mi"]
+load_path = "res://.godot/imported/bg_cabin_wall_wood.png-0b8aeeacf5a499be68de7bea9447a119.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5dcg"]
+atlas = ExtResource("3_2l7r2")
+region = Rect2(275, 0, 207, 158)
+
+[node name="CaptainRoom" type="Node2D" unique_id=1426198997]
+script = ExtResource("1_28nbj")
+
+[node name="Background" type="Node2D" parent="." unique_id=1367961975]
+
+[node name="WallTile" type="TextureRect" parent="Background" unique_id=241466886]
+offset_right = 400.0
+offset_bottom = 120.0
+scale = Vector2(2, 2)
+texture = ExtResource("2_54yf0")
+stretch_mode = 1
+
+[node name="WallWood" type="TextureRect" parent="Background" unique_id=796589630]
+offset_top = 220.0
+offset_right = 400.0
+offset_bottom = 255.0
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_ij7mi")
+stretch_mode = 1
+
+[node name="Floor" type="TextureRect" parent="Background" unique_id=1952947853]
+offset_top = 288.0
+offset_right = 400.0
+offset_bottom = 324.0
+scale = Vector2(2, 2)
+texture = ExtResource("4_kxici")
+stretch_mode = 1
+
+[node name="Decoration" type="TextureRect" parent="Background" unique_id=315581019]
+offset_top = 1.0
+offset_right = 228.0
+offset_bottom = 181.0
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_m5dcg")
+
+[node name="Ceiling" type="TextureRect" parent="Background" unique_id=1784506095]
+offset_right = 400.0
+offset_bottom = 12.0
+scale = Vector2(2, 2)
+texture = ExtResource("5_35ksp")
+stretch_mode = 1
+
+[node name="Window" type="TextureRect" parent="Background" unique_id=1161193695]
+offset_left = 200.0
+offset_top = 96.0
+offset_right = 266.0
+offset_bottom = 144.0
+scale = Vector2(2, 2)
+texture = ExtResource("7_yt6ju")
+
+[node name="Lamp" type="TextureRect" parent="Background" unique_id=1376618073]
+offset_left = 553.0
+offset_top = 178.0
+offset_right = 562.0
+offset_bottom = 188.0
+scale = Vector2(2, 2)
+texture = ExtResource("8_ydg6w")
+
+[node name="Lamp3" type="TextureRect" parent="Background/Lamp" unique_id=942115410]
+layout_mode = 0
+offset_left = -264.5
+offset_right = -255.5
+offset_bottom = 10.0
+texture = ExtResource("8_ydg6w")
+
+[node name="Lamp4" type="TextureRect" parent="Background/Lamp" unique_id=1143218558]
+layout_mode = 0
+offset_left = -198.0
+offset_right = -189.0
+offset_bottom = 10.0
+texture = ExtResource("8_ydg6w")
+
+[node name="Carpet" type="TextureRect" parent="Background" unique_id=1357779260]
+offset_left = 60.0
+offset_top = 291.0
+offset_right = 82.0
+offset_bottom = 318.0
+rotation = 1.5707964
+scale = Vector2(3, 3)
+texture = ExtResource("6_w3tmy")
+
+[node name="WoodBox" type="TextureRect" parent="Background" unique_id=1751551507]
+offset_left = 363.0
+offset_top = 254.0
+offset_right = 388.0
+offset_bottom = 282.0
+scale = Vector2(2, 2)
+texture = ExtResource("10_yt6ju")
+
+[node name="WoodBox2" type="TextureRect" parent="Background/WoodBox" unique_id=1496821938]
+layout_mode = 0
+offset_left = 24.0
+offset_right = 49.0
+offset_bottom = 28.0
+texture = ExtResource("10_yt6ju")
+
+[node name="WoodBox3" type="TextureRect" parent="Background/WoodBox" unique_id=1902264210]
+layout_mode = 0
+offset_left = 12.0
+offset_top = -19.0
+offset_right = 37.0
+offset_bottom = 9.0
+texture = ExtResource("10_yt6ju")
+
+[node name="Interactables" type="Node2D" parent="." unique_id=577794882]
+
+[node name="Interactable" parent="Interactables" unique_id=76397705 instance=ExtResource("10_ydg6w")]
+
+[node name="Bed" type="TextureRect" parent="Interactables/Interactable" unique_id=129850431]
+offset_left = 218.0
+offset_top = 218.0
+offset_right = 289.0
+offset_bottom = 264.0
+scale = Vector2(2, 2)
+texture = ExtResource("12_3wvhf")
+stretch_mode = 2
+
+[node name="Interactable2" parent="Interactables" unique_id=1912000641 instance=ExtResource("10_ydg6w")]
+
+[node name="Door" type="TextureRect" parent="Interactables/Interactable2" unique_id=554885373]
+offset_left = 53.0
+offset_top = 154.0
+offset_right = 100.0
+offset_bottom = 223.0
+scale = Vector2(2, 2)
+texture = ExtResource("9_w3tmy")
+
+[node name="Interactable3" parent="Interactables" unique_id=274098470 instance=ExtResource("10_ydg6w")]
+
+[node name="Steering Wheel" type="TextureRect" parent="Interactables/Interactable3" unique_id=1629931164]
+offset_left = 530.0
+offset_top = 237.0
+offset_right = 552.0
+offset_bottom = 281.0
+scale = Vector2(2, 2)
+texture = ExtResource("11_ydg6w")
+
+[node name="PlayerCharacter" parent="." unique_id=714829296 instance=ExtResource("9_3wvhf")]
+position = Vector2(120, 260)

@@ -10,6 +10,11 @@ and the top-down KitchenScene (DESIGN §9 reversal: the ship interior is side-sc
   - Center door → press E → set sail (daytime exploration on the current island).
   - Side door → press E → Spirit Garden.
   - Right edge (collision zone) → Captain's Room.
+  ## 1a. Layout coordinates (M1)
+- **Cabin** — Garden door center x=640 (half off-screen → nudges exploration); Carpet center x=770, its right side (~x=800) is the transition zone → Captain's Room.
+- **Captain's Room** — Exploration door on the left → Set Sail.
+- **Return spawn (Captain→Cabin):** x∈(640, 770), e.g. ~700 — left of the carpet, right of the garden door.
+
 - **Captain's Room** — side-scroller. Holds the Bed and the Steering Wheel ; left edge → Cabin.
 
 ## 2. Movement & transitions

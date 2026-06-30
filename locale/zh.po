@@ -442,7 +442,7 @@ msgid "Recipe Book"
 msgstr "菜谱"
 
 msgid "In Fridge"
-msgstr "冰箱中"
+msgstr "冰箱"
 
 msgid "Star ★→☆"
 msgstr "星级 ★→☆"
@@ -484,7 +484,7 @@ msgid "Dishes travel with you already"
 msgstr "菜肴会随身携带"
 
 msgid "Base & execution: %s"
-msgstr "基础与火候：%s"
+msgstr "食材与做法：%s"
 
 msgid "Compatible spices (×%d): +%s"
 msgstr "可用香料（×%d）：+%s"
@@ -545,6 +545,9 @@ msgstr "无产出"
 
 msgid "Prep"
 msgstr "备料"
+
+msgid "Prep Station"
+msgstr "备料台"
 
 msgid "Mixing Bowl"
 msgstr "搅拌碗"
