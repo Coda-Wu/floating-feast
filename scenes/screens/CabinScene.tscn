@@ -24,6 +24,9 @@ region = Rect2(0, 0, 168, 158)
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_apwa4"]
 load_path = "res://.godot/imported/bg_cabin_wall_wood.png-0b8aeeacf5a499be68de7bea9447a119.ctex"
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_25vxt"]
+size = Vector2(20, 100)
+
 [node name="CabinScene" type="Node2D" unique_id=431381438]
 script = ExtResource("1_3ipfc")
 
@@ -175,4 +178,24 @@ texture = ExtResource("9_kn1wr")
 position = Vector2(120, 260)
 bounds = Rect2(16, 0, 794, 360)
 
+[node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1271523177]
+limit_left = 0
+limit_top = 0
+limit_right = 800
+limit_bottom = 360
+position_smoothing_enabled = true
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=357909003]
+
+[node name="ToCaptainZone" type="Area2D" parent="." unique_id=2146027755]
+position = Vector2(800, 300)
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ToCaptainZone" unique_id=1512663841]
+shape = SubResource("RectangleShape2D_25vxt")
+
+[node name="Spawns" type="Node2D" parent="." unique_id=150413784]
+
+[node name="from_captain" type="Marker2D" parent="Spawns" unique_id=479353804]
+position = Vector2(720, 260)

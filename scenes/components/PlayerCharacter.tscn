@@ -51,6 +51,7 @@ radius = 20.0
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=714829296]
 scale = Vector2(2, 2)
+collision_layer = 2
 script = ExtResource("1_7kygh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1674219718]
@@ -61,3 +62,4 @@ animation = &"idle"
 shape = SubResource("CircleShape2D_loehu")
 
 [node name="InteractionDetector" parent="." unique_id=2070745079 instance=ExtResource("4_4no3j")]
+collision_mask = 4

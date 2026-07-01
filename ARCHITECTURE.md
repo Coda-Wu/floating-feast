@@ -153,5 +153,27 @@ The game ships English + Simplified Chinese, switchable live.
 - **Font:** `assets/fonts/ZCOOLKuaiLe-Regular.ttf` is set as `gui/theme/custom_font` for CJK glyph coverage.
 - **Coding standard (mirrors CLAUDE.md):** every player-facing string goes through `tr()` / `tr_n()`; every new English key gets its `zh.po` Chinese counterpart **in the same pass** — no untranslated player-facing English in a code change.
 
-## 12. Removed
+
+
+## 12. Collision layers, masks & groups
+
+2D physics layers (Project Settings → Layer Names → 2D Physics):
+1. **World** — solid geometry (walls, floors, edge blockers).
+2. **Player** — the player's physics body.
+3. **Interactable** — interaction targets (stations, doors).
+4. **Trigger** — transition / trigger zones.
+
+Per-node (layer = what it IS; mask = what it SCANS):
+| Node | Layer | Mask |
+|---|---|---|
+| `PlayerCharacter` (CharacterBody2D) | Player | World |
+| `InteractionDetector` (Area2D) | — | Interactable |
+| `Interactable` (Area2D) | Interactable | — |
+| Transition zone (Area2D) | Trigger | Player |
+| Solid wall/edge (StaticBody2D) | World | — |
+
+Rule: an `Area2D` that senses something sets its **mask** to the target's **layer**; the sensed node sets its layer and usually no mask. Zones use `body_entered` (bodies only); `InteractionDetector` uses `area_entered` + an `is Interactable` filter. Groups (snake_case): **`player`** on `PlayerCharacter`.
+
+## 13. Removed
 The temporary `garden_panel` (+ `show_garden_panel`, `assign_spirit_to_garden`, `remove_spirit_from_garden`) was removed when the walkable `GardenScene` superseded it (GARDEN.md).
+

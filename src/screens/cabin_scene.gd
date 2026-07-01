@@ -10,13 +10,18 @@ const VIEWPORT := Vector2(640, 360)
 
 @onready var _player: PlayerCharacter = $PlayerCharacter
 @onready var _ui_layer: CanvasLayer = $UI
+@onready var _to_captain_zone: Area2D = $ToCaptainZone
+
 
 var _detector: InteractionDetector
 var _open_ui: Control = null
 
+
 func _ready() -> void:
 	_detector = _player.get_detector()
 	_detector.interaction_triggered.connect(_on_interaction_triggered)
+	_to_captain_zone.body_entered.connect(_on_to_captain)
+	_spawn_player()
 
 func _on_interaction_triggered(interactable: Interactable) -> void:
 	if _open_ui != null:
@@ -27,6 +32,22 @@ func _on_interaction_triggered(interactable: Interactable) -> void:
 			GameManager.request_enter_garden()
 		_:
 			_open_ui_for(interactable)
+
+
+func _on_to_captain(body: Node2D) -> void:
+	if body is PlayerCharacter:
+		SceneRouter.change_screen(load("res://scenes/screens/CaptainRoom.tscn"), &"from_cabin")
+
+func _spawn_player() -> void:
+	if SceneRouter.pending_spawn == &"":
+		return
+	var marker := get_node_or_null("Spawns/%s" % SceneRouter.pending_spawn)
+	if marker != null:
+		_player.global_position = marker.global_position
+		var cam := _player.get_node_or_null("Camera2D")
+		if cam is Camera2D:
+			cam.reset_smoothing()
+	SceneRouter.pending_spawn = &""
 
 
 func _open_ui_for(interactable: Interactable) -> void:
@@ -54,10 +75,12 @@ func _open_ui_for(interactable: Interactable) -> void:
 func _position_above(ui: Control, interactable: Interactable) -> void:
 	ui.reset_size()
 	var sz: Vector2 = ui.size
-	var pos: Vector2 = interactable.global_position - Vector2(sz.x * 0.5, interactable.block_size.y * 0.5 + BAR_GAP + sz.y)
+	var anchor: Vector2 = interactable.get_global_transform_with_canvas().origin # screen-space, camera-aware
+	var pos: Vector2 = anchor - Vector2(sz.x * 0.5, interactable.block_size.y * 0.5 + BAR_GAP + sz.y)
 	pos.x = clampf(pos.x, 4.0, VIEWPORT.x - sz.x - 4.0)
 	pos.y = clampf(pos.y, 4.0, VIEWPORT.y - sz.y - 4.0)
 	ui.position = pos
+
 
 func _close_open_ui() -> void:
 	if is_instance_valid(_open_ui):
