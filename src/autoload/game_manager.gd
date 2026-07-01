@@ -78,14 +78,10 @@ func change_phase(next: DayPhase, spawn: StringName = &"") -> void:
 func request_sail() -> void:
 	change_phase(DayPhase.OCEAN_MAP)
 
-func request_stay() -> void:
-	change_phase(DayPhase.SHIP)
 
 func request_return_to_ship() -> void: # Ocean Map "Return to Ship": end exploration
 	change_phase(DayPhase.SHIP)
 
-func request_enter_kitchen() -> void:
-	change_phase(DayPhase.KITCHEN)
 
 func request_enter_garden() -> void:
 	change_phase(DayPhase.GARDEN)
