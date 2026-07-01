@@ -12,6 +12,12 @@
 ```
 
 ---
+## 2026-06-29 — Ship Interior Phase 2 complete (Cabin + Captain's Room scenes)
+
+- **Changed:** New `CabinScene` (walkable side-scroller; grouped `Background`/`Interactables`; cook stations prep/mix_bowl/oven + fridge as art-backed `Interactable`s with the sprite as a child; garden door @ x=640 → `request_enter_garden`; player bounds span the full room). New `CaptainRoom` (Bed, Steering Wheel → `request_sail`/Ocean Map, left Sail Door). `cabin_scene.gd` ports `kitchen_scene`'s interaction→UI routing via `PlayerCharacter.get_detector()`; `captain_room.gd` routes actions. `Interactable` gained `gray_box` (art-backed invisible mode) + a `z_index=50` prompt delegate node (Coda).
+- **Decided:** Station **logic node is the parent, sprite a child** — the clean home for the future upgrade-swaps-sprite system (driven later by a `StationData` Resource; not built now, YAGNI). Bed (end-day) + Sail Door (current-island exploration) wired in Phase 4.
+- **Verified:** Stations open their UIs (art-backed, no gray block); garden door → garden; Captain's-room prompts (Bed/Steering Wheel/Sail Door) show + localize.
+
 ## 2026-06-29 — Ship Interior Phase 1 complete (asset prep + interaction plumbing)
 
 - **Changed:** Renamed cabin art to conventions (3 cook stations → `prop_cook_station_{prep,mix_bowl,oven}`; `prop_steering_wheel`; props/bg). Added an `InteractionDetector` child + `get_detector()` to the reusable `PlayerCharacter`, reusing the kitchen's interaction components.

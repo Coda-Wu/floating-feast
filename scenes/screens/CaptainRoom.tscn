@@ -128,36 +128,46 @@ texture = ExtResource("10_yt6ju")
 
 [node name="Interactables" type="Node2D" parent="." unique_id=577794882]
 
-[node name="Interactable" parent="Interactables" unique_id=76397705 instance=ExtResource("10_ydg6w")]
+[node name="Bed" parent="Interactables" unique_id=76397705 instance=ExtResource("10_ydg6w")]
+position = Vector2(286, 264)
+station_id = &"bed"
+display_name = "Bed"
+gray_box = false
 
-[node name="Bed" type="TextureRect" parent="Interactables/Interactable" unique_id=129850431]
-offset_left = 218.0
-offset_top = 218.0
-offset_right = 289.0
-offset_bottom = 264.0
+[node name="Bed" type="TextureRect" parent="Interactables/Bed" unique_id=129850431]
+offset_left = -66.0
+offset_top = -46.0
+offset_right = 5.0
 scale = Vector2(2, 2)
 texture = ExtResource("12_3wvhf")
 stretch_mode = 2
 
-[node name="Interactable2" parent="Interactables" unique_id=1912000641 instance=ExtResource("10_ydg6w")]
+[node name="SailDoor" parent="Interactables" unique_id=1912000641 instance=ExtResource("10_ydg6w")]
+position = Vector2(103, 229)
+station_id = &"sail_door"
+display_name = "Set Sail"
+gray_box = false
 
-[node name="Door" type="TextureRect" parent="Interactables/Interactable2" unique_id=554885373]
-offset_left = 53.0
-offset_top = 154.0
-offset_right = 100.0
-offset_bottom = 223.0
+[node name="Door" type="TextureRect" parent="Interactables/SailDoor" unique_id=554885373]
+offset_left = -47.0
+offset_top = -74.0
+offset_bottom = -5.0
 scale = Vector2(2, 2)
 texture = ExtResource("9_w3tmy")
 
-[node name="Interactable3" parent="Interactables" unique_id=274098470 instance=ExtResource("10_ydg6w")]
+[node name="SteeringWheel" parent="Interactables" unique_id=274098470 instance=ExtResource("10_ydg6w")]
+position = Vector2(563, 260)
+station_id = &"steering_wheel"
+display_name = "Steering Wheel"
+gray_box = false
 
-[node name="Steering Wheel" type="TextureRect" parent="Interactables/Interactable3" unique_id=1629931164]
-offset_left = 530.0
-offset_top = 237.0
-offset_right = 552.0
-offset_bottom = 281.0
+[node name="Steering Wheel" type="TextureRect" parent="Interactables/SteeringWheel" unique_id=1629931164]
+offset_left = -9.0
+offset_top = -22.0
+offset_right = 13.0
+offset_bottom = 22.0
 scale = Vector2(2, 2)
 texture = ExtResource("11_ydg6w")
 
 [node name="PlayerCharacter" parent="." unique_id=714829296 instance=ExtResource("9_3wvhf")]
-position = Vector2(120, 260)
+position = Vector2(179.74, 260)

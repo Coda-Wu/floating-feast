@@ -91,10 +91,10 @@ msgid "End Day  (Sleep)"
 msgstr "结束这一天（睡觉）"
 
 msgid "A new day on the water. Set sail, or stay aboard?"
-msgstr "水上的新一天。是扬帆出海，还是留在船上？"
+msgstr "水上的新一天。是探险，还是留在船上？"
 
 msgid "Set Sail"
-msgstr "扬帆起航"
+msgstr "探险"
 
 msgid "Stay Aboard"
 msgstr "留在船上"
@@ -113,6 +113,12 @@ msgstr "返回船上"
 
 msgid "Orchard"
 msgstr "果园"
+
+msgid "Bed"
+msgstr "床"
+
+msgid "Steering Wheel"
+msgstr "舵轮"
 
 msgid "Move the basket with your mouse. Catch falling fruit — dodge durians, bombs, and beehives, they cost you time!"
 msgstr "用鼠标移动篮子，接住掉落的水果 —— 躲开榴莲、炸弹和蜂窝，它们会浪费你的时间！"
@@ -192,7 +198,7 @@ msgid "Ember's tank is too low to press on."
 msgstr "Ember 的油箱见底，没法再往前了。"
 
 msgid "Set sail home"
-msgstr "扬帆回家"
+msgstr "回到船上"
 
 msgid "Fuel %d/%d"
 msgstr "燃料 %d/%d"
