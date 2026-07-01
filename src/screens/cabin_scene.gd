@@ -29,7 +29,7 @@ func _on_interaction_triggered(interactable: Interactable) -> void:
 		return
 	match interactable.station_id:
 		&"garden_door":
-			GameManager.request_enter_garden()
+			SceneRouter.change_screen(load("res://scenes/screens/GardenScene.tscn"), &"garden")
 		_:
 			_open_ui_for(interactable)
 

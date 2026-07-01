@@ -13,10 +13,11 @@ var current_phase: DayPhase = DayPhase.MORNING
 var _last_save: Dictionary = {}
 var run_graph: RunGraph = null # the day's exploration DAG, generated on island entry (replaces the bridge)
 var current_world_island: WorldIslandData = null
-
+var _time_accum := 0.0
 
 const SHIP_POS := Vector2(86, 300)
 const FAINT_COIN_LOSS := 25 # capped; the faint never costs items/recipes/spirits/progress (§11)
+const SHIP_TIME_RATE := 1.0 # in-game minutes per real second while walking the ship (SHIP.md)
 
 
 # DAY_END is an overlay, not a screen, so it is deliberately absent here.
@@ -24,8 +25,8 @@ const _PHASE_SCREENS := {
 	DayPhase.MORNING: "res://scenes/screens/MorningScreen.tscn",
 	DayPhase.OCEAN_MAP: "res://scenes/screens/OceanMapScreen.tscn",
 	DayPhase.ISLAND: "res://scenes/screens/IslandScreen.tscn",
-	DayPhase.SHIP: "res://scenes/screens/ShipScreen.tscn",
-	DayPhase.KITCHEN: "res://scenes/screens/KitchenScene.tscn",
+	DayPhase.SHIP: "res://scenes/screens/CaptainRoom.tscn",
+	DayPhase.KITCHEN: "res://scenes/screens/CabinScene.tscn",
 	DayPhase.FAIR: "res://scenes/screens/FairScene.tscn",
 	DayPhase.GARDEN: "res://scenes/screens/GardenScene.tscn",
 }
@@ -40,6 +41,8 @@ func _seed_new_game() -> void:
 	GameState._load_inventory({&"flour": 3, &"sugar": 2, &"olive_oil": 2, &"rice": 2, &"potato": 3, &"tomato": 3, &"eggplant": 1, &"salt": 5, &"rosemary": 1, &"onion": 1})
 	GameState.known_recipes.assign([&"roasted_tomato"]) # tutorial's guaranteed recipe; rest are discoverable
 	GameState.grant_starting_tools() # shovel + watering can (kind: tool); GARDEN.md
+	current_world_island = Database.get_world_island(&"cat_island") # M1 home; the Sail Door's destination
+
 	
 func start_day() -> void:
 	GameState.day_seed = _roll_day_seed()
@@ -48,15 +51,28 @@ func start_day() -> void:
 	GameState.add_fuel(GameState.fuel_max) # Ember rests overnight → tank refills (clamps to max)
 	GameState.reset_day_clock() # back to 6:00 AM
 	GameState.islands_explored_today.clear()
-	change_phase(DayPhase.MORNING)
+	change_phase(DayPhase.SHIP, &"morning") # wake up in the Cabin (SHIP.md); MorningScreen retired
 
-func change_phase(next: DayPhase) -> void:
+func _process(delta: float) -> void:
+	if current_phase != DayPhase.SHIP and current_phase != DayPhase.GARDEN:
+		return # time is node-driven during exploration; static in menus/fair
+	_time_accum += delta * SHIP_TIME_RATE
+	if _time_accum >= 1.0:
+		var mins := int(_time_accum)
+		_time_accum -= mins
+		GameState.advance_time(mins) # emits time_changed → HUD clock ticks
+		if GameState.time_minutes >= GameState.CURFEW_MINUTES:
+			_time_accum = 0.0
+			request_end_day() # 2 AM on the ship → doze off (no penalty), day ends
+
+func change_phase(next: DayPhase, spawn: StringName = &"") -> void:
 	current_phase = next
 	SignalBus.phase_changed.emit(next)
 	if _PHASE_SCREENS.has(next):
-		SceneRouter.change_screen(load(_PHASE_SCREENS[next]))
+		SceneRouter.change_screen(load(_PHASE_SCREENS[next]), spawn)
 	else:
 		push_warning("GameManager: no screen for phase %s yet." % DayPhase.keys()[next])
+
 
 # --- Morning / map / island navigation ---
 func request_sail() -> void:

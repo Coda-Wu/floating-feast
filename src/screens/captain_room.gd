@@ -35,6 +35,7 @@ func _on_interaction_triggered(interactable: Interactable) -> void:
 		&"steering_wheel":
 			GameManager.request_sail() # → Ocean Map (DESIGN §4)
 		&"bed":
-			pass # end day (+ confirm) → wired in Phase 4
+			UIManager.show_warning_popup(tr("Go to Sleep?"), GameManager.request_end_day, tr("Yes"), tr("Not yet"))
 		&"sail_door":
-			pass # set sail: current-island exploration → wired in Phase 4
+			if GameManager.current_world_island != null:
+				GameManager.enter_world_island(GameManager.current_world_island)

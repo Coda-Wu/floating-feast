@@ -43,7 +43,7 @@ msgid "Overnight"
 msgstr "过夜"
 
 msgid "Nothing brewing tonight."
-msgstr "今晚没有在酝酿的事。"
+msgstr "今晚没事发生。"
 
 msgid "Sleep"
 msgstr "睡觉"
@@ -116,6 +116,22 @@ msgstr "果园"
 
 msgid "Bed"
 msgstr "床"
+
+msgid "Captain's Room"
+msgstr "船长室"
+
+
+msgid "Cabin"
+msgstr "船舱"
+
+msgid "Go to Sleep?"
+msgstr "去睡觉吗？"
+
+msgid "Yes"
+msgstr "好的"
+
+msgid "Not yet"
+msgstr "不了"
 
 msgid "Steering Wheel"
 msgstr "舵轮"

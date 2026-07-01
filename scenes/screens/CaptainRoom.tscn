@@ -23,7 +23,7 @@ atlas = ExtResource("3_2l7r2")
 region = Rect2(275, 0, 207, 158)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yt6ju"]
-size = Vector2(10, 100)
+size = Vector2(30, 100)
 
 [node name="CaptainRoom" type="Node2D" unique_id=1426198997]
 script = ExtResource("1_28nbj")
@@ -173,7 +173,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("11_ydg6w")
 
 [node name="PlayerCharacter" parent="." unique_id=714829296 instance=ExtResource("9_3wvhf")]
-position = Vector2(179.74, 260)
+position = Vector2(180, 260)
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1753829752]
 limit_left = 0
@@ -194,3 +194,6 @@ shape = SubResource("RectangleShape2D_yt6ju")
 
 [node name="from_cabin" type="Marker2D" parent="Spawns" unique_id=1368665172]
 position = Vector2(56, 260)
+
+[node name="morning" type="Marker2D" parent="Spawns" unique_id=1534077639]
+position = Vector2(180, 260)

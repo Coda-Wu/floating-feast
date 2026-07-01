@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sa6r8"]
 
 [node name="Interactable" type="Area2D" unique_id=76397705]
-collision_layer = 2
+collision_layer = 4
 collision_mask = 0
 monitoring = false
 script = ExtResource("1_ihtmk")

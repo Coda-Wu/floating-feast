@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://wv7aregcel0y" path="res://src/screens/garden_scene.gd" id="1_aexjl"]
 [ext_resource type="PackedScene" uid="uid://b8vcm4qyn7lgw" path="res://scenes/screens/GardenPot.tscn" id="2_7x84p"]
 [ext_resource type="PackedScene" uid="uid://uqmmhdpiiamx" path="res://scenes/components/PlayerCharacter.tscn" id="2_riyl6"]
+[ext_resource type="PackedScene" uid="uid://b663qm8xo3y2c" path="res://scenes/components/Interactable.tscn" id="4_0viup"]
+[ext_resource type="Texture2D" uid="uid://o6hg3ie3j7b8" path="res://assets/art/scenes/cabin/prop_door.png" id="5_esnwt"]
 
 [node name="GardenScene" type="Node2D" unique_id=675361613]
 script = ExtResource("1_aexjl")
@@ -10,27 +12,55 @@ script = ExtResource("1_aexjl")
 [node name="UI" type="CanvasLayer" parent="." unique_id=1291526391]
 
 [node name="LeaveButton" type="Button" parent="UI" unique_id=1696914452]
+visible = false
 anchors_preset = -1
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Leave Garden"
 
-[node name="Pots" type="HBoxContainer" parent="UI" unique_id=284743581]
+[node name="Pots" type="HBoxContainer" parent="." unique_id=284743581]
 offset_left = 240.0
 offset_top = 224.0
 offset_right = 280.0
 offset_bottom = 264.0
 theme_override_constants/separation = 18
 
-[node name="GardenPot" parent="UI/Pots" unique_id=1595745235 instance=ExtResource("2_7x84p")]
+[node name="GardenPot" parent="Pots" unique_id=1595745235 instance=ExtResource("2_7x84p")]
 layout_mode = 2
 
-[node name="GardenPot2" parent="UI/Pots" unique_id=344276981 instance=ExtResource("2_7x84p")]
+[node name="GardenPot2" parent="Pots" unique_id=344276981 instance=ExtResource("2_7x84p")]
 layout_mode = 2
 
-[node name="GardenPot3" parent="UI/Pots" unique_id=220926030 instance=ExtResource("2_7x84p")]
+[node name="GardenPot3" parent="Pots" unique_id=220926030 instance=ExtResource("2_7x84p")]
 layout_mode = 2
+
+[node name="Spawns" type="Node2D" parent="." unique_id=1993597885]
+
+[node name="garden" type="Marker2D" parent="Spawns" unique_id=105901324]
+position = Vector2(120, 260)
+
+[node name="Interactables" type="Node2D" parent="." unique_id=638440553]
+
+[node name="CabinDoor" parent="Interactables" unique_id=76397705 instance=ExtResource("4_0viup")]
+position = Vector2(46, 229)
+station_id = &"cabin_door"
+display_name = "Cabin"
+gray_box = false
+
+[node name="CabinDoor" type="TextureRect" parent="Interactables/CabinDoor" unique_id=538238148]
+offset_left = -47.0
+offset_top = -74.0
+offset_bottom = -5.0
+scale = Vector2(2, 2)
+texture = ExtResource("5_esnwt")
+metadata/_edit_use_anchors_ = true
 
 [node name="PlayerCharacter" parent="." unique_id=714829296 instance=ExtResource("2_riyl6")]
 position = Vector2(30, 264)
 bounds = Rect2(16, 0, 608, 360)
+
+[node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1932850537]
+limit_left = 0
+limit_top = 0
+limit_right = 800
+limit_bottom = 360

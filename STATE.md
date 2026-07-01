@@ -2,7 +2,7 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-29 — Ship Interior Phase 2 (Cabin + Captain's Room) complete._
+_Last updated: 2026-06-29 — Ship Interior & Day-Loop epic COMPLETE (Phases 1–5)._
 
 
 ---
@@ -10,26 +10,13 @@ _Last updated: 2026-06-29 — Ship Interior Phase 2 (Cabin + Captain's Room) com
 ## Current focus
 
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
-- **Active system:** **Ship Interior & Day-Loop Rework** (canon: SHIP.md) — walkable Cabin + Captain's Room, room transitions, day loop. Reverses "kitchen top-down forever."
-- **Next step:** **Phase 1 · Step 2 — kitchen interaction logic on `PlayerCharacter`.**
+- **Active system:** *(between epics)* — Ship Interior complete; candidates: orphan cleanup, Pause-Menu Steps 9–10, or the Fair node.
+- **Next step:** your pick — see "what's next".
+
 
 
 
 ---
-
-## Active build order — Ship Interior & Day-Loop Rework
-
-Canon: SHIP.md.
-
-- **Phase 1 — Asset prep & logic migration:**
-  - [x] **1·1. Rename cabin art** to conventions (stations → `prop_cook_station_{prep,mix_bowl,oven}`; `prop_steering_wheel`; props/bg).
-  - [x] **1·2. Kitchen interaction on `PlayerCharacter`** — `InteractionDetector` child + `get_detector()`; physics body + interaction sensor coexist on separate collision layers.
-- [x] **Phase 2 — Scenes:** `CabinScene` (kitchen stations as art-backed `Interactable`s + garden door @ x=640; grouped `Background`/`Interactables`) & `CaptainRoom` (Bed + Steering Wheel→Ocean Map + left Sail Door). `Interactable.gray_box` toggle + high-z prompt delegate; station = logic-parent / sprite-child.
-- [ ] **Phase 3 — Transitions:** per-room `Camera2D` + spawn handoff + edge zones + fades (via `SceneRouter`). ← NEXT
-
-- [ ] **Phase 4 — Day loop:** spawn in Cabin, Bed ends day, time flows in ship, map-jump costs a day.
-- [ ] **Phase 5 — Polish:** player/pot/prop Z-layering & sorting.
-
 
 
 
@@ -57,20 +44,8 @@ _PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spir
 **Step-3 deferred-but-flagged carryovers:** capacity-full UX (Step 5 Trash/notify; 30 slots won't fill in M1); cooking refund position-shift (last-of-stack then cancel re-places in first empty slot); items beyond slot 9 aren't hotbar-cookable until drag (Step 6).
 
 
-## Completed:Spirit Garden epic
-_COMPLETE (G1–G8)._ 
-Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate.
 
-- [x] **G1. Spirit-as-entity migration.** Befriending writes a `kind: spirit` token (`add_spirit`, unique/non-stacking); `grant_starting_tools` seeds shovel + watering can (`kind: tool`) at new-game; both the hotbar and Backpack render all kinds; `Database.get_display_name` resolves spirits + a `tr()` fallback for tools (zh.po: 浇水壶/铲子); Trash blocks tools (spirits trashable).
-- [x] **G2. Walkable garden scene.** `DayPhase.GARDEN` + `request_enter_garden` (ship Garden button rewired; hotbar shows here). `GardenScene` (gray-box room + rack, Leave→ship). New reusable **`PlayerCharacter`** (CharacterBody2D, side-scroll/top-down modes, flip walk/idle, collision shape) instanced as side-scroll Saff. `GardenPot` Control (gray-box, `set_spirit`) ×3 on the rack.
-- [x] **G3. Planting drag.** Hotbar is now a drag source (`drag_enabled` decoupled from a new `click_on_release` flag, so cooking keeps instant press-staging). `GardenPot` is a receiver (`_can_drop_data`/`_drop_data`): drag a `kind: spirit` token onto an empty pot → `GameState.plant_spirit` moves it bag→pot (1 per pot). Persists across re-entry.
-- [x] **G4. Tools + cursor-tool mode.** Clicking a hotbar tool toggles `SignalBus.tool_selected`; `UIManager.active_tool` holds it, shows a gray-box follow-cursor indicator (swatch + name), and auto-clears on phase change / pause-open. Right-click cancels; clicking an ingredient clears + stages. Cooking/planting unaffected.
-- [x] **G5. Watering & yield.** `garden_slots` is now per-pot `{spirit, watered, progress}`. Watering-can spray (hold-LMB over pots) → `GameState.water_pot` (gray-box droplet). Day-end yield is gated: a watered pot banks `progress`; at `SpiritData.yield_interval_days` it produces (`produces × yield_per_night`) and resets; unwatered = paused (never dead); `watered` resets each day.
-- [x] **G6. Removal — shovel hold-to-confirm.** With the shovel active, hovering a pot dims its spirit; `_process` accumulates a hold (~1s radial) that resets on release/move-off; completing calls `GameState.remove_potted_spirit` — permanent, no refund, `captured_spirits` untouched (stays depleted).
-- [x] **G7. Spirits compendium tab.** `SpiritsPanel` (grid + detail) wired into the Pause-Menu Spirits tab, built from the `captured_spirits` ledger. Grid = `ItemSlot` cells (swatch + name + select outline); detail shows Name / Liked Food / Native Island / Production (cadence) / Yield, localized. Added `SpiritData.native_island`.
-- [x] **G8. Rewire + cleanup.** Ship Garden button routes to the scene (G2a); deleted the orphaned `garden_panel.gd` + `GardenPanel.tscn`, `UIManager.show_garden_panel`, and the dead `assign_spirit_to_garden` / `remove_spirit_from_garden`.
 
-- **Spirit Garden epic (G1–G8):** spirits are `kind: spirit` carried tokens (+ `kind: tool` shovel/watering-can, granted at start, trash-protected). Reusable `PlayerCharacter` (CharacterBody2D) drives the walkable side-scroller `GardenScene`; plant by dragging a spirit hotbar→pot; cursor-tool mode (water/dig) via `UIManager.active_tool`; watering (forgiving pause) gates day-end yield at `SpiritData.yield_interval_days`; shovel hold-to-confirm removes permanently. Pause-Menu **Spirits compendium** tab. Temp garden panel retired. Canon: GARDEN.md.
 
 
 
@@ -87,6 +62,9 @@ Canon: GARDEN.md. Each item is its own teach-then-code step behind a Verify gate
 - **Open-book Fridge + Recipe Book:** shared hardened `BookFrame` (512×288), category bookmarks, info pages, visual recipe rows; driven by `CookingInfo`.
 - **Exploration System Rework (all 9 steps COMPLETE):** Fuel+Time resources (fuel 6, node-driven time, 2 AM curfew, fuel-only gate); static fog-of-war Ocean Map of `WorldIslandData`; branching layered DAG via `RunGraphGenerator`/`RunGraph` held by `GameManager.run_graph`; previewable one-way path-map `IslandScreen` (fuel-on-entry, branch forfeit, loot-kept auto-return, capped 2 AM faint, manual retreat, overnight refuel/reset); DockNode; RewardNode + 3-mechanism Tier-S depletion (recipes/spirits/`island_depletion`) + 2× depleted terminal; SynergyEventNode (fungible-only buff, never Tier-S); **budget system deleted** + orphaned procedural classes removed; all-exits-to-ship + one-foray-per-day. See DESIGN.md §4, ARCHITECTURE.md §7–8.
 **Localization (runtime i18n):** `LocaleManager` autoload (OS-default language, first-launch picker, persistent 语言 button, live switch, persisted to `user://settings.cfg`); Godot `TranslationServer` + `locale/zh.po`; ZCOOLKuaiLe CJK font as the project font. Standard: all player-facing strings via `tr()`/`tr_n()` with simultaneous `zh.po` entries. See ARCHITECTURE.md §11.
+- **Spirit Garden epic (G1–G8):** spirits are `kind: spirit` carried tokens (+ `kind: tool` shovel/watering-can, granted at start, trash-protected). Reusable `PlayerCharacter` (CharacterBody2D) drives the walkable side-scroller `GardenScene`; plant by dragging a spirit hotbar→pot; cursor-tool mode (water/dig) via `UIManager.active_tool`; watering (forgiving pause) gates day-end yield at `SpiritData.yield_interval_days`; shovel hold-to-confirm removes permanently. Pause-Menu **Spirits compendium** tab. Temp garden panel retired. Canon: GARDEN.md.
+- **Ship Interior & Day-Loop Rework (Phases 1–5):** walkable side-scroller `CabinScene` (press-E cook stations + garden door) & `CaptainRoom` (Bed=end-day, Steering Wheel=Ocean Map, Sail Door=explore Cat Island), connected by `SceneRouter` fades + edge zones + spawn markers, each with a following `Camera2D`. Reusable `PlayerCharacter` (CharacterBody2D); standardized collision layers (ARCH §12). Day loop: wake in Cabin → time flows (~1 min/sec, 2 AM auto-sleep) → Bed ends day. Reversed "kitchen top-down." Canon: SHIP.md.
+
 
 ---
 
