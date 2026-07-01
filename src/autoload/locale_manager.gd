@@ -13,10 +13,11 @@ func _ready() -> void:
 	var saved := _load_saved()
 	if saved == "":
 		apply_language("system", false) # default: follow the OS language
-		_show_picker()                  # first launch — let the player confirm/choose
+		_show_picker() # first launch — let the player confirm/choose
 	else:
 		apply_language(saved, false)
-	_make_lang_button() # 常驻"语言"按钮，随时可重新选择语言
+	_apply_saved_display()
+	_apply_saved_audio()
 
 ## code: "zh" / "en" / "system"
 func set_language(code: String) -> void:
@@ -108,3 +109,26 @@ func _pick(code: String, layer: CanvasLayer) -> void:
 	if is_instance_valid(layer):
 		layer.queue_free()
 	_popup = null
+
+func save_setting(section: String, key: String, value) -> void:
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS_PATH) # keep other keys
+	cfg.set_value(section, key, value)
+	cfg.save(SETTINGS_PATH)
+
+func get_setting(section: String, key: String, default):
+	var cfg := ConfigFile.new()
+	if cfg.load(SETTINGS_PATH) != OK:
+		return default
+	return cfg.get_value(section, key, default)
+
+func _apply_saved_display() -> void:
+	if get_setting("display", "fullscreen", false):
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+
+
+func _apply_saved_audio() -> void:
+	for bus in ["Master", "Music", "SFX"]:
+		var idx := AudioServer.get_bus_index(bus)
+		if idx >= 0:
+			AudioServer.set_bus_volume_db(idx, linear_to_db(get_setting("audio", bus, 1.0)))

@@ -169,6 +169,36 @@ msgstr "喂食："
 msgid "Give Up"
 msgstr "放弃"
 
+msgid "Language"
+msgstr "语言"
+
+msgid "Chinese"
+msgstr "中文"
+
+msgid "English"
+msgstr "英语"
+
+msgid "System"
+msgstr "跟随系统"
+msgid "Window"
+msgstr "窗口"
+
+msgid "Fullscreen"
+msgstr "全屏"
+
+msgid "Audio"
+msgstr "音频"
+
+msgid "Master"
+msgstr "主音量"
+
+msgid "Music"
+msgstr "音乐"
+
+msgid "SFX"
+msgstr "音效"
+
+
 # === 第二步（动态文字：节点地图 / HUD / 早晨界面）===
 
 msgid "Start"

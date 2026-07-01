@@ -10,6 +10,7 @@ const TAB_TITLES := ["Backpack", "Spirits", "NPCs", "Quests", "Settings", "Leave
 const BACKPACK_PANEL := preload("res://scenes/ui/BackpackPanel.tscn")
 const SPIRITS_PANEL := preload("res://scenes/ui/SpiritsPanel.tscn")
 const QUESTS_PANEL := preload("res://scenes/ui/QuestsPanel.tscn")
+const SETTINGS_PANEL := preload("res://scenes/ui/SettingsPanel.tscn")
 
 
 @onready var _tabs: HBoxContainer = $Root/Center/Frame/Margin/VBox/TopRow/Tabs
@@ -43,6 +44,9 @@ func _make_panel(i: int) -> Control:
 		return SPIRITS_PANEL.instantiate()
 	if i == 3: # Quests — active list + detail (Step 9)
 		return QUESTS_PANEL.instantiate()
+	if i == 4: # Settings (WP-B)
+		return SETTINGS_PANEL.instantiate()
+
 
 	var c := CenterContainer.new()
 	var l := Label.new()

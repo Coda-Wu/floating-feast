@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://c5ipmmr03n60u"]
+
+[ext_resource type="Script" uid="uid://d33clcjeey0qp" path="res://src/ui/settings_panel.gd" id="1_741xb"]
+
+[node name="SettingsPanel" type="VBoxContainer" unique_id=196981744]
+theme_override_constants/separation = 10
+script = ExtResource("1_741xb")
+
+[node name="Language" type="VBoxContainer" parent="." unique_id=196981745]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LangHeader" type="Label" parent="Language" unique_id=196981746]
+layout_mode = 2
+text = "Language"
+
+[node name="Row" type="HBoxContainer" parent="Language" unique_id=196981747]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ZhButton" type="Button" parent="Language/Row" unique_id=196981748]
+layout_mode = 2
+text = "中文"
+
+[node name="EnButton" type="Button" parent="Language/Row" unique_id=196981749]
+layout_mode = 2
+text = "English"
+
+[node name="SystemButton" type="Button" parent="Language/Row" unique_id=196981750]
+layout_mode = 2
+text = "System"
+
+[node name="Window" type="VBoxContainer" parent="." unique_id=1880802073]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="WindowHeader" type="Label" parent="Window" unique_id=269331177]
+layout_mode = 2
+text = "Window"
+
+[node name="FullscreenCheck" type="CheckButton" parent="Window" unique_id=1437054692]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="Audio" type="VBoxContainer" parent="." unique_id=200000100]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="AudioHeader" type="Label" parent="Audio" unique_id=200000101]
+layout_mode = 2
+text = "Audio"
+
+[node name="MasterRow" type="HBoxContainer" parent="Audio" unique_id=200000102]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Audio/MasterRow" unique_id=200000103]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+text = "Master"
+
+[node name="Slider" type="HSlider" parent="Audio/MasterRow" unique_id=200000104]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MusicRow" type="HBoxContainer" parent="Audio" unique_id=200000105]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Audio/MusicRow" unique_id=200000106]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+text = "Music"
+
+[node name="Slider" type="HSlider" parent="Audio/MusicRow" unique_id=200000107]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SfxRow" type="HBoxContainer" parent="Audio" unique_id=200000108]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Audio/SfxRow" unique_id=200000109]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+text = "SFX"
+
+[node name="Slider" type="HSlider" parent="Audio/SfxRow" unique_id=200000110]
+layout_mode = 2
+size_flags_horizontal = 3
+

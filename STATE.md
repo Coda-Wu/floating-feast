@@ -40,8 +40,7 @@ _PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spir
 
 - [x] **9. Quests tab** — objective (QuestManager) + active-commissions list→detail (CommissionData/CommissionManager); quest **and** commission text rows removed from the HUD (folded into the tab).
 
-
-- [ ] **10. Stubs wired: NPCs, Settings, Leave Game (Return to Title / Quit).**
+- [x] **10. Stubs → real:** **Settings** done (Language + Window + Audio, persisted via settings.cfg); NPCs + Leave Game remaining.
 
 **Step-3 deferred-but-flagged carryovers:** capacity-full UX (Step 5 Trash/notify; 30 slots won't fill in M1); cooking refund position-shift (last-of-stack then cancel re-places in first empty slot); items beyond slot 9 aren't hotbar-cookable until drag (Step 6).
 

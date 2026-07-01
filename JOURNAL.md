@@ -12,6 +12,10 @@
 ```
 
 ---
+## 2026-06-29 — Pause Menu WP-B: Settings tab
+- Changed: New `SettingsPanel` (tab 4) — Language (中文/English/System via LocaleManager; retired the floating 语言 button), Window (fullscreen toggle), Audio (Master/Music/SFX bus sliders; added Music+SFX buses). Added generic `LocaleManager.save_setting`/`get_setting` + boot-apply for display/audio. All persisted to user://settings.cfg.
+- Verified: language switches live; fullscreen toggles + persists; volume sliders set buses + persist (silent until Week-3 audio, as agreed).
+
 ## 2026-06-29 — Pause Menu WP-A: Quests tab
 - Changed: New `QuestsPanel` (main-quest objective + active commissions list→detail: requirement, progress, reward + on-time bonus), wired into tab 3. Stripped the quest objective AND the commission tracker from the HUD (labels + `set_quest`/`set_commission` + all their UIManager wiring) — both now live in the Quests tab; HUD is text-lighter.
 - Verified: Quests tab shows objective + commission detail; HUD no longer shows quest/commission text; no dangling callers (grep clean).
