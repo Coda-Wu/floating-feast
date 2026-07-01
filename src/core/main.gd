@@ -8,16 +8,4 @@ class_name Main extends Node2D
 func _ready() -> void:
 	SceneRouter.register_host(_screen_host)
 	UIManager.create_persistent_ui(self)
-	GameManager.start_day()
-	# TEMP P-2b — dishes across tiers + methods for the Dishes tab
-	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
-	GameState.add_dish(&"roasted_tomato", 2, 1)
-	GameState.add_dish(&"roasted_tomato", 3, 2)
-	GameState.add_dish(&"med_roasted_vegetables", 5, 1)
-	GameState.add_dish(&"med_roasted_vegetables", 3, 1)
-	GameState.add_dish(&"classic_rustic_salad", 4, 1)
-	GameState.add_dish(&"hummus", 2, 1)
-	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
-	# TEMP G3 — a spirit in the hotbar to drag-plant; remove after testing
-	GameState.inventory[0] = {"kind": &"spirit", "id": &"spirit_tomato", "count": 1}
-	SignalBus.inventory_slots_changed.emit()
+	GameManager.show_title()

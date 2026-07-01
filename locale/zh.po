@@ -198,6 +198,15 @@ msgstr "音乐"
 msgid "SFX"
 msgstr "音效"
 
+msgid "New Game"
+msgstr "新游戏"
+
+msgid "Quit"
+msgstr "退出"
+
+msgid "Floating Feast"
+msgstr "漂浮盛宴"
+
 
 # === 第二步（动态文字：节点地图 / HUD / 早晨界面）===
 

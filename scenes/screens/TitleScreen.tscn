@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bkfahlgso8ar8"]
+
+[ext_resource type="Script" uid="uid://dfxgx40h2qwim" path="res://src/screens/title_screen.gd" id="1_71nj7"]
+[ext_resource type="Texture2D" uid="uid://c2dgtgo5k3hra" path="res://assets/art/ui/panel/bg_title_01.png" id="2_kv8f4"]
+
+[node name="TitleScreen" type="Control" unique_id=1522407893]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_71nj7")
+
+[node name="Background" type="TextureRect" parent="." unique_id=431598181]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_kv8f4")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1522407895]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center" unique_id=1522407896]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Center/VBox" unique_id=1522407897]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Floating Feast"
+horizontal_alignment = 1
+
+[node name="NewGameButton" type="Button" parent="Center/VBox" unique_id=1522407898]
+layout_mode = 2
+text = "New Game"
+
+[node name="QuitButton" type="Button" parent="Center/VBox" unique_id=1522407899]
+layout_mode = 2
+text = "Quit"

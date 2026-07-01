@@ -435,6 +435,35 @@ func deserialize(d: Dictionary) -> void:
 	_load_inventory(d.get("inventory", []))
 
 
+# --- New-game reset: all runtime fields → defaults (Title → New Game) ---
+func reset() -> void:
+	day = 1
+	coins = 50
+	inventory.clear(); _ensure_inventory_size()
+	fridge_storage.clear()
+	dish_inventory.clear()
+	known_recipes.clear()
+	captured_spirits.clear()
+	garden_slots = [null, null, null]
+	seen_tutorials.clear()
+	weather_id = ""
+	day_seed = 0
+	quest_phase = 0
+	rank = 0
+	active_commissions.clear()
+	fuel_current = fuel_max
+	time_minutes = DAY_START_MINUTES
+	island_depletion.clear()
+	run_buff.clear()
+	islands_explored_today.clear()
+	player_name = "Saff"
+	ship_name = "Saff's Ship"
+	SignalBus.coins_changed.emit(coins)
+	SignalBus.rank_changed.emit(rank)
+	SignalBus.dish_inventory_changed.emit()
+	SignalBus.inventory_slots_changed.emit()
+
+
 # --- Plant a carried spirit token into a pot (bag → pot; GARDEN.md / G3) ---
 func plant_spirit(from_slot: int, pot_index: int) -> bool:
 	if pot_index < 0 or pot_index >= garden_slots.size():

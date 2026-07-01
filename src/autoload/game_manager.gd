@@ -4,7 +4,7 @@ extends Node
 ## Travel lines accumulate per island ENTERED; budget is spent per node RESOLVED (Step 5) —
 ## two separate systems (§13). (§5, §6)
 
-enum DayPhase {MORNING, OCEAN_MAP, ISLAND, SHIP, KITCHEN, FAIR, DAY_END, GARDEN}
+enum DayPhase {MORNING, OCEAN_MAP, ISLAND, SHIP, KITCHEN, FAIR, DAY_END, GARDEN, TITLE}
 
 
 var current_phase: DayPhase = DayPhase.MORNING
@@ -27,6 +27,8 @@ const _PHASE_SCREENS := {
 	DayPhase.SHIP: "res://scenes/screens/CaptainRoom.tscn",
 	DayPhase.FAIR: "res://scenes/screens/FairScene.tscn",
 	DayPhase.GARDEN: "res://scenes/screens/GardenScene.tscn",
+	DayPhase.TITLE: "res://scenes/screens/TitleScreen.tscn",
+
 }
 
 
@@ -51,6 +53,29 @@ func start_day() -> void:
 	GameState.reset_day_clock() # back to 6:00 AM
 	GameState.islands_explored_today.clear()
 	change_phase(DayPhase.SHIP, &"morning") # wake up in the Cabin (SHIP.md); MorningScreen retired
+
+func show_title() -> void:
+	UIManager.hide_hud()
+	change_phase(DayPhase.TITLE) # not a hotbar phase; the time ticker skips it
+
+func new_game() -> void:
+	GameState.reset()
+	_seed_new_game()
+	UIManager.show_hud()
+	start_day()
+		# TEMP P-2b — dishes across tiers + methods for the Dishes tab
+	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
+	GameState.add_dish(&"roasted_tomato", 2, 1)
+	GameState.add_dish(&"roasted_tomato", 3, 2)
+	GameState.add_dish(&"med_roasted_vegetables", 5, 1)
+	GameState.add_dish(&"med_roasted_vegetables", 3, 1)
+	GameState.add_dish(&"classic_rustic_salad", 4, 1)
+	GameState.add_dish(&"hummus", 2, 1)
+	GameState.known_recipes.assign([&"roasted_tomato", &"med_roasted_vegetables", &"classic_rustic_salad", &"hummus"])
+	# TEMP G3 — a spirit in the hotbar to drag-plant; remove after testing
+	GameState.inventory[0] = {"kind": &"spirit", "id": &"spirit_tomato", "count": 1}
+	SignalBus.inventory_slots_changed.emit()
+
 
 func _process(delta: float) -> void:
 	if current_phase != DayPhase.SHIP and current_phase != DayPhase.GARDEN:

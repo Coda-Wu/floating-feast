@@ -25,7 +25,7 @@ region = Rect2(0, 0, 168, 158)
 load_path = "res://.godot/imported/bg_cabin_wall_wood.png-0b8aeeacf5a499be68de7bea9447a119.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_25vxt"]
-size = Vector2(30, 100)
+size = Vector2(15, 100)
 
 [node name="CabinScene" type="Node2D" unique_id=431381438]
 script = ExtResource("1_3ipfc")

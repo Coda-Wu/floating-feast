@@ -23,7 +23,7 @@ atlas = ExtResource("3_2l7r2")
 region = Rect2(275, 0, 207, 158)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yt6ju"]
-size = Vector2(30, 100)
+size = Vector2(15, 100)
 
 [node name="CaptainRoom" type="Node2D" unique_id=1426198997]
 script = ExtResource("1_28nbj")
@@ -157,6 +157,7 @@ offset_top = -74.0
 offset_bottom = -5.0
 scale = Vector2(2, 2)
 texture = ExtResource("9_w3tmy")
+metadata/_edit_use_anchors_ = true
 
 [node name="SteeringWheel" parent="Interactables" unique_id=274098470 instance=ExtResource("10_ydg6w")]
 position = Vector2(563, 260)

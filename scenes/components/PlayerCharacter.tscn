@@ -47,9 +47,9 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_loehu"]
-radius = 20.0
+radius = 15.0
 
-[node name="PlayerCharacter" type="CharacterBody2D" unique_id=714829296]
+[node name="PlayerCharacter" type="CharacterBody2D" unique_id=714829296 groups=["player"]]
 scale = Vector2(2, 2)
 collision_layer = 2
 script = ExtResource("1_7kygh")
