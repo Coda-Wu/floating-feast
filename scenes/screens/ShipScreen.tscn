@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bwdnfjg5iyyfh"]
+
+[sub_resource type="GDScript" id="GDScript_ca7qk"]
+script/source = "extends Control
+## The ship hub: Kitchen, Garden, Trade Fair (once unlocked), and Sleep. (§5, §B)
+
+@onready var _kitchen_button: Button = $Center/VBox/KitchenButton
+@onready var _garden_button: Button = $Center/VBox/GardenButton
+@onready var _fair_button: Button = $Center/VBox/FairButton
+@onready var _end_day_button: Button = $Center/VBox/EndDayButton
+
+func _ready() -> void:
+	_kitchen_button.pressed.connect(GameManager.request_enter_kitchen)
+	_garden_button.pressed.connect(GameManager.request_enter_garden)
+	_fair_button.pressed.connect(GameManager.request_enter_fair)
+	_fair_button.visible = QuestManager.is_fair_unlocked() # appears once the quest reaches the Fair phase
+	_end_day_button.pressed.connect(GameManager.request_end_day)"
+
+[node name="ShipScreen" type="Control" unique_id=1880898438]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ca7qk")
+
+[node name="Background" type="ColorRect" parent="." unique_id=701763361]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.42, 0.33, 0.25, 1)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=651285833]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center" unique_id=921084814]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Center/VBox" unique_id=1990046908]
+layout_mode = 2
+text = "Aboard the Ship"
+
+[node name="KitchenButton" type="Button" parent="Center/VBox" unique_id=803131018]
+layout_mode = 2
+text = "[ Enter Kitchen ]"
+
+[node name="GardenButton" type="Button" parent="Center/VBox" unique_id=346637904]
+layout_mode = 2
+text = "[ Garden — arrives Week 2 ]"
+
+[node name="FairButton" type="Button" parent="Center/VBox" unique_id=1593784525]
+visible = false
+layout_mode = 2
+text = "Trade Fair"
+
+[node name="EndDayButton" type="Button" parent="Center/VBox" unique_id=1429419816]
+layout_mode = 2
+text = "End Day  (Sleep)"

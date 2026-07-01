@@ -9,6 +9,7 @@ signal close_requested
 const TAB_TITLES := ["Backpack", "Spirits", "NPCs", "Quests", "Settings", "Leave Game"]
 const BACKPACK_PANEL := preload("res://scenes/ui/BackpackPanel.tscn")
 const SPIRITS_PANEL := preload("res://scenes/ui/SpiritsPanel.tscn")
+const QUESTS_PANEL := preload("res://scenes/ui/QuestsPanel.tscn")
 
 
 @onready var _tabs: HBoxContainer = $Root/Center/Frame/Margin/VBox/TopRow/Tabs
@@ -40,6 +41,8 @@ func _make_panel(i: int) -> Control:
 		return BACKPACK_PANEL.instantiate()
 	if i == 1: # Spirits — compendium (G7)
 		return SPIRITS_PANEL.instantiate()
+	if i == 3: # Quests — active list + detail (Step 9)
+		return QUESTS_PANEL.instantiate()
 
 	var c := CenterContainer.new()
 	var l := Label.new()

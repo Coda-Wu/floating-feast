@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://d1ewmmhwp6a56"]
+
+[ext_resource type="PackedScene" uid="uid://b8l2uf5f80oit" path="res://scenes/components/TopDownActor.tscn" id="2_nktu4"]
+[ext_resource type="PackedScene" uid="uid://b663qm8xo3y2c" path="res://scenes/components/Interactable.tscn" id="3_interactable"]
+
+[sub_resource type="GDScript" id="GDScript_8e5uj"]
+script/source = "extends Node2D
+## The walkable kitchen (top-down). Hosts TopDownActor + station Interactables, routes each station
+## to its UI (cooking bar floats above the station; Fridge / Recipe Book open as centered modals),
+## and pauses movement while a UI is open. (§C.1, §C.2, §F)
+
+const STATION_UI := preload(\"res://scenes/ui/StationUI.tscn\")
+const FRIDGE_UI := preload(\"res://scenes/ui/FridgeUI.tscn\")
+const RECIPE_BOOK_UI := preload(\"res://scenes/ui/RecipeBookUI.tscn\")
+
+const FLOOR_RECT := Rect2(20, 28, 600, 312)
+const FLOOR_COLOR := Color(0.46, 0.38, 0.30)
+const FLOOR_EDGE := Color(0.30, 0.24, 0.18)
+const ACTOR_START := Vector2(320, 200)
+const BAR_GAP := 8.0
+const VIEWPORT := Vector2(640, 360)
+
+@onready var _actor: TopDownActor = $TopDownActor
+@onready var _ui_layer: CanvasLayer = $UI
+@onready var _leave_button: Button = $UI/LeaveButton
+
+var _detector: InteractionDetector
+var _open_ui: Control = null
+
+func _ready() -> void:
+	_actor.bounds = FLOOR_RECT
+	_actor.global_position = ACTOR_START
+	_leave_button.pressed.connect(GameManager.request_return_to_ship)
+	_detector = _actor.get_detector()
+	_detector.interaction_triggered.connect(_on_interaction_triggered)
+	queue_redraw()
+
+func _draw() -> void:
+	draw_rect(FLOOR_RECT, FLOOR_COLOR)
+	draw_rect(FLOOR_RECT, FLOOR_EDGE, false, 3.0)
+
+func _on_interaction_triggered(interactable: Interactable) -> void:
+	if _open_ui != null:
+		_close_open_ui()
+	else:
+		_open_ui_for(interactable)
+
+func _open_ui_for(interactable: Interactable) -> void:
+	var ui: Control
+	match interactable.station_id:
+		&\"fridge\":
+			ui = FRIDGE_UI.instantiate()
+			_ui_layer.add_child(ui)
+			ui.setup()
+			TutorialManager.try_show(\"recipe_book\") # ADD
+		&\"recipe_book\":
+			ui = RECIPE_BOOK_UI.instantiate()
+			_ui_layer.add_child(ui)
+			ui.setup()
+		_:
+			# prep / mix_bowl / oven → the cooking bar, floated above the station.
+			ui = STATION_UI.instantiate()
+			_ui_layer.add_child(ui)
+			ui.setup(interactable.station_id, interactable.display_name)
+			_position_above(ui, interactable)
+			TutorialManager.try_show(\"cooking_station\") # ADD
+	if ui.has_signal(\"close_requested\"):
+		ui.close_requested.connect(_close_open_ui)
+	_open_ui = ui
+	_actor.set_movement_enabled(false)
+	_detector.set_prompt_enabled(false)
+
+func _position_above(ui: Control, interactable: Interactable) -> void:
+	# No Camera2D, so a station's world position == its screen position. Center the bar above the
+	# block, then clamp it fully on-screen.
+	ui.reset_size()
+	var sz: Vector2 = ui.size
+	var pos: Vector2 = interactable.global_position - Vector2(sz.x * 0.5, interactable.block_size.y * 0.5 + BAR_GAP + sz.y)
+	pos.x = clampf(pos.x, 4.0, VIEWPORT.x - sz.x - 4.0)
+	pos.y = clampf(pos.y, 4.0, VIEWPORT.y - sz.y - 4.0)
+	ui.position = pos
+
+func _close_open_ui() -> void:
+	if is_instance_valid(_open_ui):
+		_open_ui.queue_free()
+	_open_ui = null
+	_actor.set_movement_enabled(true)
+	_detector.set_prompt_enabled(true)"
+
+[node name="KitchenScene" type="Node2D" unique_id=928850046]
+script = SubResource("GDScript_8e5uj")
+
+[node name="TopDownActor" parent="." unique_id=786536716 instance=ExtResource("2_nktu4")]
+
+[node name="Fridge" parent="." unique_id=83727505 instance=ExtResource("3_interactable")]
+position = Vector2(110, 95)
+station_id = &"fridge"
+display_name = "Fridge"
+block_color = Color(0.55, 0.7, 0.8, 1)
+
+[node name="PrepTable" parent="." unique_id=83727506 instance=ExtResource("3_interactable")]
+position = Vector2(320, 95)
+station_id = &"prep"
+display_name = "Prep"
+block_color = Color(0.8, 0.72, 0.55, 1)
+
+[node name="MixingBowl" parent="." unique_id=83727507 instance=ExtResource("3_interactable")]
+position = Vector2(530, 95)
+station_id = &"mix_bowl"
+display_name = "Mixing Bowl"
+block_color = Color(0.62, 0.78, 0.6, 1)
+
+[node name="Oven" parent="." unique_id=83727508 instance=ExtResource("3_interactable")]
+position = Vector2(430, 285)
+station_id = &"oven"
+display_name = "Oven"
+block_color = Color(0.78, 0.45, 0.35, 1)
+
+[node name="RecipeBook" parent="." unique_id=83727509 instance=ExtResource("3_interactable")]
+position = Vector2(140, 285)
+station_id = &"recipe_book"
+display_name = "Recipe Book"
+block_color = Color(0.62, 0.55, 0.75, 1)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1398949671]
+
+[node name="LeaveButton" type="Button" parent="UI" unique_id=230357174]
+offset_right = 120.0
+offset_bottom = 32.0
+text = "Leave Kitchen"

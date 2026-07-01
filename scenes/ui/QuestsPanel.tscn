@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dnv4iy0gfte3h"]
+
+[ext_resource type="Script" uid="uid://cvuul86s2kl2m" path="res://src/ui/quests_panel.gd" id="1_xott6"]
+
+[node name="QuestsPanel" type="VBoxContainer" unique_id=390549038]
+theme_override_constants/separation = 6
+script = ExtResource("1_xott6")
+
+[node name="ObjectiveLabel" type="Label" parent="." unique_id=390549039]
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="." unique_id=390549040]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="." unique_id=390549041]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="CommissionList" type="VBoxContainer" parent="Body" unique_id=390549042]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Detail" type="VBoxContainer" parent="Body" unique_id=390549043]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="TitleLabel" type="Label" parent="Body/Detail" unique_id=390549044]
+layout_mode = 2
+
+[node name="DetailLabel" type="Label" parent="Body/Detail" unique_id=390549045]
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="ReqLabel" type="Label" parent="Body/Detail" unique_id=390549046]
+layout_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="Body/Detail" unique_id=390549047]
+layout_mode = 2
+
+[node name="RewardLabel" type="Label" parent="Body/Detail" unique_id=390549048]
+layout_mode = 2
+autowrap_mode = 2

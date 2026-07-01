@@ -175,7 +175,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("9_kn1wr")
 
 [node name="PlayerCharacter" parent="." unique_id=714829296 instance=ExtResource("8_apwa4")]
-position = Vector2(120, 260)
+position = Vector2(580, 260)
 bounds = Rect2(16, 0, 794, 360)
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCharacter" unique_id=1271523177]

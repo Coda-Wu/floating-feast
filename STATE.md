@@ -10,8 +10,8 @@ _Last updated: 2026-06-29 — Ship Interior & Day-Loop epic COMPLETE (Phases 1�
 ## Current focus
 
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
-- **Active system:** *(between epics)* — Ship Interior complete; candidates: orphan cleanup, Pause-Menu Steps 9–10, or the Fair node.
-- **Next step:** your pick — see "what's next".
+- **Active system:** Universal Pause Menu — Quests tab complete (Step 9); next up is Step 10.
+- **Next step:** Step 10 (Stubs wired: NPCs, Settings, Leave Game).
 
 
 
@@ -38,7 +38,9 @@ _PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spir
 
 - [x] **8. Spirits tab — SUPERSEDED.** Reframed as a read-only **compendium** and folded into the Spirit Garden epic (G7); spirit→garden moved to the walkable garden scene (G3). See GARDEN.md.
 
-- [ ] **9. Quests tab (active list → detail/rewards).** ← NEXT
+- [x] **9. Quests tab** — objective (QuestManager) + active-commissions list→detail (CommissionData/CommissionManager); quest **and** commission text rows removed from the HUD (folded into the tab).
+
+
 - [ ] **10. Stubs wired: NPCs, Settings, Leave Game (Return to Title / Quit).**
 
 **Step-3 deferred-but-flagged carryovers:** capacity-full UX (Step 5 Trash/notify; 30 slots won't fill in M1); cooking refund position-shift (last-of-stack then cancel re-places in first empty slot); items beyond slot 9 aren't hotbar-cookable until drag (Step 6).

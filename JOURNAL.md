@@ -12,6 +12,11 @@
 ```
 
 ---
+## 2026-06-29 — Pause Menu WP-A: Quests tab
+- Changed: New `QuestsPanel` (main-quest objective + active commissions list→detail: requirement, progress, reward + on-time bonus), wired into tab 3. Stripped the quest objective AND the commission tracker from the HUD (labels + `set_quest`/`set_commission` + all their UIManager wiring) — both now live in the Quests tab; HUD is text-lighter.
+- Verified: Quests tab shows objective + commission detail; HUD no longer shows quest/commission text; no dangling callers (grep clean).
+
+
 ## 2026-06-29 — Ship Interior Phase 5 + epic COMPLETE
 
 - **Changed:** Garden pots reparented from the `UI` CanvasLayer into the world (rack → pots → Saff render order), keeping the planting/water/shovel drag working; cabin/captain use simple layering (Saff in front). Garden exit converted to a `cabin_door` Interactable (`from_garden` spawn); `LeaveButton` retired.

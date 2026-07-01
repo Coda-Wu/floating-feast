@@ -22,14 +22,13 @@ const SHIP_TIME_RATE := 1.0 # in-game minutes per real second while walking the 
 
 # DAY_END is an overlay, not a screen, so it is deliberately absent here.
 const _PHASE_SCREENS := {
-	DayPhase.MORNING: "res://scenes/screens/MorningScreen.tscn",
 	DayPhase.OCEAN_MAP: "res://scenes/screens/OceanMapScreen.tscn",
 	DayPhase.ISLAND: "res://scenes/screens/IslandScreen.tscn",
 	DayPhase.SHIP: "res://scenes/screens/CaptainRoom.tscn",
-	DayPhase.KITCHEN: "res://scenes/screens/CabinScene.tscn",
 	DayPhase.FAIR: "res://scenes/screens/FairScene.tscn",
 	DayPhase.GARDEN: "res://scenes/screens/GardenScene.tscn",
 }
+
 
 func _ready() -> void:
 	_seed_new_game()
@@ -79,8 +78,10 @@ func request_sail() -> void:
 	change_phase(DayPhase.OCEAN_MAP)
 
 
-func request_return_to_ship() -> void: # Ocean Map "Return to Ship": end exploration
-	change_phase(DayPhase.SHIP)
+func request_return_to_ship() -> void: # exploration / Ocean Map exits → land in the Cabin (the hub)
+	current_phase = DayPhase.SHIP
+	SignalBus.phase_changed.emit(DayPhase.SHIP)
+	SceneRouter.change_screen(load("res://scenes/screens/CabinScene.tscn"))
 
 
 func request_enter_garden() -> void:

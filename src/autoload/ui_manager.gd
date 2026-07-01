@@ -91,12 +91,7 @@ func _build_tool_cursor() -> void:
 # --- HUD ---
 func _connect_hud_signals() -> void:
 	SignalBus.day_started.connect(_on_day_started)
-	SignalBus.quest_phase_changed.connect(_on_quest_phase_changed)
 	SignalBus.coins_changed.connect(_on_coins_changed)
-	SignalBus.commission_activated.connect(_on_commission_changed)
-	SignalBus.commission_completed.connect(_on_commission_changed)
-	SignalBus.dish_cooked.connect(_on_commission_changed) # progress may have changed
-	SignalBus.dish_inventory_changed.connect(_on_commission_changed)
 	SignalBus.rank_changed.connect(_on_rank_changed)
 	SignalBus.fuel_changed.connect(_on_fuel_changed)
 	SignalBus.time_changed.connect(_on_time_changed)
@@ -104,9 +99,7 @@ func _connect_hud_signals() -> void:
 
 func _sync_hud_now() -> void:
 	_on_day_started(GameState.day)
-	_on_quest_phase_changed(GameState.quest_phase)
 	_hud.set_coins(GameState.coins)
-	_refresh_commission_hud()
 	_hud.set_rank(GameState.rank)
 	_hud.set_fuel(GameState.fuel_current, GameState.fuel_max)
 	_hud.set_time(GameState.time_minutes)
@@ -130,8 +123,6 @@ func _on_time_changed(minutes: int) -> void:
 func _on_coins_changed(amount: int) -> void:
 	_hud.set_coins(amount)
 
-func _on_quest_phase_changed(_phase: int) -> void:
-	_hud.set_quest(QuestManager.get_current_quest_text())
 
 func _on_run_buff_applied(buff: Dictionary) -> void:
 	_hud.set_buff(buff)
@@ -234,21 +225,6 @@ func show_notice(title: String, message: String, on_dismiss: Callable = func(): 
 	panel.dismissed.connect(func() -> void:
 		panel.queue_free()
 		on_dismiss.call())
-
-
-# --- Commission HUD (updated when an NPC asks for something, or when you cook) ---
-func _on_commission_changed(_a = null, _b = null) -> void:
-	_refresh_commission_hud()
-
-func _refresh_commission_hud() -> void:
-	if GameState.active_commissions.is_empty():
-		_hud.set_commission("")
-		return
-	var c := Database.get_commission(StringName(GameState.active_commissions[0]))
-	if c == null:
-		_hud.set_commission("")
-		return
-	_hud.set_commission("◆ %s (%d/%d)" % [tr(c.title), CommissionManager.owned_count(c), c.req_quantity])
 
 
 # --- modal registry (gates whether Esc may open the pause menu) ---

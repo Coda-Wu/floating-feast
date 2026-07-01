@@ -17,8 +17,8 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -120.0
-offset_bottom = 112.0
+offset_left = -162.0
+offset_bottom = 72.0
 grow_horizontal = 0
 mouse_filter = 2
 
@@ -101,20 +101,6 @@ show_percentage = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 horizontal_alignment = 2
-
-[node name="QuestLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=256204329]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "..."
-autowrap_mode = 2
-
-[node name="CommissionLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=715928878]
-modulate = Color(0.9309246, 0.9776916, 0.9309246, 1)
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "c"
-autowrap_mode = 2
 
 [node name="BuffLabel" type="Label" parent="Panel/PMargin/VBox" unique_id=336289245]
 visible = false

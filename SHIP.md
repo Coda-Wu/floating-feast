@@ -7,15 +7,12 @@ and the top-down KitchenScene (DESIGN §9 reversal: the ship interior is side-sc
 ## 1. Scenes
 - **Cabin (main hub)** — side-scroller. Holds the kitchen (cook stations as walk-up/press-E
   interactables), two doors, and a right-edge transition zone.
-  - Center door → press E → set sail (daytime exploration on the current island).
   - Side door → press E → Spirit Garden.
   - Right edge (collision zone) → Captain's Room.
   ## 1a. Layout coordinates (M1)
 - **Cabin** — Garden door center x=640 (half off-screen → nudges exploration); Carpet center x=770, its right side (~x=800) is the transition zone → Captain's Room.
-- **Captain's Room** — Exploration door on the left → Set Sail.
+- **Captain's Room** — Exploration door on the left → Set Sail. Bed in the middle-left (confirm end day). Steering Wheel on the right  → view Ocean Map.
 - **Return spawn (Captain→Cabin):** x∈(640, 770), e.g. ~700 — left of the carpet, right of the garden door.
-
-- **Captain's Room** — side-scroller. Holds the Bed and the Steering Wheel ; left edge → Cabin.
 
 ## 2. Movement & transitions
 - One reusable `PlayerCharacter` (CharacterBody2D) per scene; each room has a Camera2D that follows it.
@@ -27,9 +24,9 @@ and the top-down KitchenScene (DESIGN §9 reversal: the ship interior is side-sc
 - Center door → sail; side door → garden; Steering Wheel → Ocean Map; Bed → end day (with confirm).
 
 ## 4. Day loop
-- **Morning:** player spawns directly in the Cabin (no MorningScreen / menu), ready to move.
-- **Time** flows normally inside the ship (rate TBD at build); the 2 AM curfew's interaction with
-  ship time is decided when the loop is built.
+- **Morning** spawns in the **Captain's Room** (by the Bed / Sail Door), ready to move.
+- **Exploration returns to the Cabin** (the hub). Sailing departs from the Captain's Sail Door.
+- **Time** flows normally inside the ship (1 second = 1 in-game minute); At 2 AM the game forces the player to bed.
 - **Ocean Map** only via the Steering Wheel (DESIGN §4) — no auto-entry at exploration start. Using the map
   to jump between big islands costs one full in-game day (future).
 - **End of day:** press E on the Bed (confirm) → resolve overnight (garden yields, etc.) → next morning in the Cabin.

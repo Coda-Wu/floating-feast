@@ -891,3 +891,25 @@ msgstr "悬停在一座岛屿上以预览其节点。点击以航行到那里。
 
 msgid "This spirit has refined taste — it only accepts a cooked dish of the right kind and quality (its craving is shown above). Cook one and feed it here to win it over."
 msgstr "这只精灵的口味很挑剔 —— 它只接受特定种类和质量的烹饪菜肴（它的渴望显示在上方）。做一份并在此处喂食以赢得它的好感。"
+
+# === 第九步（任务面板 / Quests Panel）===
+msgid "Objective: %s"
+msgstr "目标：%s"
+
+msgid "No active commissions."
+msgstr "无活动中的委托。"
+
+msgid "Progress: %d / %d"
+msgstr "进度：%d / %d"
+
+msgid "Deliver %d × %s (Tier %d+)"
+msgstr "交付 %d × %s（%d 阶+）"
+
+msgid "Deliver %d × %s"
+msgstr "交付 %d × %s"
+
+msgid "Reward: %d coins"
+msgstr "奖励：%d 金币"
+
+msgid "On-time bonus: +%d (by day %d)"
+msgstr "准时奖励：+%d（于第 %d 天前）"

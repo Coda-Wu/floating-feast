@@ -6,9 +6,8 @@ extends Control
 @onready var _day_label: Label = $Panel/PMargin/VBox/TopRow/DayLabel
 @onready var _weather_label: Label = $Panel/PMargin/VBox/TopRow/WeatherLabel
 @onready var _rank_label: Label = $Panel/PMargin/VBox/TopRow/RankLabel
-@onready var _quest_label: Label = $Panel/PMargin/VBox/QuestLabel
+
 @onready var _coins_label: Label = $Panel/PMargin/VBox/CoinsLabel
-@onready var _commission_label: Label = $Panel/PMargin/VBox/CommissionLabel
 @onready var _time_label: Label = $Panel/PMargin/VBox/TimeRow/TimeLabel
 @onready var _time_bar: ProgressBar = $Panel/PMargin/VBox/TimeRow/TimeBar
 @onready var _fuel_label: Label = $Panel/PMargin/VBox/FuelRow/FuelLabel
@@ -56,16 +55,9 @@ func set_rank(rank: int) -> void:
 	_rank_label.visible = rank > 0
 
 
-func set_quest(text: String) -> void:
-	_quest_label.text = text
-
 func set_coins(amount: int) -> void:
 	_coins_label.text = tr("Coins: %d") % amount
 
-
-func set_commission(text: String) -> void:
-	_commission_label.text = text
-	_commission_label.visible = text != ""
 
 func set_buff(buff: Dictionary) -> void:
 	if buff.is_empty():
