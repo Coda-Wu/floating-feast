@@ -11,6 +11,11 @@ const VIEWPORT := Vector2(640, 360)
 const ISLAND_RADIUS := 26.0
 const FONT_SIZE := 9
 
+const FAIR_POS := Vector2(560, 300) # fixed spot on the map (nudge to keep clear of islands)
+const FAIR_RADIUS := 26.0
+const FAIR_COLOR := Color(0.90, 0.65, 0.25) # festive amber — distinct from island green
+
+
 @onready var _return_button: Button = $ReturnButton
 
 var _islands: Array[WorldIslandData] = []
@@ -22,6 +27,9 @@ func _ready() -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if QuestManager.is_fair_day() and event.position.distance_to(FAIR_POS) <= FAIR_RADIUS:
+			GameManager.request_enter_fair()
+			return
 		for wi in _islands:
 			if _is_unlocked(wi) and not _is_explored(wi) and event.position.distance_to(wi.map_position) <= ISLAND_RADIUS:
 				GameManager.enter_world_island(wi)
@@ -56,6 +64,14 @@ func _draw_island(wi: WorldIslandData) -> void:
 	_draw_label(tr(wi.display_name), pos + Vector2(0, ISLAND_RADIUS + 10), Color.WHITE)
 	if wi.cuisine != "":
 		_draw_label(tr(wi.cuisine), pos + Vector2(0, ISLAND_RADIUS + 22), Color(0.85, 0.90, 0.75))
+	if QuestManager.is_fair_day():
+		_draw_fair()
+
+func _draw_fair() -> void:
+	draw_circle(FAIR_POS, FAIR_RADIUS, FAIR_COLOR)
+	draw_arc(FAIR_POS, FAIR_RADIUS, 0.0, TAU, 28, Color(0.55, 0.35, 0.12), 2.0, true)
+	_draw_label(tr("Trade Fair"), FAIR_POS + Vector2(0, FAIR_RADIUS + 10), Color.WHITE)
+
 
 func _is_unlocked(wi: WorldIslandData) -> bool:
 	return GameState.quest_phase >= wi.unlock_phase

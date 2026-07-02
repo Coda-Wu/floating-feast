@@ -17,6 +17,11 @@ const _EVENT_PHASE := {
 }
 
 const FAIR_PHASE := 2 # the Fair unlocks once the commission delivery advances here
+const FAIR_INTERVAL := 7 # the Fair is available every N days once unlocked
+
+func is_fair_day() -> bool:
+	return is_fair_unlocked() and GameState.day % FAIR_INTERVAL == 0
+
 
 func is_fair_unlocked() -> bool:
 	return GameState.quest_phase >= FAIR_PHASE

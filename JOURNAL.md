@@ -12,6 +12,10 @@
 ```
 
 ---
+## 2026-07-02 — Fair node (core loop closed)
+- Changed: `QuestManager.is_fair_day()` (unlocked + every 7 days); `OceanMapScreen` draws a "Trade Fair" marker on fair days → `request_enter_fair` → `FairScene`. Reused the existing FAIR phase/scene entirely.
+- Verified: on a fair day the marker appears (Steering Wheel → Ocean Map) → opens the Fair → returns to the Cabin; absent on non-fair days.
+
 ## 2026-07-02 — Pause Menu WP-D + track COMPLETE
 - Changed: NPCs tab = a clean M1 placeholder (real codex = M2). All six tabs now real; the generic "(coming soon)" fallback is retired.
 - Decided: Pause-Menu track (Steps 1–10) complete; Step 7 (external item-drag) stays M2.

@@ -19,11 +19,11 @@ _Last updated: 2026-07-02 — Universal Pause Menu track COMPLETE (Steps 1–10)
 
 ---
 
+- **Fair node:** the Trade Fair returns as a weekly Ocean-Map destination (QuestManager.is_fair_day: unlocked + day % 7 == 0); the marker routes to the existing FairScene.
 
 
 
-
-
+Current focus → "garden/spirit data tuning"
 
 
 
