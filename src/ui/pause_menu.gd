@@ -11,6 +11,7 @@ const BACKPACK_PANEL := preload("res://scenes/ui/BackpackPanel.tscn")
 const SPIRITS_PANEL := preload("res://scenes/ui/SpiritsPanel.tscn")
 const QUESTS_PANEL := preload("res://scenes/ui/QuestsPanel.tscn")
 const SETTINGS_PANEL := preload("res://scenes/ui/SettingsPanel.tscn")
+const LEAVE_PANEL := preload("res://scenes/ui/LeaveGamePanel.tscn")
 
 
 @onready var _tabs: HBoxContainer = $Root/Center/Frame/Margin/VBox/TopRow/Tabs
@@ -46,7 +47,8 @@ func _make_panel(i: int) -> Control:
 		return QUESTS_PANEL.instantiate()
 	if i == 4: # Settings (WP-B)
 		return SETTINGS_PANEL.instantiate()
-
+	if i == 5: # Leave Game — return to title / quit desktop (WP-C)
+		return LEAVE_PANEL.instantiate()
 
 	var c := CenterContainer.new()
 	var l := Label.new()

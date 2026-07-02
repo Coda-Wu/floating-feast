@@ -207,6 +207,19 @@ msgstr "退出"
 msgid "Floating Feast"
 msgstr "漂浮盛宴"
 
+msgid "Return to Title"
+msgstr "返回标题"
+
+msgid "Quit to Desktop"
+msgstr "退出到桌面"
+
+msgid "Return to the title screen? Unsaved progress is lost."
+msgstr "返回标题界面？未保存的进度将丢失。"
+
+msgid "Quit to desktop? Unsaved progress is lost."
+msgstr "退出到桌面？未保存的进度将丢失。"
+
+
 
 # === 第二步（动态文字：节点地图 / HUD / 早晨界面）===
 

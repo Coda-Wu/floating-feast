@@ -12,6 +12,11 @@
 ```
 
 ---
+## 2026-07-02 — Pause Menu WP-C: Title screen + Leave Game
+- Changed: New `TitleScreen` (New Game / Quit); boot is now `Main → GameManager.show_title()` (was `start_day`). `new_game()` = `GameState.reset` → `_seed_new_game` → show HUD → `start_day`; `show_title()` hides the HUD and enters a new non-ticking `DayPhase.TITLE` (hotbar off, clock stopped). `GameState.reset()` zeroes all runtime fields. Leave Game tab: Return to Title (confirm → close menu → title) + Quit to Desktop (confirm).
+- Decided: no Continue (no save yet); New Game always resets; Return-to-Title just shows the title (reset fires on the next New Game).
+- Verified: boot → Title (no HUD/clock); New Game → fresh run; Return to Title → title → New Game resets; Quit closes.
+
 ## 2026-06-29 — Pause Menu WP-B: Settings tab
 - Changed: New `SettingsPanel` (tab 4) — Language (中文/English/System via LocaleManager; retired the floating 语言 button), Window (fullscreen toggle), Audio (Master/Music/SFX bus sliders; added Music+SFX buses). Added generic `LocaleManager.save_setting`/`get_setting` + boot-apply for display/audio. All persisted to user://settings.cfg.
 - Verified: language switches live; fullscreen toggles + persists; volume sliders set buses + persist (silent until Week-3 audio, as agreed).

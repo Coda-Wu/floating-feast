@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://iro6a8fubcgk"]
+
+[ext_resource type="Script" uid="uid://bus8ih15prul0" path="res://src/ui/leave_game_panel.gd" id="1_1n1km"]
+
+[node name="LeaveGamePanel" type="VBoxContainer" unique_id=1730288097]
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+alignment = 1
+script = ExtResource("1_1n1km")
+
+[node name="ReturnButton" type="Button" parent="." unique_id=1730288098]
+layout_mode = 2
+size_flags_horizontal = 5
+text = "Return to Title"
+
+[node name="QuitButton" type="Button" parent="." unique_id=1730288099]
+layout_mode = 2
+size_flags_horizontal = 5
+text = "Quit to Desktop"
