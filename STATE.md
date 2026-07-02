@@ -23,8 +23,6 @@ _Last updated: 2026-07-02 — Universal Pause Menu track COMPLETE (Steps 1–10)
 
 
 
-Current focus → "garden/spirit data tuning"
-
 
 
 

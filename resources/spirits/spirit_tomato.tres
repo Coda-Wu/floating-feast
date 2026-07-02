@@ -13,4 +13,6 @@ drop_table = {
 &"tomato": 2
 }
 produces = &"tomato"
-yield_per_night = 2
+yield_per_night = 1
+yield_interval_days = 2
+native_island = &"cat_island"

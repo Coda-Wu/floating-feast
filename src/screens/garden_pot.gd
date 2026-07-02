@@ -37,6 +37,12 @@ func _process(delta: float) -> void:
 			_hold = 0.0
 			_targeted = false
 			remove_requested.emit(pot_index) # dig SFX hook goes here once a cue exists
+		if _hold >= DIG_TIME:
+			_hold = 0.0
+			_targeted = false
+			AudioManager.play_sfx(&"dig") # dig complete (silent until Week-3 audio)
+			remove_requested.emit(pot_index)
+
 	elif _hold > 0.0:
 		_hold = 0.0 # released or moved off → cancel
 		queue_redraw()

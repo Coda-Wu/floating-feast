@@ -12,6 +12,11 @@
 ```
 
 ---
+
+## 2026-07-02 — Garden/spirit data tuning
+- Changed: spirits set native_island = cat_island (compendium shows it now); Gourmand yield_interval_days = 2 (premium 2-day cadence). Added the dig SFX hook `play_sfx(&"dig")` in garden_pot removal (silent until Week-3 audio).
+- Verified: compendium shows Native Island + per-spirit cadence; dig fires with no error.
+
 ## 2026-07-02 — Fair node (core loop closed)
 - Changed: `QuestManager.is_fair_day()` (unlocked + every 7 days); `OceanMapScreen` draws a "Trade Fair" marker on fair days → `request_enter_fair` → `FairScene`. Reused the existing FAIR phase/scene entirely.
 - Verified: on a fair day the marker appears (Steering Wheel → Ocean Map) → opens the Fair → returns to the Cabin; absent on non-fair days.

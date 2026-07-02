@@ -120,6 +120,7 @@ func _gen_spirits() -> int:
 	sprout.turns_before_flee = 6
 	sprout.tameable = false
 	sprout.drop_table = {&"flour": 2, &"sugar": 1}
+	sprout.native_island = &"cat_island"
 	_save(sprout, "spirits", sprout.id)
 
 	var tomato := SpiritData.new()
@@ -132,8 +133,10 @@ func _gen_spirits() -> int:
 	tomato.turns_before_flee = 5
 	tomato.tameable = true
 	tomato.produces = &"tomato"
-	tomato.yield_per_night = 2
+	tomato.yield_per_night = 1
+	tomato.yield_interval_days = 2
 	tomato.drop_table = {&"tomato": 2}
+	tomato.native_island = &"cat_island"
 	_save(tomato, "spirits", tomato.id)
 
 	var chicken := SpiritData.new()
@@ -147,7 +150,9 @@ func _gen_spirits() -> int:
 	chicken.tameable = true
 	chicken.produces = &"egg"
 	chicken.yield_per_night = 1
+	chicken.yield_interval_days = 2
 	chicken.drop_table = {&"egg": 1}
+	chicken.native_island = &"cat_island"
 	_save(chicken, "spirits", chicken.id)
 
 	var gourmand := SpiritData.new()
@@ -161,7 +166,9 @@ func _gen_spirits() -> int:
 	gourmand.tameable = true
 	gourmand.produces = &"rosemary" # garden: yields a premium enhancer (loop feeds itself)
 	gourmand.yield_per_night = 1
+	gourmand.yield_interval_days = 3
 	gourmand.drop_table = {&"rosemary": 1}
+	gourmand.native_island = &"cat_island"
 	_save(gourmand, "spirits", gourmand.id)
 
 	return 4

@@ -15,3 +15,5 @@ drop_table = {
 }
 produces = &"rosemary"
 yield_per_night = 1
+yield_interval_days = 3
+native_island = &"cat_island"
