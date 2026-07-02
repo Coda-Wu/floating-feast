@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://csksn8gluq2pw"]
+
+[node name="NpcsPanel" type="CenterContainer" unique_id=1359592840]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=472284462]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+text = "The folks you meet will gather here."
+horizontal_alignment = 1
+autowrap_mode = 2

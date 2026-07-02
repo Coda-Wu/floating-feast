@@ -12,6 +12,7 @@ const SPIRITS_PANEL := preload("res://scenes/ui/SpiritsPanel.tscn")
 const QUESTS_PANEL := preload("res://scenes/ui/QuestsPanel.tscn")
 const SETTINGS_PANEL := preload("res://scenes/ui/SettingsPanel.tscn")
 const LEAVE_PANEL := preload("res://scenes/ui/LeaveGamePanel.tscn")
+const NPCS_PANEL := preload("res://scenes/ui/NpcsPanel.tscn")
 
 
 @onready var _tabs: HBoxContainer = $Root/Center/Frame/Margin/VBox/TopRow/Tabs
@@ -43,6 +44,8 @@ func _make_panel(i: int) -> Control:
 		return BACKPACK_PANEL.instantiate()
 	if i == 1: # Spirits — compendium (G7)
 		return SPIRITS_PANEL.instantiate()
+	if i == 2: # NPCs — light stub (real codex = M2)
+		return NPCS_PANEL.instantiate()
 	if i == 3: # Quests — active list + detail (Step 9)
 		return QUESTS_PANEL.instantiate()
 	if i == 4: # Settings (WP-B)
@@ -50,12 +53,7 @@ func _make_panel(i: int) -> Control:
 	if i == 5: # Leave Game — return to title / quit desktop (WP-C)
 		return LEAVE_PANEL.instantiate()
 
-	var c := CenterContainer.new()
-	var l := Label.new()
-	l.text = "%s\n(coming soon)" % TAB_TITLES[i]
-	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	c.add_child(l)
-	return c
+	return
 
 func _select_tab(i: int) -> void:
 	for k in _panels.size():

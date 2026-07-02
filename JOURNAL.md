@@ -12,6 +12,11 @@
 ```
 
 ---
+## 2026-07-02 — Pause Menu WP-D + track COMPLETE
+- Changed: NPCs tab = a clean M1 placeholder (real codex = M2). All six tabs now real; the generic "(coming soon)" fallback is retired.
+- Decided: Pause-Menu track (Steps 1–10) complete; Step 7 (external item-drag) stays M2.
+- Verified: every tab shows real content; no "(coming soon)" anywhere.
+
 ## 2026-07-02 — Pause Menu WP-C: Title screen + Leave Game
 - Changed: New `TitleScreen` (New Game / Quit); boot is now `Main → GameManager.show_title()` (was `start_day`). `new_game()` = `GameState.reset` → `_seed_new_game` → show HUD → `start_day`; `show_title()` hides the HUD and enters a new non-ticking `DayPhase.TITLE` (hotbar off, clock stopped). `GameState.reset()` zeroes all runtime fields. Leave Game tab: Return to Title (confirm → close menu → title) + Quit to Desktop (confirm).
 - Decided: no Continue (no save yet); New Game always resets; Return-to-Title just shows the title (reset fires on the next New Game).

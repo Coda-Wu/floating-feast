@@ -219,6 +219,9 @@ msgstr "返回标题界面？未保存的进度将丢失。"
 msgid "Quit to desktop? Unsaved progress is lost."
 msgstr "退出到桌面？未保存的进度将丢失。"
 
+msgid "The folks you meet will gather here."
+msgstr "你遇到的人们会聚在这里。"
+
 
 
 # === 第二步（动态文字：节点地图 / HUD / 早晨界面）===
