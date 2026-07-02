@@ -2,16 +2,17 @@
 
 **Read this first, every session.** It describes where we are **right now**. It is *overwritten* after every milestone to reflect the new present (history goes to JOURNAL.md, append-only). If this disagrees with the code, the code wins — flag the drift.
 
-_Last updated: 2026-06-29 — Ship Interior & Day-Loop epic COMPLETE (Phases 1–5)._
+_Last updated: 2026-07-02 — Universal Pause Menu track COMPLETE (Steps 1–10)._
 
 
 ---
 
 ## Current focus
 
+## Current focus
 - **Milestone:** M1 demo (Cat Island, Mediterranean).
-- **Active system:** Universal Pause Menu — Quests tab complete (Step 9); next up is Step 10.
-- **Next step:** Step 10 (Stubs wired: NPCs, Settings, Leave Game).
+- **Active system:** *(between epics)* — Pause Menu complete. Biggest open M1 gap: the **Trade Fair** (delivery→rank) is currently unreachable.
+- **Next step:** your pick — see "what's next".
 
 
 
@@ -20,7 +21,33 @@ _Last updated: 2026-06-29 — Ship Interior & Day-Loop epic COMPLETE (Phases 1�
 
 
 
-## Active build order — Universal Pause Menu
+
+
+
+
+
+
+
+
+---
+
+
+## Completed systems (done & verified)
+
+- **Week 1 — daytime exploration (gray-box):** day-phase machine, ship hub, Kitchen (top-down), TopDownActor, Interactable/InteractionDetector. *(The original procedural exploration was later fully replaced — see below.)*
+- **Week 2 / M1 — cook→deliver loop:** cooking sim (StationRecipe + intermediates + Dubious on mismatch), Recipe Book codex, Garden (assign spirit→pot→overnight yield; remove = permanent consume), Commissions + NPC delivery + CommissionHUD (soft-deadline additive bonus), Fair (tier-judged coins → rank).
+- **Inventory-UX:** persistent 10-slot Quick Access hotbar (primary cooking surface); reusable `ItemSlot` + cursor tooltip; station cook-slots deduct-on-slot / refund-on-exit (`_exit_tree` catch); Fridge as paged grid + `fridge_storage`; number-key hotbar selection gated on station-open.
+- **Cooking spice-constraint redesign (LOCKED):** tier = `clamp(2 + distinct compatible spices, 1, tier_cap)`; flavor-tag compatibility; set-aside (never wasted/Dubious); pipeline = only 5★ path. See DESIGN.md §3.
+- **Open-book Fridge + Recipe Book:** shared hardened `BookFrame` (512×288), category bookmarks, info pages, visual recipe rows; driven by `CookingInfo`.
+- **Exploration System Rework (all 9 steps COMPLETE):** Fuel+Time resources (fuel 6, node-driven time, 2 AM curfew, fuel-only gate); static fog-of-war Ocean Map of `WorldIslandData`; branching layered DAG via `RunGraphGenerator`/`RunGraph` held by `GameManager.run_graph`; previewable one-way path-map `IslandScreen` (fuel-on-entry, branch forfeit, loot-kept auto-return, capped 2 AM faint, manual retreat, overnight refuel/reset); DockNode; RewardNode + 3-mechanism Tier-S depletion (recipes/spirits/`island_depletion`) + 2× depleted terminal; SynergyEventNode (fungible-only buff, never Tier-S); **budget system deleted** + orphaned procedural classes removed; all-exits-to-ship + one-foray-per-day. See DESIGN.md §4, ARCHITECTURE.md §7–8.
+**Localization (runtime i18n):** `LocaleManager` autoload (OS-default language, first-launch picker, persistent 语言 button, live switch, persisted to `user://settings.cfg`); Godot `TranslationServer` + `locale/zh.po`; ZCOOLKuaiLe CJK font as the project font. Standard: all player-facing strings via `tr()`/`tr_n()` with simultaneous `zh.po` entries. See ARCHITECTURE.md §11.
+- **Spirit Garden epic (G1–G8):** spirits are `kind: spirit` carried tokens (+ `kind: tool` shovel/watering-can, granted at start, trash-protected). Reusable `PlayerCharacter` (CharacterBody2D) drives the walkable side-scroller `GardenScene`; plant by dragging a spirit hotbar→pot; cursor-tool mode (water/dig) via `UIManager.active_tool`; watering (forgiving pause) gates day-end yield at `SpiritData.yield_interval_days`; shovel hold-to-confirm removes permanently. Pause-Menu **Spirits compendium** tab. Temp garden panel retired. Canon: GARDEN.md.
+- **Ship Interior & Day-Loop Rework (Phases 1–5):** walkable side-scroller `CabinScene` (press-E cook stations + garden door) & `CaptainRoom` (Bed=end-day, Steering Wheel=Ocean Map, Sail Door=explore Cat Island), connected by `SceneRouter` fades + edge zones + spawn markers, each with a following `Camera2D`. Reusable `PlayerCharacter` (CharacterBody2D); standardized collision layers (ARCH §12). Day loop: wake in Cabin → time flows (~1 min/sec, 2 AM auto-sleep) → Bed ends day. Reversed "kitchen top-down." Canon: SHIP.md.
+
+
+## _COMPLETE._ — Universal Pause Menu
+- **Universal Pause Menu (Steps 1–10; Step 7 deferred M2):** Esc-opened all-in-one screen, six real tabs — Backpack (30-slot grid + profile + selection + sort/trash + full-stack drag), Spirits (compendium), NPCs (M1 stub), Quests (objective + active commissions), Settings (language/window/audio, persisted to `settings.cfg`), Leave Game (Title screen + Return-to-Title/Quit). Slot-ordered content-agnostic inventory; receiver-decides drag; one shared tooltip. Also added the Title screen, `new_game()` reset, and `DayPhase.TITLE`.
+
 
 Each item is its own teach-then-code step behind a Verify gate.
 
@@ -40,31 +67,7 @@ _PAUSED after Step 6 (Step 7 deferred to M2). Steps 9–10 resume after the Spir
 
 - [x] **9. Quests tab** — objective (QuestManager) + active-commissions list→detail (CommissionData/CommissionManager); quest **and** commission text rows removed from the HUD (folded into the tab).
 
-- [x] **10. Stubs → real:** **Settings** done (Language + Window + Audio, persisted via settings.cfg); NPCs + Leave Game remaining.
-
-**Step-3 deferred-but-flagged carryovers:** capacity-full UX (Step 5 Trash/notify; 30 slots won't fill in M1); cooking refund position-shift (last-of-stack then cancel re-places in first empty slot); items beyond slot 9 aren't hotbar-cookable until drag (Step 6).
-
-
-
-
-
-
-
-
-
----
-
-## Completed systems (done & verified)
-
-- **Week 1 — daytime exploration (gray-box):** day-phase machine, ship hub, Kitchen (top-down), TopDownActor, Interactable/InteractionDetector. *(The original procedural exploration was later fully replaced — see below.)*
-- **Week 2 / M1 — cook→deliver loop:** cooking sim (StationRecipe + intermediates + Dubious on mismatch), Recipe Book codex, Garden (assign spirit→pot→overnight yield; remove = permanent consume), Commissions + NPC delivery + CommissionHUD (soft-deadline additive bonus), Fair (tier-judged coins → rank).
-- **Inventory-UX:** persistent 10-slot Quick Access hotbar (primary cooking surface); reusable `ItemSlot` + cursor tooltip; station cook-slots deduct-on-slot / refund-on-exit (`_exit_tree` catch); Fridge as paged grid + `fridge_storage`; number-key hotbar selection gated on station-open.
-- **Cooking spice-constraint redesign (LOCKED):** tier = `clamp(2 + distinct compatible spices, 1, tier_cap)`; flavor-tag compatibility; set-aside (never wasted/Dubious); pipeline = only 5★ path. See DESIGN.md §3.
-- **Open-book Fridge + Recipe Book:** shared hardened `BookFrame` (512×288), category bookmarks, info pages, visual recipe rows; driven by `CookingInfo`.
-- **Exploration System Rework (all 9 steps COMPLETE):** Fuel+Time resources (fuel 6, node-driven time, 2 AM curfew, fuel-only gate); static fog-of-war Ocean Map of `WorldIslandData`; branching layered DAG via `RunGraphGenerator`/`RunGraph` held by `GameManager.run_graph`; previewable one-way path-map `IslandScreen` (fuel-on-entry, branch forfeit, loot-kept auto-return, capped 2 AM faint, manual retreat, overnight refuel/reset); DockNode; RewardNode + 3-mechanism Tier-S depletion (recipes/spirits/`island_depletion`) + 2× depleted terminal; SynergyEventNode (fungible-only buff, never Tier-S); **budget system deleted** + orphaned procedural classes removed; all-exits-to-ship + one-foray-per-day. See DESIGN.md §4, ARCHITECTURE.md §7–8.
-**Localization (runtime i18n):** `LocaleManager` autoload (OS-default language, first-launch picker, persistent 语言 button, live switch, persisted to `user://settings.cfg`); Godot `TranslationServer` + `locale/zh.po`; ZCOOLKuaiLe CJK font as the project font. Standard: all player-facing strings via `tr()`/`tr_n()` with simultaneous `zh.po` entries. See ARCHITECTURE.md §11.
-- **Spirit Garden epic (G1–G8):** spirits are `kind: spirit` carried tokens (+ `kind: tool` shovel/watering-can, granted at start, trash-protected). Reusable `PlayerCharacter` (CharacterBody2D) drives the walkable side-scroller `GardenScene`; plant by dragging a spirit hotbar→pot; cursor-tool mode (water/dig) via `UIManager.active_tool`; watering (forgiving pause) gates day-end yield at `SpiritData.yield_interval_days`; shovel hold-to-confirm removes permanently. Pause-Menu **Spirits compendium** tab. Temp garden panel retired. Canon: GARDEN.md.
-- **Ship Interior & Day-Loop Rework (Phases 1–5):** walkable side-scroller `CabinScene` (press-E cook stations + garden door) & `CaptainRoom` (Bed=end-day, Steering Wheel=Ocean Map, Sail Door=explore Cat Island), connected by `SceneRouter` fades + edge zones + spawn markers, each with a following `Camera2D`. Reusable `PlayerCharacter` (CharacterBody2D); standardized collision layers (ARCH §12). Day loop: wake in Cabin → time flows (~1 min/sec, 2 AM auto-sleep) → Bed ends day. Reversed "kitchen top-down." Canon: SHIP.md.
+- [x] **10. Stubs → real:** Settings ✅, Leave Game ✅ (Title screen + Return-to-Title/Quit); NPCs remaining. Boot now opens on the Title (Main → show_title); new_game()=reset → seed → start_day.
 
 
 ---
